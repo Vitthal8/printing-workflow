@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>PrintFlow Pro — Client Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,600;0,700;1,300;1,600&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+/* ═══════════════════════════════════════════════
+   DESIGN: Refined Client-Facing — Warm Editorial
+   Ivory + deep teal + copper accents
+   Fraunces serif headlines · DM Sans body
+═══════════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ivory:    #FAF8F3;
+  --ivory2:   #F2EEE6;
+  --ivory3:   #E8E2D8;
+  --teal:     #0E4D4A;
+  --teal2:    #1A6B67;
+  --teal3:    #237E79;
+  --copper:   #B5642A;
+  --copper-lt:#D4803A;
+  --copper-bg:#FDF0E8;
+  --green:    #1E7A4A;
+  --green-bg: #E8F7EE;
+  --red:      #C0392B;
+  --red-bg:   #FDECEA;
+  --blue:     #1A4FAA;
+  --blue-bg:  #E8EEFB;
+  --amber:    #A0700A;
+  --amber-bg: #FEF7E6;
+  --ink:      #1A2B26;
+  --ink2:     #2D4038;
+  --muted:    #7A8F88;
+  --border:   #D8D2C8;
+  --border2:  #C8C2B6;
+  --font:     'DM Sans', sans-serif;
+  --serif:    'Fraunces', Georgia, serif;
+  --mono:     'JetBrains Mono', monospace;
+  --ease:     cubic-bezier(0.16,1,0.3,1);
+  --shadow:   0 1px 3px rgba(14,77,74,0.08), 0 4px 16px rgba(14,77,74,0.05);
+  --shadow-lg:0 8px 40px rgba(14,77,74,0.14), 0 2px 8px rgba(14,77,74,0.06);
+}
+
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--ivory);color:var(--ink);min-height:100vh;overflow-x:hidden}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--ivory2)}
+::-webkit-scrollbar-thumb{background:var(--teal3);border-radius:4px}
+
+/* ════════════════════════════════════════════
+   LOGIN / OTP SCREEN
+════════════════════════════════════════════ */
+#login-screen{
+  position:fixed;inset:0;z-index:100;
+  background:var(--teal);
+  display:flex;align-items:center;justify-content:center;
+  padding:1.5rem;
+}
+/* Subtle grid pattern */
+#login-screen::before{
+  content:'';position:absolute;inset:0;
+  background-image:linear-gradient(rgba(255,255,255,0.03) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,0.03) 1px,transparent 1px);
+  background-size:48px 48px;
+}
+.login-card{
+  background:var(--ivory);border-radius:20px;
+  padding:2.8rem 2.4rem;width:100%;max-width:400px;
+  box-shadow:0 40px 100px rgba(0,0,0,0.4);
+  position:relative;z-index:1;
+}
+.login-wordmark{
+  font-family:var(--serif);font-size:1.5rem;font-weight:700;
+  color:var(--teal);margin-bottom:0.2rem;letter-spacing:-0.02em;
+}
+.login-wordmark span{color:var(--copper)}
+.login-portal-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:var(--mono);font-size:0.62rem;letter-spacing:0.12em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:2rem;
+}
+.login-portal-badge::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--green)}
+.login-headline{
+  font-family:var(--serif);font-size:1.8rem;font-weight:600;
+  color:var(--ink);line-height:1.2;margin-bottom:0.4rem;
+}
+.login-headline em{font-style:italic;color:var(--teal2)}
+.login-sub{font-size:0.85rem;color:var(--muted);margin-bottom:2rem;line-height:1.6}
+
+.login-step{display:block}
+.login-step.hidden{display:none}
+
+.field{display:flex;flex-direction:column;gap:5px;margin-bottom:1rem}
+.field label{font-size:0.7rem;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;color:var(--ink2)}
+.field input{
+  border:1.5px solid var(--border);border-radius:10px;
+  padding:11px 14px;font-family:var(--font);font-size:0.9rem;
+  color:var(--ink);background:var(--ivory);outline:none;
+  transition:all 0.2s;
+}
+.field input:focus{border-color:var(--teal2);background:#fff;box-shadow:0 0 0 3px rgba(26,107,103,0.1)}
+.field-hint{font-size:0.72rem;color:var(--muted);margin-top:3px}
+
+.btn-teal{
+  width:100%;background:var(--teal);color:var(--ivory);
+  border:none;border-radius:10px;padding:13px;
+  font-family:var(--font);font-size:0.95rem;font-weight:600;
+  cursor:pointer;transition:all 0.2s;letter-spacing:0.02em;
+}
+.btn-teal:hover{background:var(--teal2);transform:translateY(-1px);box-shadow:0 6px 24px rgba(14,77,74,0.3)}
+
+/* Demo accounts */
+.demo-accounts{
+  margin-top:1.5rem;padding-top:1.2rem;
+  border-top:1px solid var(--border);
+}
+.demo-label{font-size:0.68rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:0.6rem}
+.demo-chips{display:flex;gap:0.5rem;flex-wrap:wrap}
+.demo-chip{
+  padding:5px 12px;border-radius:100px;
+  border:1.5px solid var(--border);font-size:0.75rem;
+  font-weight:500;color:var(--ink2);cursor:pointer;background:var(--ivory);
+  transition:all 0.2s;
+}
+.demo-chip:hover{border-color:var(--teal2);color:var(--teal);background:#fff}
+
+/* OTP boxes */
+.otp-boxes{display:flex;gap:0.6rem;margin-bottom:1.2rem}
+.otp-box{
+  flex:1;text-align:center;
+  border:1.5px solid var(--border);border-radius:10px;
+  padding:12px 4px;font-family:var(--mono);font-size:1.3rem;
+  font-weight:600;color:var(--teal);background:var(--ivory);outline:none;
+  transition:all 0.2s;
+}
+.otp-box:focus{border-color:var(--teal2);background:#fff;box-shadow:0 0 0 3px rgba(26,107,103,0.1)}
+
+/* ════════════════════════════════════════════
+   APP SHELL
+════════════════════════════════════════════ */
+#app{display:none;min-height:100vh;flex-direction:column}
+#app.visible{display:flex}
+
+/* ── Top navigation ── */
+.portal-nav{
+  background:#fff;border-bottom:1px solid var(--border);
+  padding:0 5vw;height:62px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:50;
+  box-shadow:0 1px 0 var(--border);
+}
+.nav-wordmark{
+  font-family:var(--serif);font-size:1.15rem;font-weight:700;
+  color:var(--teal);letter-spacing:-0.02em;text-decoration:none;
+}
+.nav-wordmark span{color:var(--copper)}
+.nav-client-info{
+  display:flex;align-items:center;gap:0.8rem;
+}
+.client-avatar{
+  width:36px;height:36px;border-radius:50%;
+  background:linear-gradient(135deg,var(--teal),var(--teal2));
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);font-size:0.95rem;font-weight:700;color:var(--ivory);
+}
+.client-name{font-size:0.85rem;font-weight:600;color:var(--ink)}
+.client-company{font-size:0.72rem;color:var(--muted)}
+.nav-logout{
+  background:var(--ivory2);border:1px solid var(--border);
+  border-radius:8px;padding:6px 14px;
+  font-size:0.78rem;font-weight:600;color:var(--ink2);
+  cursor:pointer;transition:all 0.2s;
+}
+.nav-logout:hover{background:var(--red-bg);border-color:rgba(192,57,43,0.25);color:var(--red)}
+
+/* ── Tab bar ── */
+.tab-bar{
+  background:#fff;border-bottom:1px solid var(--border);
+  padding:0 5vw;display:flex;gap:0;overflow-x:auto;
+}
+.tab-btn{
+  display:flex;align-items:center;gap:7px;
+  padding:14px 18px;font-size:0.82rem;font-weight:600;
+  color:var(--muted);cursor:pointer;border:none;background:none;
+  border-bottom:2.5px solid transparent;transition:all 0.2s;
+  white-space:nowrap;font-family:var(--font);
+}
+.tab-btn:hover{color:var(--teal)}
+.tab-btn.active{color:var(--teal);border-bottom-color:var(--teal)}
+.tab-count{
+  background:var(--copper-bg);color:var(--copper);
+  font-family:var(--mono);font-size:0.62rem;font-weight:700;
+  padding:1px 7px;border-radius:100px;
+}
+.tab-count.urgent{background:var(--red-bg);color:var(--red)}
+
+/* ── Main content ── */
+.portal-main{flex:1;padding:2rem 5vw;max-width:1100px;margin:0 auto;width:100%}
+.page{display:none;animation:pageIn 0.3s var(--ease)}
+.page.active{display:block}
+@keyframes pageIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* ════════════════════════════════════════════
+   OVERVIEW PAGE
+════════════════════════════════════════════ */
+.welcome-banner{
+  background:linear-gradient(135deg,var(--teal) 0%,var(--teal2) 100%);
+  border-radius:16px;padding:2rem 2.4rem;margin-bottom:1.8rem;
+  position:relative;overflow:hidden;
+}
+.welcome-banner::after{
+  content:'';position:absolute;right:-40px;top:-60px;
+  width:240px;height:240px;border-radius:50%;
+  background:rgba(255,255,255,0.04);
+}
+.welcome-banner::before{
+  content:'';position:absolute;right:60px;bottom:-80px;
+  width:160px;height:160px;border-radius:50%;
+  background:rgba(255,255,255,0.03);
+}
+.welcome-greeting{
+  font-family:var(--serif);font-size:clamp(1.4rem,3vw,2rem);
+  font-weight:600;color:#fff;line-height:1.2;margin-bottom:0.4rem;
+}
+.welcome-greeting em{font-style:italic;color:rgba(255,255,255,0.75)}
+.welcome-sub{color:rgba(255,255,255,0.55);font-size:0.88rem}
+.welcome-stats{
+  display:flex;gap:2rem;margin-top:1.5rem;flex-wrap:wrap;
+}
+.w-stat{text-align:left}
+.w-stat-num{
+  font-family:var(--serif);font-size:2rem;font-weight:700;
+  color:#fff;line-height:1;margin-bottom:3px;
+}
+.w-stat-label{font-size:0.72rem;color:rgba(255,255,255,0.5);letter-spacing:0.06em;text-transform:uppercase}
+
+/* ── KPI row ── */
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1rem;margin-bottom:1.8rem}
+.kpi{
+  background:#fff;border:1px solid var(--border);border-radius:12px;
+  padding:1.2rem;position:relative;overflow:hidden;
+  transition:all 0.2s;
+}
+.kpi::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--kpi-c,var(--teal))}
+.kpi:hover{box-shadow:var(--shadow);transform:translateY(-2px)}
+.kpi-label{font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:0.5rem}
+.kpi-val{font-family:var(--serif);font-size:1.9rem;font-weight:700;color:var(--ink);line-height:1}
+.kpi-sub{font-size:0.72rem;color:var(--muted);margin-top:4px}
+
+/* ── Cards ── */
+.card{background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:1.5rem}
+.card-head{padding:1rem 1.4rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.card-title{font-family:var(--serif);font-size:1rem;font-weight:600;color:var(--ink)}
+.card-body{padding:1.2rem 1.4rem}
+.card-body.np{padding:0}
+
+/* ── Jobs timeline ── */
+.job-list{display:flex;flex-direction:column;gap:0}
+.job-row{
+  display:flex;align-items:center;gap:1rem;
+  padding:1rem 1.4rem;border-bottom:1px solid var(--border);
+  transition:background 0.15s;cursor:default;
+  flex-wrap:wrap;
+}
+.job-row:last-child{border-bottom:none}
+.job-row:hover{background:var(--ivory)}
+.job-num{font-family:var(--mono);font-size:0.78rem;font-weight:600;color:var(--teal);min-width:140px}
+.job-detail{flex:1;min-width:120px}
+.job-detail h4{font-size:0.88rem;font-weight:600;color:var(--ink);margin-bottom:2px}
+.job-detail p{font-size:0.75rem;color:var(--muted)}
+.job-qty{font-family:var(--mono);font-size:0.8rem;color:var(--ink2);min-width:80px;text-align:right}
+.job-actions{display:flex;gap:0.5rem;flex-wrap:wrap}
+
+/* ── Status pills ── */
+.pill{
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:var(--mono);font-size:0.63rem;font-weight:700;
+  letter-spacing:0.06em;text-transform:uppercase;
+  padding:3px 10px;border-radius:100px;white-space:nowrap;
+}
+.pill::before{content:'';width:5px;height:5px;border-radius:50%;background:currentColor}
+.pill.new{background:var(--blue-bg);color:var(--blue)}
+.pill.processing{background:var(--amber-bg);color:var(--amber)}
+.pill.approval{background:var(--copper-bg);color:var(--copper);animation:glow-pill 2s infinite}
+@keyframes glow-pill{0%,100%{box-shadow:none}50%{box-shadow:0 0 0 3px rgba(181,100,42,0.2)}}
+.pill.printing{background:rgba(14,77,74,0.1);color:var(--teal)}
+.pill.postprint{background:rgba(14,77,74,0.08);color:var(--teal2)}
+.pill.franking{background:rgba(160,112,10,0.1);color:var(--amber)}
+.pill.docket{background:var(--blue-bg);color:var(--blue)}
+.pill.dispatch{background:rgba(30,122,74,0.1);color:var(--green)}
+.pill.complete{background:var(--green-bg);color:var(--green)}
+.pill.error{background:var(--red-bg);color:var(--red)}
+
+/* ── Buttons ── */
+.btn{display:inline-flex;align-items:center;gap:7px;border:none;border-radius:8px;cursor:pointer;font-family:var(--font);font-weight:600;font-size:0.82rem;transition:all 0.2s;letter-spacing:0.01em}
+.btn-primary{background:var(--teal);color:#fff;padding:8px 18px}
+.btn-primary:hover{background:var(--teal2);transform:translateY(-1px);box-shadow:0 4px 16px rgba(14,77,74,0.25)}
+.btn-outline{background:transparent;color:var(--teal);padding:7px 16px;border:1.5px solid var(--teal)}
+.btn-outline:hover{background:rgba(14,77,74,0.06)}
+.btn-ghost{background:var(--ivory2);color:var(--ink2);padding:7px 14px;border:1px solid var(--border)}
+.btn-ghost:hover{background:var(--ivory3)}
+.btn-copper{background:var(--copper);color:#fff;padding:8px 18px}
+.btn-copper:hover{background:var(--copper-lt);transform:translateY(-1px)}
+.btn-sm{padding:5px 12px;font-size:0.76rem}
+
+/* ════════════════════════════════════════════
+   APPROVAL PAGE
+════════════════════════════════════════════ */
+.approval-card{
+  background:#fff;border:1px solid var(--border);border-radius:16px;
+  overflow:hidden;margin-bottom:1.5rem;
+}
+.approval-header{
+  padding:1.4rem 1.8rem;
+  background:linear-gradient(to right,var(--copper-bg),#fff);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;
+  flex-wrap:wrap;
+}
+.approval-job-num{font-family:var(--mono);font-size:0.75rem;color:var(--copper);font-weight:600;margin-bottom:4px}
+.approval-title{font-family:var(--serif);font-size:1.2rem;font-weight:600;color:var(--ink)}
+.approval-meta{display:flex;gap:1.5rem;margin-top:0.8rem;flex-wrap:wrap}
+.approval-meta-item{font-size:0.8rem;color:var(--muted)}
+.approval-meta-item strong{color:var(--ink);font-weight:600}
+.proof-viewer{
+  background:var(--ivory2);border:2px dashed var(--border2);border-radius:12px;
+  min-height:300px;display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:1rem;text-align:center;padding:2rem;
+  margin:1.2rem 1.8rem;
+}
+.proof-icon{font-size:3rem;margin-bottom:0.5rem;opacity:0.4}
+.proof-title{font-family:var(--serif);font-size:1.1rem;color:var(--ink2)}
+.proof-sub{font-size:0.8rem;color:var(--muted)}
+.approval-actions{
+  display:flex;gap:1rem;padding:1.4rem 1.8rem;
+  border-top:1px solid var(--border);
+  background:var(--ivory);flex-wrap:wrap;
+}
+.btn-approve{
+  background:var(--green);color:#fff;
+  padding:11px 28px;border-radius:10px;
+  font-size:0.95rem;font-weight:700;
+  display:flex;align-items:center;gap:9px;
+  cursor:pointer;border:none;font-family:var(--font);
+  transition:all 0.2s;
+}
+.btn-approve:hover{background:#166A3F;transform:translateY(-1px);box-shadow:0 6px 20px rgba(30,122,74,0.3)}
+.btn-revise{
+  background:transparent;color:var(--red);
+  padding:11px 24px;border-radius:10px;
+  font-size:0.9rem;font-weight:600;
+  border:1.5px solid rgba(192,57,43,0.35);
+  cursor:pointer;font-family:var(--font);transition:all 0.2s;
+}
+.btn-revise:hover{background:var(--red-bg);border-color:var(--red)}
+.remarks-field{
+  flex:1;min-width:200px;
+  border:1.5px solid var(--border);border-radius:8px;
+  padding:10px 14px;font-family:var(--font);font-size:0.85rem;
+  color:var(--ink);background:var(--ivory);outline:none;
+}
+.remarks-field:focus{border-color:var(--teal2);box-shadow:0 0 0 3px rgba(26,107,103,0.1)}
+
+/* Approved banner */
+.approved-banner{
+  background:var(--green-bg);border:1.5px solid rgba(30,122,74,0.3);
+  border-radius:12px;padding:1.2rem 1.6rem;
+  display:flex;align-items:center;gap:1rem;
+  margin:1.2rem 1.8rem;
+}
+.approved-banner .icon{font-size:1.8rem;flex-shrink:0}
+.approved-banner h4{font-size:0.95rem;font-weight:700;color:var(--green);margin-bottom:2px}
+.approved-banner p{font-size:0.82rem;color:var(--muted)}
+
+/* ════════════════════════════════════════════
+   TRACKING PAGE
+════════════════════════════════════════════ */
+.track-search{
+  display:flex;gap:0.8rem;margin-bottom:1.5rem;flex-wrap:wrap;
+}
+.track-input{
+  flex:1;min-width:200px;
+  border:1.5px solid var(--border);border-radius:10px;
+  padding:11px 16px;font-family:var(--font);font-size:0.9rem;
+  color:var(--ink);background:#fff;outline:none;
+  transition:all 0.2s;
+}
+.track-input:focus{border-color:var(--teal2);box-shadow:0 0 0 3px rgba(26,107,103,0.1)}
+
+/* Progress bar */
+.job-progress{
+  background:#fff;border:1px solid var(--border);border-radius:14px;
+  padding:1.6rem;margin-bottom:1.2rem;
+}
+.progress-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:0.8rem}
+.progress-job-num{font-family:var(--mono);font-size:0.75rem;color:var(--teal);font-weight:600;margin-bottom:3px}
+.progress-client{font-family:var(--serif);font-size:1.05rem;font-weight:600;color:var(--ink)}
+.progress-track{
+  display:flex;align-items:flex-start;gap:0;
+  position:relative;overflow-x:auto;padding-bottom:0.5rem;
+}
+.track-step{
+  display:flex;flex-direction:column;align-items:center;
+  flex:1;min-width:80px;position:relative;text-align:center;
+}
+.track-step::before{
+  content:'';position:absolute;top:18px;left:50%;right:-50%;
+  height:2px;background:var(--border);z-index:0;
+}
+.track-step:last-child::before{display:none}
+.track-step.done::before{background:var(--teal)}
+.track-dot{
+  width:36px;height:36px;border-radius:50%;
+  border:2px solid var(--border);background:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.9rem;position:relative;z-index:1;
+  transition:all 0.3s;margin-bottom:8px;
+}
+.track-step.done .track-dot{background:var(--teal);border-color:var(--teal);color:#fff}
+.track-step.active .track-dot{background:var(--copper-bg);border-color:var(--copper);color:var(--copper);animation:pulse-dot 2s infinite}
+@keyframes pulse-dot{0%,100%{box-shadow:none}50%{box-shadow:0 0 0 6px rgba(181,100,42,0.15)}}
+.track-step.pending .track-dot{background:var(--ivory2);color:var(--muted)}
+.track-label{font-size:0.65rem;font-weight:600;color:var(--ink2);line-height:1.3;max-width:70px}
+.track-step.pending .track-label{color:var(--muted)}
+.track-step.active .track-label{color:var(--copper);font-weight:700}
+
+/* ════════════════════════════════════════════
+   INVOICES PAGE
+════════════════════════════════════════════ */
+.invoice-list{display:flex;flex-direction:column;gap:1rem}
+.invoice-card{
+  background:#fff;border:1px solid var(--border);border-radius:12px;
+  padding:1.2rem 1.4rem;
+  display:flex;align-items:center;gap:1.2rem;flex-wrap:wrap;
+  transition:all 0.2s;
+}
+.invoice-card:hover{box-shadow:var(--shadow)}
+.inv-num{font-family:var(--mono);font-size:0.8rem;font-weight:600;color:var(--teal);min-width:140px}
+.inv-detail{flex:1;min-width:140px}
+.inv-detail h4{font-size:0.9rem;font-weight:600;color:var(--ink);margin-bottom:2px}
+.inv-detail p{font-size:0.75rem;color:var(--muted)}
+.inv-amount{text-align:right;min-width:100px}
+.inv-total{font-family:var(--serif);font-size:1.2rem;font-weight:700;color:var(--ink)}
+.inv-gst{font-size:0.7rem;color:var(--muted);font-family:var(--mono)}
+.inv-status-wrap{min-width:80px;text-align:center}
+
+/* Invoice modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(26,43,38,0.5);z-index:200;display:none;align-items:center;justify-content:center;padding:1.5rem;backdrop-filter:blur(4px)}
+.modal-overlay.open{display:flex}
+.modal{background:#fff;border-radius:16px;width:100%;max-width:580px;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg);animation:modalIn 0.3s var(--ease)}
+@keyframes modalIn{from{opacity:0;transform:scale(0.95)translateY(16px)}to{opacity:1;transform:none}}
+.modal-head{padding:1.2rem 1.6rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.modal-title{font-family:var(--serif);font-size:1.1rem;font-weight:600;color:var(--ink)}
+.modal-close{background:var(--ivory2);border:none;border-radius:6px;width:30px;height:30px;cursor:pointer;font-size:1.1rem;color:var(--muted);transition:all 0.2s;display:flex;align-items:center;justify-content:center}
+.modal-close:hover{background:var(--red-bg);color:var(--red)}
+.modal-body{padding:1.6rem}
+
+/* ── Invoice PDF preview ── */
+.inv-preview{
+  border:2px solid var(--teal);border-radius:10px;overflow:hidden;
+}
+.inv-preview-header{
+  background:var(--teal);padding:1.4rem 1.8rem;
+  display:flex;align-items:flex-start;justify-content:space-between;
+}
+.inv-preview-logo{font-family:var(--serif);font-size:1.2rem;font-weight:700;color:#fff}
+.inv-preview-logo span{color:rgba(255,255,255,0.6)}
+.inv-preview-num{font-family:var(--mono);font-size:0.8rem;color:rgba(255,255,255,0.7);text-align:right}
+.inv-preview-body{padding:1.4rem 1.8rem;background:#fff}
+.inv-row{display:flex;justify-content:space-between;align-items:center;padding:0.6rem 0;border-bottom:1px solid var(--border)}
+.inv-row:last-child{border-bottom:none}
+.inv-row label{font-size:0.8rem;color:var(--muted)}
+.inv-row .val{font-family:var(--mono);font-size:0.85rem;font-weight:600;color:var(--ink)}
+.inv-total-row{background:var(--teal);padding:1rem 1.8rem;display:flex;justify-content:space-between;align-items:center}
+.inv-total-row span{font-size:0.9rem;font-weight:600;color:rgba(255,255,255,0.8)}
+.inv-total-row .amount{font-family:var(--serif);font-size:1.5rem;font-weight:700;color:#fff}
+
+/* ── Toast ── */
+.toast-wrap{position:fixed;bottom:1.5rem;right:1.5rem;z-index:300;display:flex;flex-direction:column;gap:0.5rem}
+.toast{background:var(--teal);color:#fff;border-radius:10px;padding:10px 16px;font-size:0.82rem;font-weight:500;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow-lg);animation:toastIn 0.3s var(--ease);max-width:320px}
+@keyframes toastIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:none}}
+.toast.success{background:var(--green)}
+.toast.error{background:var(--red)}
+
+/* ── Responsive ── */
+@media(max-width:700px){
+  .portal-main{padding:1.2rem 4vw}
+  .welcome-banner{padding:1.4rem}
+  .kpi-row{grid-template-columns:1fr 1fr}
+  .approval-header,.approval-actions{padding:1rem 1.2rem}
+  .proof-viewer{margin:0.8rem 1rem}
+  .track-label{font-size:0.6rem;max-width:58px}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     LOGIN SCREEN
+═══════════════════════════════════════════ -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-wordmark">PrintFlow<span>Pro</span></div>
+    <div class="login-portal-badge">Client Portal</div>
+
+    <!-- Step 1: Email -->
+    <div class="login-step" id="step-email">
+      <div class="login-headline">Welcome<br/><em>back</em></div>
+      <div class="login-sub">Enter your registered email to receive a one-time login link.</div>
+      <div class="field">
+        <label>Email Address</label>
+        <input type="email" id="login-email" placeholder="your@company.com" autocomplete="email"/>
+      </div>
+      <button class="btn-teal" onclick="sendOTP()">Send Login Code →</button>
+      <div class="demo-accounts">
+        <div class="demo-label">Demo — click to auto-fill</div>
+        <div class="demo-chips">
+          <div class="demo-chip" onclick="quickLogin('hdfc@example.com','HDFC Bank Ltd.')">HDFC Bank</div>
+          <div class="demo-chip" onclick="quickLogin('lic@example.com','LIC of India')">LIC of India</div>
+          <div class="demo-chip" onclick="quickLogin('sbi@example.com','SBI Cards')">SBI Cards</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2: OTP -->
+    <div class="login-step hidden" id="step-otp">
+      <div class="login-headline">Check your<br/><em>email</em></div>
+      <div class="login-sub" id="otp-hint">We sent a 6-digit code to <strong id="otp-email-display"></strong></div>
+      <div class="otp-boxes">
+        <input class="otp-box" type="text" maxlength="1" id="otp1" oninput="otpNext(this,'otp2')"/>
+        <input class="otp-box" type="text" maxlength="1" id="otp2" oninput="otpNext(this,'otp3')"/>
+        <input class="otp-box" type="text" maxlength="1" id="otp3" oninput="otpNext(this,'otp4')"/>
+        <input class="otp-box" type="text" maxlength="1" id="otp4" oninput="otpNext(this,'otp5')"/>
+        <input class="otp-box" type="text" maxlength="1" id="otp5" oninput="otpNext(this,'otp6')"/>
+        <input class="otp-box" type="text" maxlength="1" id="otp6" oninput="verifyOTP()"/>
+      </div>
+      <button class="btn-teal" onclick="verifyOTP()">Verify & Sign In</button>
+      <div style="margin-top:1rem;text-align:center">
+        <span style="font-size:0.78rem;color:var(--muted)">Didn't receive? </span>
+        <span style="font-size:0.78rem;color:var(--teal);cursor:pointer;font-weight:600" onclick="backToEmail()">← Try again</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     APP
+═══════════════════════════════════════════ -->
+<div id="app">
+
+  <!-- NAV -->
+  <nav class="portal-nav">
+    <div class="nav-wordmark">PrintFlow<span>Pro</span> <span style="font-size:0.7rem;color:var(--muted);font-family:var(--font);font-weight:400">Portal</span></div>
+    <div class="nav-client-info">
+      <div class="client-avatar" id="c-avatar">H</div>
+      <div>
+        <div class="client-name" id="c-name">HDFC Bank Ltd.</div>
+        <div class="client-company" id="c-email"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="a3cbc7c5c0e3c6dbc2ced3cfc68dc0ccce">[email&#160;protected]</a></div>
+      </div>
+      <button class="nav-logout" onclick="doLogout()">Sign Out</button>
+    </div>
+  </nav>
+
+  <!-- TABS -->
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="showTab('overview')">◈ Overview</button>
+    <button class="tab-btn" onclick="showTab('approval')">
+      ◉ Approvals <span class="tab-count urgent" id="approval-count">2</span>
+    </button>
+    <button class="tab-btn" onclick="showTab('tracking')">⊙ Track Jobs</button>
+    <button class="tab-btn" onclick="showTab('history')">☰ Job History</button>
+    <button class="tab-btn" onclick="showTab('invoices')">₹ Invoices</button>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="portal-main">
+
+    <!-- ══ OVERVIEW ══ -->
+    <div class="page active" id="page-overview">
+      <div class="welcome-banner">
+        <div class="welcome-greeting" id="w-greeting">Good morning, <em id="w-name">HDFC Bank</em></div>
+        <div class="welcome-sub" id="w-date"></div>
+        <div class="welcome-stats">
+          <div class="w-stat"><div class="w-stat-num" id="w-active">5</div><div class="w-stat-label">Active Jobs</div></div>
+          <div class="w-stat"><div class="w-stat-num" id="w-pending">2</div><div class="w-stat-label">Pending Approval</div></div>
+          <div class="w-stat"><div class="w-stat-num" id="w-month">1,48,420</div><div class="w-stat-label">Pieces This Month</div></div>
+        </div>
+      </div>
+
+      <div class="kpi-row">
+        <div class="kpi" style="--kpi-c:var(--copper)">
+          <div class="kpi-label">Awaiting Approval</div>
+          <div class="kpi-val">2</div>
+          <div class="kpi-sub">Action required</div>
+        </div>
+        <div class="kpi" style="--kpi-c:var(--teal)">
+          <div class="kpi-label">In Production</div>
+          <div class="kpi-val">3</div>
+          <div class="kpi-sub">On schedule</div>
+        </div>
+        <div class="kpi" style="--kpi-c:var(--green)">
+          <div class="kpi-label">Dispatched This Month</div>
+          <div class="kpi-val">12</div>
+          <div class="kpi-sub">Jobs complete</div>
+        </div>
+        <div class="kpi" style="--kpi-c:var(--amber)">
+          <div class="kpi-label">Outstanding Invoice</div>
+          <div class="kpi-val" style="font-size:1.4rem">₹87.4K</div>
+          <div class="kpi-sub">Due 15 Jun 2025</div>
+        </div>
+      </div>
+
+      <!-- Attention required -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">⚠ Needs Your Attention</div>
+        </div>
+        <div class="card-body np">
+          <div class="job-list" id="attention-list"></div>
+        </div>
+      </div>
+
+      <!-- Recent jobs -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">Recent Jobs</div>
+          <button class="btn btn-ghost btn-sm" onclick="showTab('history')">View All →</button>
+        </div>
+        <div class="card-body np">
+          <div class="job-list" id="recent-jobs-list"></div>
+        </div>
+      </div>
+    </div><!-- /overview -->
+
+    <!-- ══ APPROVAL ══ -->
+    <div class="page" id="page-approval">
+      <div style="margin-bottom:1.5rem">
+        <h2 style="font-family:var(--serif);font-size:1.5rem;font-weight:600;color:var(--ink);margin-bottom:0.3rem">Proof Approvals</h2>
+        <p style="font-size:0.85rem;color:var(--muted)">Review and approve print proofs before production begins. Jobs on hold until you respond.</p>
+      </div>
+      <div id="approval-cards"></div>
+    </div>
+
+    <!-- ══ TRACKING ══ -->
+    <div class="page" id="page-tracking">
+      <div style="margin-bottom:1.5rem">
+        <h2 style="font-family:var(--serif);font-size:1.5rem;font-weight:600;color:var(--ink);margin-bottom:0.3rem">Track Jobs</h2>
+        <p style="font-size:0.85rem;color:var(--muted)">Live status of all your print jobs from receipt to delivery.</p>
+      </div>
+      <div class="track-search">
+        <input class="track-input" type="search" placeholder="🔍  Search by job number…" oninput="filterTracking(this.value)"/>
+        <button class="btn btn-ghost btn-sm" onclick="renderTracking()">↻ Refresh</button>
+      </div>
+      <div id="tracking-list"></div>
+    </div>
+
+    <!-- ══ HISTORY ══ -->
+    <div class="page" id="page-history">
+      <div style="margin-bottom:1.5rem">
+        <h2 style="font-family:var(--serif);font-size:1.5rem;font-weight:600;color:var(--ink);margin-bottom:0.3rem">Job History</h2>
+        <p style="font-size:0.85rem;color:var(--muted)">All jobs — past and present.</p>
+      </div>
+      <div class="card">
+        <div class="card-body np">
+          <div class="job-list" id="history-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ INVOICES ══ -->
+    <div class="page" id="page-invoices">
+      <div style="margin-bottom:1.5rem">
+        <h2 style="font-family:var(--serif);font-size:1.5rem;font-weight:600;color:var(--ink);margin-bottom:0.3rem">Invoices</h2>
+        <p style="font-size:0.85rem;color:var(--muted)">Download and review all invoices. GST-compliant itemised billing.</p>
+      </div>
+      <div class="invoice-list" id="invoice-list"></div>
+    </div>
+
+  </div><!-- /portal-main -->
+</div><!-- /app -->
+
+<!-- INVOICE MODAL -->
+<div class="modal-overlay" id="inv-modal">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title" id="modal-inv-title">Invoice</div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modal-inv-body"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast-wrap" id="toast-wrap"></div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ════════════════════════════════════════
+// DATA
+// ════════════════════════════════════════
+const CLIENTS = {
+  'hdfc@example.com': { name:'HDFC Bank Ltd.', short:'HDFC Bank', initials:'H', code:'HDFC001' },
+  'lic@example.com':  { name:'LIC of India',  short:'LIC',       initials:'L', code:'LIC001'  },
+  'sbi@example.com':  { name:'SBI Cards',     short:'SBI Cards', initials:'S', code:'SBI001'  },
+};
+
+const JOBS = [
+  { id:'PRT-2025-00862', type:'Duplex', qty:18000, date:'2025-05-15', status:'approval', dispatch:'speed_ack', proofSent:'15 May, 10:30 AM', notes:'Please check address window alignment on page 1.' },
+  { id:'PRT-2025-00861', type:'Simplex', qty:9500, date:'2025-05-14', status:'approval', dispatch:'inland', proofSent:'14 May, 3:00 PM', notes:'' },
+  { id:'PRT-2025-00860', type:'Duplex', qty:14200, date:'2025-05-13', status:'printing', dispatch:'speed_ack', notes:'' },
+  { id:'PRT-2025-00859', type:'Multi-Page', qty:6800, date:'2025-05-12', status:'postprint', dispatch:'ordinary', notes:'' },
+  { id:'PRT-2025-00858', type:'Simplex', qty:11000, date:'2025-05-11', status:'franking', dispatch:'speed_no_ack', notes:'' },
+  { id:'PRT-2025-00857', type:'Duplex', qty:22400, date:'2025-05-10', status:'complete', dispatch:'speed_ack', docket:'DKT-20250510-0039', frank:'67200' },
+  { id:'PRT-2025-00856', type:'Simplex', qty:9800,  date:'2025-05-09', status:'complete', dispatch:'inland', docket:'DKT-20250509-0036', frank:'9800' },
+  { id:'PRT-2025-00855', type:'Duplex', qty:8100,   date:'2025-05-08', status:'complete', dispatch:'speed_no_ack', docket:'DKT-20250508-0032', frank:'24300' },
+  { id:'PRT-2025-00851', type:'Duplex', qty:14820,  date:'2025-05-12', status:'complete', dispatch:'speed_ack', docket:'DKT-20250513-0042', frank:'44460' },
+  { id:'PRT-2025-00850', type:'Multi-Page', qty:6600, date:'2025-05-12', status:'complete', dispatch:'ordinary', docket:'DKT-20250513-0041', frank:'9900' },
+];
+
+const INVOICES = [
+  { num:'INV-2025-00315', job:'PRT-2025-00857', type:'Duplex', qty:22400, print:89600, data:2240, dispatch:67200, handling:1120, gst:28831, total:189019, status:'sent', due:'2025-06-10', date:'2025-05-11' },
+  { num:'INV-2025-00312', job:'PRT-2025-00851', type:'Duplex', qty:14820, print:59280, data:1482, dispatch:44460, handling:741, gst:18883, total:124846, status:'paid', due:'2025-06-01', date:'2025-05-13', paidOn:'2025-05-20' },
+  { num:'INV-2025-00308', job:'PRT-2025-00856', type:'Simplex', qty:9800, print:29400, data:980, dispatch:9800, handling:490, gst:7325, total:48395, status:'paid', due:'2025-05-25', date:'2025-05-10', paidOn:'2025-05-18' },
+  { num:'INV-2025-00304', job:'PRT-2025-00855', type:'Duplex', qty:8100, print:32400, data:810, dispatch:24300, handling:405, gst:10426, total:68841, status:'overdue', due:'2025-05-15', date:'2025-05-09' },
+];
+
+let currentClient = null;
+let approvedJobs = new Set();
+
+// ════════════════════════════════════════
+// AUTH
+// ════════════════════════════════════════
+function quickLogin(email, company) {
+  document.getElementById('login-email').value = email;
+  sendOTP();
+}
+
+function sendOTP() {
+  const email = document.getElementById('login-email').value.trim();
+  if (!email || !email.includes('@')) { showToast('Please enter a valid email address','error'); return; }
+
+  document.getElementById('otp-email-display').textContent = email;
+  document.getElementById('step-email').classList.add('hidden');
+  document.getElementById('step-otp').classList.remove('hidden');
+  // Auto-fill OTP for demo
+  setTimeout(() => {
+    ['otp1','otp2','otp3','otp4','otp5','otp6'].forEach((id,i) => {
+      document.getElementById(id).value = ['1','2','3','4','5','6'][i];
+    });
+    showToast('Demo: OTP auto-filled as 123456','');
+  }, 600);
+}
+
+function otpNext(el, nextId) {
+  if (el.value.length === 1) document.getElementById(nextId)?.focus();
+}
+
+function verifyOTP() {
+  const email  = document.getElementById('login-email').value.trim();
+  const client = CLIENTS[email] || CLIENTS['hdfc@example.com'];
+  currentClient = { email, ...client };
+
+  const ls = document.getElementById('login-screen');
+  ls.style.opacity = '0'; ls.style.transition = 'opacity 0.4s';
+  setTimeout(() => {
+    ls.style.display = 'none';
+    document.getElementById('app').classList.add('visible');
+    applyClientUI();
+    renderAll();
+    showToast(`Welcome back, ${currentClient.short}! 👋`, 'success');
+  }, 400);
+}
+
+function backToEmail() {
+  document.getElementById('step-otp').classList.add('hidden');
+  document.getElementById('step-email').classList.remove('hidden');
+  ['otp1','otp2','otp3','otp4','otp5','otp6'].forEach(id => document.getElementById(id).value = '');
+}
+
+function applyClientUI() {
+  document.getElementById('c-avatar').textContent    = currentClient.initials;
+  document.getElementById('c-name').textContent      = currentClient.name;
+  document.getElementById('c-email').textContent     = currentClient.email;
+  document.getElementById('w-name').textContent      = currentClient.short;
+  const hr = new Date().getHours();
+  const greet = hr < 12 ? 'Good morning' : hr < 17 ? 'Good afternoon' : 'Good evening';
+  document.getElementById('w-greeting').innerHTML    = `${greet}, <em id="w-name">${currentClient.short}</em>`;
+  document.getElementById('w-date').textContent      = new Date().toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+}
+
+function doLogout() {
+  const app = document.getElementById('app');
+  app.style.opacity = '0'; app.style.transition = 'opacity 0.3s';
+  setTimeout(() => {
+    app.classList.remove('visible'); app.style.opacity = '';
+    const ls = document.getElementById('login-screen');
+    ls.style.display = 'flex'; ls.style.opacity = '0';
+    ls.style.transition = 'opacity 0.3s';
+    setTimeout(() => ls.style.opacity = '1', 10);
+    backToEmail();
+    document.getElementById('login-email').value = '';
+  }, 300);
+}
+
+// ════════════════════════════════════════
+// NAVIGATION
+// ════════════════════════════════════════
+function showTab(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    if (b.getAttribute('onclick')?.includes("'"+id+"'")) b.classList.add('active');
+  });
+  // Lazy render
+  if (id === 'tracking')  renderTracking();
+  if (id === 'history')   renderHistory();
+  if (id === 'invoices')  renderInvoices();
+  if (id === 'approval')  renderApprovals();
+}
+
+// ════════════════════════════════════════
+// HELPERS
+// ════════════════════════════════════════
+function statusPill(s) {
+  const L = {new:'New',processing:'Processing',approval:'Proof Ready',printing:'Printing',postprint:'Post-Print',franking:'Franking',docket:'Docket Ready',dispatch:'Dispatched',complete:'Complete',error:'Error'};
+  return `<span class="pill ${s}">${L[s]||s}</span>`;
+}
+function dispText(d) {
+  const m = {ordinary:'Ordinary Post',speed_ack:'Speed Post (AC)',speed_no_ack:'Speed Post',inland:'Inland Letter'};
+  return m[d]||d;
+}
+function fmtQty(q) { return q.toLocaleString('en-IN'); }
+function fmtMoney(n) { return '₹' + n.toLocaleString('en-IN'); }
+
+// ════════════════════════════════════════
+// RENDER
+// ════════════════════════════════════════
+function renderAll() {
+  renderAttention();
+  renderRecentJobs();
+  renderApprovals();
+  renderInvoices();
+  const pending = JOBS.filter(j => j.status === 'approval' && !approvedJobs.has(j.id)).length;
+  document.getElementById('approval-count').textContent = pending;
+  document.getElementById('w-pending').textContent      = pending;
+  document.getElementById('w-active').textContent       = JOBS.filter(j => j.status !== 'complete').length;
+}
+
+function renderAttention() {
+  const el = document.getElementById('attention-list');
+  const att = JOBS.filter(j => j.status === 'approval' && !approvedJobs.has(j.id));
+  if (!att.length) {
+    el.innerHTML = `<div style="padding:1.5rem;text-align:center;color:var(--muted);font-size:0.88rem">✓ No items require your attention right now</div>`;
+    return;
+  }
+  el.innerHTML = att.map(j => `
+    <div class="job-row">
+      <div class="job-num">${j.id}</div>
+      <div class="job-detail">
+        <h4>${j.type} · ${dispText(j.dispatch)}</h4>
+        <p>Proof sent: ${j.proofSent} · ${fmtQty(j.qty)} pieces</p>
+      </div>
+      ${statusPill('approval')}
+      <div class="job-actions">
+        <button class="btn btn-copper btn-sm" onclick="showTab('approval')">Review Proof →</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderRecentJobs() {
+  const el = document.getElementById('recent-jobs-list');
+  el.innerHTML = JOBS.slice(0,6).map(j => `
+    <div class="job-row">
+      <div class="job-num">${j.id}</div>
+      <div class="job-detail">
+        <h4>${j.type} · ${dispText(j.dispatch)}</h4>
+        <p>${j.date}${j.docket ? ' · Docket: '+j.docket : ''}</p>
+      </div>
+      <div class="job-qty">${fmtQty(j.qty)} pcs</div>
+      ${statusPill(approvedJobs.has(j.id) ? 'printing' : j.status)}
+    </div>
+  `).join('');
+}
+
+function renderApprovals() {
+  const el = document.getElementById('approval-cards');
+  if (!el) return;
+  const pending = JOBS.filter(j => j.status === 'approval' && !approvedJobs.has(j.id));
+  const approved = JOBS.filter(j => j.status === 'approval' && approvedJobs.has(j.id));
+
+  if (!pending.length && !approved.length) {
+    el.innerHTML = `<div class="card"><div class="card-body" style="text-align:center;padding:3rem;color:var(--muted)"><div style="font-size:2.5rem;margin-bottom:0.8rem">✓</div><div style="font-family:var(--serif);font-size:1.1rem;color:var(--ink2);margin-bottom:0.4rem">All proofs approved</div><div style="font-size:0.85rem">No pending approvals at this time.</div></div></div>`;
+    return;
+  }
+
+  el.innerHTML = [
+    ...pending.map(j => renderApprovalCard(j, false)),
+    ...approved.map(j => renderApprovalCard(j, true))
+  ].join('');
+}
+
+function renderApprovalCard(j, done) {
+  if (done) return `
+    <div class="approval-card" style="opacity:0.7">
+      <div class="approval-header">
+        <div>
+          <div class="approval-job-num">${j.id}</div>
+          <div class="approval-title">${j.type} · ${dispText(j.dispatch)}</div>
+          <div class="approval-meta">
+            <div class="approval-meta-item">Qty: <strong>${fmtQty(j.qty)}</strong></div>
+            <div class="approval-meta-item">Sent: <strong>${j.proofSent}</strong></div>
+          </div>
+        </div>
+        ${statusPill('printing')}
+      </div>
+      <div class="approved-banner" style="margin:1rem 1.8rem">
+        <div class="icon">✅</div>
+        <div>
+          <h4>Proof Approved — Production Started</h4>
+          <p>Your approval has been received. Print production is now underway.</p>
+        </div>
+      </div>
+    </div>
+  `;
+  return `
+    <div class="approval-card" id="acard-${j.id}">
+      <div class="approval-header">
+        <div>
+          <div class="approval-job-num">${j.id}</div>
+          <div class="approval-title">${j.type} · ${dispText(j.dispatch)}</div>
+          <div class="approval-meta">
+            <div class="approval-meta-item">Qty: <strong>${fmtQty(j.qty)}</strong></div>
+            <div class="approval-meta-item">Job type: <strong>${j.type}</strong></div>
+            <div class="approval-meta-item">Dispatch: <strong>${dispText(j.dispatch)}</strong></div>
+            <div class="approval-meta-item">Proof sent: <strong>${j.proofSent}</strong></div>
+          </div>
+        </div>
+        ${statusPill('approval')}
+      </div>
+
+      ${j.notes ? `<div style="margin:0 1.8rem;padding:0.8rem 1rem;background:var(--amber-bg);border:1px solid rgba(160,112,10,0.2);border-radius:8px;font-size:0.82rem;color:var(--amber)">⚠ <strong>Note from PrintFlow:</strong> ${j.notes}</div>` : ''}
+
+      <div class="proof-viewer">
+        <div class="proof-icon">📄</div>
+        <div class="proof-title">Proof PDF Ready</div>
+        <div class="proof-sub">${j.type} · ${fmtQty(j.qty)} pieces · ${dispText(j.dispatch)}</div>
+        <button class="btn btn-outline btn-sm" style="margin-top:0.5rem" onclick="showToast('PDF viewer integrated in production via Supabase signed URL','')">
+          👁 View Proof PDF
+        </button>
+      </div>
+
+      <div class="approval-actions">
+        <button class="btn-approve" onclick="approveJob('${j.id}')">
+          ✓ Approve & Start Production
+        </button>
+        <button class="btn-revise" onclick="requestRevision('${j.id}')">
+          ✕ Request Changes
+        </button>
+        <input class="remarks-field" placeholder="Add remarks (optional)…" id="remarks-${j.id}"/>
+      </div>
+    </div>
+  `;
+}
+
+function approveJob(id) {
+  approvedJobs.add(id);
+  const remarks = document.getElementById('remarks-'+id)?.value || '';
+  // Animate card out
+  const card = document.getElementById('acard-'+id);
+  if (card) { card.style.transition='all 0.4s'; card.style.opacity='0.5'; card.style.transform='scale(0.98)'; }
+  setTimeout(() => {
+    renderApprovals();
+    renderAll();
+  }, 400);
+  showToast(`Job ${id} approved ✓ — Production starting shortly`, 'success');
+  const cnt = JOBS.filter(j => j.status==='approval' && !approvedJobs.has(j.id)).length;
+  document.getElementById('approval-count').textContent = cnt || '0';
+}
+
+function requestRevision(id) {
+  const remarks = document.getElementById('remarks-'+id)?.value;
+  if (!remarks) { showToast('Please add remarks describing what needs to change','error'); return; }
+  showToast(`Revision request sent for ${id}. Our team will contact you.`, '');
+}
+
+function renderTracking() {
+  const el = document.getElementById('tracking-list');
+  if (!el) return;
+  const steps   = ['new','processing','approval','printing','postprint','franking','docket','dispatch','complete'];
+  const labels  = ['Received','Processing','Approval','Printing','Post-Print','Franking','Docket','Dispatched','Complete'];
+  const icons   = ['📥','⚙️','✍️','🖨','✂️','📮','🏷️','🚚','✅'];
+
+  el.innerHTML = JOBS.map(j => {
+    const status   = approvedJobs.has(j.id) ? 'printing' : j.status;
+    const ci       = steps.indexOf(status);
+    return `
+      <div class="job-progress">
+        <div class="progress-header">
+          <div>
+            <div class="progress-job-num">${j.id}</div>
+            <div class="progress-client">${j.type} · ${fmtQty(j.qty)} pieces</div>
+          </div>
+          <div style="text-align:right">
+            ${statusPill(status)}
+            <div style="font-size:0.72rem;color:var(--muted);margin-top:4px;font-family:var(--mono)">${j.date}</div>
+            ${j.docket ? `<div style="font-size:0.72rem;color:var(--teal);font-family:var(--mono);margin-top:2px">${j.docket}</div>` : ''}
+          </div>
+        </div>
+        <div class="progress-track">
+          ${steps.map((s,i) => `
+            <div class="track-step ${i<ci?'done':i===ci?'active':'pending'}">
+              <div class="track-dot">${i<ci?'✓':icons[i]}</div>
+              <div class="track-label">${labels[i]}</div>
+            </div>
+          `).join('')}
+        </div>
+        ${j.frank&&j.status==='complete'?`
+          <div style="display:flex;gap:1rem;margin-top:1rem;padding-top:0.8rem;border-top:1px solid var(--border);flex-wrap:wrap">
+            <div style="font-size:0.78rem;color:var(--muted)">Frank amount: <strong style="color:var(--ink);font-family:var(--mono)">${fmtMoney(parseInt(j.frank))}</strong></div>
+            <div style="font-size:0.78rem;color:var(--muted)">Mode: <strong style="color:var(--ink)">${dispText(j.dispatch)}</strong></div>
+          </div>
+        `:''}
+      </div>
+    `;
+  }).join('');
+}
+
+function filterTracking(q) {
+  if (!q) { renderTracking(); return; }
+  const filtered = JOBS.filter(j => j.id.toLowerCase().includes(q.toLowerCase()));
+  const steps  = ['new','processing','approval','printing','postprint','franking','docket','dispatch','complete'];
+  const labels = ['Received','Processing','Approval','Printing','Post-Print','Franking','Docket','Dispatched','Complete'];
+  const icons  = ['📥','⚙️','✍️','🖨','✂️','📮','🏷️','🚚','✅'];
+  const el = document.getElementById('tracking-list');
+  if (!el) return;
+  if (!filtered.length) { el.innerHTML = `<div style="text-align:center;padding:3rem;color:var(--muted)">No jobs found matching "${q}"</div>`; return; }
+  el.innerHTML = filtered.map(j => {
+    const status = approvedJobs.has(j.id) ? 'printing' : j.status;
+    const ci = steps.indexOf(status);
+    return `<div class="job-progress"><div class="progress-header"><div><div class="progress-job-num">${j.id}</div><div class="progress-client">${j.type} · ${fmtQty(j.qty)} pieces</div></div>${statusPill(status)}</div><div class="progress-track">${steps.map((s,i)=>`<div class="track-step ${i<ci?'done':i===ci?'active':'pending'}"><div class="track-dot">${i<ci?'✓':icons[i]}</div><div class="track-label">${labels[i]}</div></div>`).join('')}</div></div>`;
+  }).join('');
+}
+
+function renderHistory() {
+  const el = document.getElementById('history-list');
+  if (!el) return;
+  el.innerHTML = JOBS.map(j => `
+    <div class="job-row">
+      <div class="job-num">${j.id}</div>
+      <div class="job-detail">
+        <h4>${j.type} · ${dispText(j.dispatch)}</h4>
+        <p>${j.date}${j.docket ? ' · ' + j.docket : ''}</p>
+      </div>
+      <div class="job-qty">${fmtQty(j.qty)} pcs</div>
+      ${statusPill(approvedJobs.has(j.id)?'printing':j.status)}
+      <div class="job-actions">
+        ${j.status==='complete'?`<button class="btn btn-ghost btn-sm" onclick="showToast('Dispatch certificate download coming soon','')">📄 Certificate</button>`:''}
+        <button class="btn btn-ghost btn-sm" onclick="showTab('tracking')">Track →</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderInvoices() {
+  const el = document.getElementById('invoice-list');
+  if (!el) return;
+  const sMap = {sent:'processing',paid:'complete',overdue:'error',draft:'new'};
+  el.innerHTML = INVOICES.map(inv => `
+    <div class="invoice-card">
+      <div class="inv-num">${inv.num}</div>
+      <div class="inv-detail">
+        <h4>${inv.job} · ${inv.type}</h4>
+        <p>${fmtQty(inv.qty)} pieces · Due: ${inv.due}${inv.paidOn?' · Paid: '+inv.paidOn:''}</p>
+      </div>
+      <div class="inv-amount">
+        <div class="inv-total">${fmtMoney(inv.total)}</div>
+        <div class="inv-gst">incl. GST ${fmtMoney(inv.gst)}</div>
+      </div>
+      <div class="inv-status-wrap">${statusPill(sMap[inv.status]||'new')}</div>
+      <div class="job-actions">
+        <button class="btn btn-outline btn-sm" onclick="viewInvoice('${inv.num}')">View</button>
+        <button class="btn btn-ghost btn-sm" onclick="showToast('PDF download ready in production','')">⬇ PDF</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function viewInvoice(num) {
+  const inv = INVOICES.find(i => i.num === num);
+  if (!inv) return;
+  document.getElementById('modal-inv-title').textContent = num;
+  const sMap = {sent:'processing',paid:'complete',overdue:'error'};
+  document.getElementById('modal-inv-body').innerHTML = `
+    <div class="inv-preview">
+      <div class="inv-preview-header">
+        <div>
+          <div class="inv-preview-logo">PrintFlow<span>Pro</span></div>
+          <div style="font-size:0.72rem;color:rgba(255,255,255,0.5);margin-top:4px">Tax Invoice · GST Compliant</div>
+        </div>
+        <div class="inv-preview-num">
+          <div style="font-size:0.82rem;color:rgba(255,255,255,0.8);font-weight:600">${inv.num}</div>
+          <div style="font-size:0.68rem;color:rgba(255,255,255,0.45);margin-top:3px">Date: ${inv.date}</div>
+          <div style="margin-top:6px">${statusPill(sMap[inv.status]||'new')}</div>
+        </div>
+      </div>
+      <div class="inv-preview-body">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin-bottom:1.2rem">
+          <div>
+            <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px">Bill To</div>
+            <div style="font-weight:700;font-size:0.92rem">${currentClient?.name||'Client'}</div>
+            <div style="font-size:0.78rem;color:var(--muted)">${currentClient?.email||''}</div>
+          </div>
+          <div>
+            <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px">Job Reference</div>
+            <div style="font-family:var(--mono);font-weight:700;font-size:0.88rem;color:var(--teal)">${inv.job}</div>
+            <div style="font-size:0.78rem;color:var(--muted)">${inv.type} · ${fmtQty(inv.qty)} pieces</div>
+          </div>
+        </div>
+        <div class="inv-row"><label>Print Cost</label><div class="val">${fmtMoney(inv.print)}</div></div>
+        <div class="inv-row"><label>Data Processing</label><div class="val">${fmtMoney(inv.data)}</div></div>
+        <div class="inv-row"><label>Dispatch / Frank</label><div class="val">${fmtMoney(inv.dispatch)}</div></div>
+        <div class="inv-row"><label>Handling</label><div class="val">${fmtMoney(inv.handling)}</div></div>
+        <div class="inv-row" style="font-weight:700"><label style="font-weight:700;color:var(--ink)">Subtotal</label><div class="val">${fmtMoney(inv.print+inv.data+inv.dispatch+inv.handling)}</div></div>
+        <div class="inv-row"><label>GST @ 18%</label><div class="val">${fmtMoney(inv.gst)}</div></div>
+      </div>
+      <div class="inv-total-row">
+        <span>Total Amount Due</span>
+        <div class="amount">${fmtMoney(inv.total)}</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:0.8rem;margin-top:1.2rem;justify-content:flex-end;flex-wrap:wrap">
+      <button class="btn btn-ghost btn-sm" onclick="closeModal()">Close</button>
+      <button class="btn btn-primary btn-sm" onclick="showToast('Invoice PDF downloading…','success');closeModal()">⬇ Download PDF</button>
+    </div>
+  `;
+  document.getElementById('inv-modal').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('inv-modal').classList.remove('open');
+}
+document.getElementById('inv-modal').addEventListener('click', function(e){
+  if (e.target === this) closeModal();
+});
+
+// ════════════════════════════════════════
+// TOAST
+// ════════════════════════════════════════
+function showToast(msg, type='') {
+  const t = document.createElement('div');
+  t.className = 'toast ' + type;
+  t.innerHTML = `<span>${type==='success'?'✓':type==='error'?'✕':'ℹ'}</span> ${msg}`;
+  document.getElementById('toast-wrap').appendChild(t);
+  setTimeout(() => { t.style.opacity='0'; t.style.transition='opacity 0.3s'; setTimeout(()=>t.remove(),300); }, 3500);
+}
+
+// ════════════════════════════════════════
+// INIT
+// ══════════

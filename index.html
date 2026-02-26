@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PrintFlow Pro — Professional Printing & Dispatch Solutions</title>
+  <meta name="description" content="End-to-end variable data printing, dispatch management, and bulk mailing solutions. Trusted by enterprises across India." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ══════════════════════════════════════════════
+       DESIGN SYSTEM — Industrial Letterpress Aesthetic
+       Dark navy base · Warm gold accents · Crisp type
+    ══════════════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:    #0D1B2A;
+      --navy-2:  #152336;
+      --navy-3:  #1E3251;
+      --gold:    #C9A84C;
+      --gold-lt: #E8C97A;
+      --gold-dk: #9A7A2E;
+      --cream:   #F5F0E8;
+      --cream-2: #EDE7D9;
+      --white:   #FAFAF8;
+      --slate:   #8899AA;
+      --green:   #2ECC8A;
+      --red:     #E05555;
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body:    'DM Sans', system-ui, sans-serif;
+      --font-mono:    'IBM Plex Mono', monospace;
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--navy);
+      color: var(--cream);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--navy); }
+    ::-webkit-scrollbar-thumb { background: var(--gold-dk); border-radius: 3px; }
+
+    /* ── Noise texture overlay ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      opacity: 0.35;
+    }
+
+    /* ── Typography ── */
+    h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.15; }
+    .mono { font-family: var(--font-mono); }
+    .gold { color: var(--gold); }
+    .cream { color: var(--cream); }
+    .slate { color: var(--slate); }
+
+    /* ══════════════════════════════════════════════
+       NAVIGATION
+    ══════════════════════════════════════════════ */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5vw;
+      height: 70px;
+      background: rgba(13, 27, 42, 0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(201, 168, 76, 0.18);
+      transition: all 0.4s;
+    }
+    nav.scrolled {
+      height: 58px;
+      background: rgba(13, 27, 42, 0.98);
+      border-bottom-color: rgba(201, 168, 76, 0.35);
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 12px;
+      text-decoration: none;
+    }
+    .nav-logo-mark {
+      width: 38px; height: 38px;
+      background: var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display);
+      font-size: 20px; font-weight: 900;
+      color: var(--navy);
+      border-radius: 4px;
+      letter-spacing: -1px;
+    }
+    .nav-logo-text { font-size: 1rem; font-weight: 600; color: var(--cream); letter-spacing: 0.01em; }
+    .nav-logo-text span { color: var(--gold); }
+    .nav-links { display: flex; gap: 2rem; align-items: center; list-style: none; }
+    .nav-links a {
+      color: var(--slate); text-decoration: none; font-size: 0.875rem;
+      font-weight: 500; letter-spacing: 0.02em;
+      transition: color 0.2s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
+      height: 1px; background: var(--gold);
+      transform: scaleX(0); transition: transform 0.25s var(--ease-out);
+    }
+    .nav-links a:hover { color: var(--cream); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+    .nav-cta {
+      background: var(--gold); color: var(--navy) !important;
+      padding: 8px 20px; border-radius: 4px;
+      font-weight: 600 !important; letter-spacing: 0.04em;
+      transition: background 0.2s, transform 0.15s !important;
+    }
+    .nav-cta::after { display: none !important; }
+    .nav-cta:hover { background: var(--gold-lt) !important; transform: translateY(-1px); }
+    .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+    .nav-hamburger span { display: block; width: 24px; height: 2px; background: var(--cream); border-radius: 2px; transition: all 0.3s; }
+
+    /* ══════════════════════════════════════════════
+       HERO
+    ══════════════════════════════════════════════ */
+    .hero {
+      min-height: 100vh;
+      display: grid; place-items: center;
+      padding: 120px 5vw 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    /* Geometric grid backdrop */
+    .hero-grid {
+      position: absolute; inset: 0; z-index: 0;
+      background-image:
+        linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+    }
+    .hero-glow {
+      position: absolute; width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%);
+      border-radius: 50%; top: 10%; right: -100px; z-index: 0;
+      animation: pulse-glow 8s ease-in-out infinite;
+    }
+    @keyframes pulse-glow {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.15); opacity: 0.7; }
+    }
+    .hero-inner {
+      position: relative; z-index: 1;
+      max-width: 900px; text-align: center;
+    }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(201,168,76,0.1);
+      border: 1px solid rgba(201,168,76,0.3);
+      border-radius: 100px;
+      padding: 6px 18px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem; letter-spacing: 0.12em;
+      color: var(--gold); text-transform: uppercase;
+      margin-bottom: 2rem;
+      opacity: 0; animation: fadeUp 0.8s 0.2s var(--ease-out) forwards;
+    }
+    .hero-tag::before {
+      content: ''; width: 6px; height: 6px;
+      background: var(--green); border-radius: 50%;
+      animation: blink 2s infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    .hero h1 {
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 900;
+      color: var(--cream);
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+      opacity: 0; animation: fadeUp 0.9s 0.35s var(--ease-out) forwards;
+    }
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-lt) 50%, var(--gold) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--slate); max-width: 600px; margin: 0 auto 2.5rem;
+      font-weight: 300; line-height: 1.7;
+      opacity: 0; animation: fadeUp 0.9s 0.5s var(--ease-out) forwards;
+    }
+    .hero-actions {
+      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+      opacity: 0; animation: fadeUp 0.9s 0.65s var(--ease-out) forwards;
+    }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--gold); color: var(--navy);
+      padding: 14px 32px; border-radius: 6px;
+      font-weight: 600; font-size: 0.95rem;
+      text-decoration: none; letter-spacing: 0.03em;
+      transition: all 0.25s var(--ease-out);
+      border: 2px solid var(--gold);
+      position: relative; overflow: hidden;
+    }
+    .btn-primary::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
+      opacity: 0; transition: opacity 0.25s;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(201,168,76,0.4); }
+    .btn-primary:hover::before { opacity: 1; }
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: transparent; color: var(--cream);
+      padding: 14px 32px; border-radius: 6px;
+      font-weight: 500; font-size: 0.95rem;
+      text-decoration: none; letter-spacing: 0.03em;
+      border: 1.5px solid rgba(255,255,255,0.2);
+      transition: all 0.25s var(--ease-out);
+    }
+    .btn-outline:hover { border-color: rgba(201,168,76,0.6); color: var(--gold); transform: translateY(-2px); }
+
+    .hero-stats {
+      display: flex; justify-content: center; gap: 0;
+      margin-top: 4rem; flex-wrap: wrap;
+      opacity: 0; animation: fadeUp 0.9s 0.85s var(--ease-out) forwards;
+    }
+    .hero-stat {
+      padding: 1.5rem 2.5rem;
+      border-left: 1px solid rgba(201,168,76,0.15);
+      text-align: center;
+    }
+    .hero-stat:first-child { border-left: none; }
+    .hero-stat-num {
+      font-family: var(--font-display);
+      font-size: 2.4rem; font-weight: 900;
+      color: var(--gold); line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+    .hero-stat-label { font-size: 0.78rem; color: var(--slate); letter-spacing: 0.08em; text-transform: uppercase; }
+
+    /* Scroll indicator */
+    .scroll-indicator {
+      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      opacity: 0; animation: fadeUp 1s 1.2s var(--ease-out) forwards;
+    }
+    .scroll-indicator span { font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.15em; color: var(--slate); text-transform: uppercase; }
+    .scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--gold), transparent); animation: scroll-line 2s ease-in-out infinite; }
+    @keyframes scroll-line { 0%,100%{transform:scaleY(1);opacity:1} 50%{transform:scaleY(0.4);opacity:0.4} }
+
+    /* ══════════════════════════════════════════════
+       SECTIONS COMMON
+    ══════════════════════════════════════════════ */
+    section { position: relative; z-index: 1; }
+    .section-pad { padding: 100px 5vw; }
+    .section-tag {
+      font-family: var(--font-mono);
+      font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1rem;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .section-tag::before {
+      content: ''; display: block; width: 24px; height: 1px; background: var(--gold);
+    }
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 900; color: var(--cream);
+      line-height: 1.12; margin-bottom: 1.2rem;
+      letter-spacing: -0.02em;
+    }
+    .section-title em { font-style: italic; color: var(--gold); }
+    .section-body { color: var(--slate); font-size: 1.05rem; font-weight: 300; max-width: 560px; line-height: 1.75; }
+    .divider {
+      width: 100%; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(201,168,76,0.25), transparent);
+    }
+
+    /* ── Animations ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .reveal {
+      opacity: 0; transform: translateY(32px);
+      transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+
+    /* ══════════════════════════════════════════════
+       SERVICES
+    ══════════════════════════════════════════════ */
+    .services-bg { background: var(--navy-2); }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 1.5px;
+      background: rgba(201,168,76,0.1);
+      border: 1px solid rgba(201,168,76,0.1);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-top: 4rem;
+    }
+    .service-card {
+      background: var(--navy-2);
+      padding: 2rem 2rem 2.5rem;
+      position: relative;
+      transition: background 0.3s;
+      cursor: default;
+    }
+    .service-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.4s var(--ease-out);
+    }
+    .service-card:hover { background: var(--navy-3); }
+    .service-card:hover::before { transform: scaleX(1); }
+    .service-icon {
+      width: 48px; height: 48px;
+      background: rgba(201,168,76,0.1);
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; margin-bottom: 1.4rem;
+      transition: all 0.3s;
+    }
+    .service-card:hover .service-icon {
+      background: rgba(201,168,76,0.2);
+      border-color: rgba(201,168,76,0.5);
+      transform: scale(1.08);
+    }
+    .service-card h3 {
+      font-size: 1.15rem; font-weight: 700;
+      color: var(--cream); margin-bottom: 0.6rem;
+    }
+    .service-card p { font-size: 0.88rem; color: var(--slate); line-height: 1.7; }
+    .service-tag {
+      display: inline-block; margin-top: 1.2rem;
+      font-family: var(--font-mono); font-size: 0.68rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--gold); background: rgba(201,168,76,0.08);
+      border: 1px solid rgba(201,168,76,0.2);
+      padding: 3px 10px; border-radius: 100px;
+    }
+
+    /* ══════════════════════════════════════════════
+       WORKFLOW PROCESS
+    ══════════════════════════════════════════════ */
+    .workflow-section { background: var(--navy); }
+    .workflow-layout {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: start; margin-top: 4rem;
+    }
+    .workflow-steps { display: flex; flex-direction: column; gap: 0; }
+    .workflow-step {
+      display: flex; gap: 1.5rem;
+      padding: 1.5rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      cursor: default;
+      transition: all 0.3s;
+    }
+    .workflow-step:last-child { border-bottom: none; }
+    .step-num {
+      font-family: var(--font-mono);
+      font-size: 0.75rem; font-weight: 500;
+      color: var(--gold-dk);
+      min-width: 32px; padding-top: 3px;
+      letter-spacing: 0.05em;
+    }
+    .step-content h4 { font-size: 1rem; font-weight: 600; color: var(--cream); margin-bottom: 0.35rem; }
+    .step-content p { font-size: 0.85rem; color: var(--slate); line-height: 1.65; }
+    .workflow-step:hover .step-num { color: var(--gold); }
+    .workflow-step:hover .step-content h4 { color: var(--gold-lt); }
+
+    /* Terminal-style workflow viz */
+    .workflow-terminal {
+      background: #0A1520;
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: 12px; overflow: hidden;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.5);
+    }
+    .terminal-bar {
+      background: #111C2B;
+      padding: 12px 16px;
+      display: flex; align-items: center; gap: 10px;
+      border-bottom: 1px solid rgba(201,168,76,0.1);
+    }
+    .terminal-dot { width: 11px; height: 11px; border-radius: 50%; }
+    .terminal-dot.r { background: #FF5F56; }
+    .terminal-dot.y { background: #FFBD2E; }
+    .terminal-dot.g { background: #27C93F; }
+    .terminal-title { font-family: var(--font-mono); font-size: 0.7rem; color: var(--slate); margin-left: 6px; letter-spacing: 0.05em; }
+    .terminal-body { padding: 1.5rem; font-family: var(--font-mono); font-size: 0.78rem; line-height: 2; }
+    .t-dim { color: #3D5472; }
+    .t-cmd { color: var(--gold); }
+    .t-ok  { color: var(--green); }
+    .t-info{ color: #5EAFD1; }
+    .t-warn{ color: #E8C97A; }
+    .t-err { color: var(--red); }
+    .t-cursor {
+      display: inline-block; width: 8px; height: 1em;
+      background: var(--gold); vertical-align: middle;
+      animation: cursor-blink 1.2s step-end infinite;
+    }
+    @keyframes cursor-blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    /* ══════════════════════════════════════════════
+       DISPATCH MODES
+    ══════════════════════════════════════════════ */
+    .dispatch-bg { background: var(--navy-2); }
+    .dispatch-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1rem; margin-top: 3.5rem;
+    }
+    .dispatch-card {
+      background: var(--navy);
+      border: 1px solid rgba(201,168,76,0.1);
+      border-radius: 10px;
+      padding: 1.6rem 1.5rem;
+      position: relative; overflow: hidden;
+      transition: all 0.3s var(--ease-out);
+    }
+    .dispatch-card::after {
+      content: ''; position: absolute;
+      bottom: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.4s var(--ease-out);
+    }
+    .dispatch-card:hover { border-color: rgba(201,168,76,0.35); transform: translateY(-4px); box-shadow: 0 16px 48px rgba(0,0,0,0.4); }
+    .dispatch-card:hover::after { transform: scaleX(1); }
+    .dispatch-icon { font-size: 2rem; margin-bottom: 1rem; }
+    .dispatch-card h3 { font-size: 1rem; font-weight: 700; color: var(--cream); margin-bottom: 0.5rem; }
+    .dispatch-card p { font-size: 0.83rem; color: var(--slate); line-height: 1.65; }
+    .dispatch-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      margin-top: 1rem;
+      font-family: var(--font-mono); font-size: 0.68rem;
+      color: var(--green); letter-spacing: 0.08em;
+    }
+    .dispatch-badge::before { content:''; width:5px;height:5px;background:var(--green);border-radius:50%; }
+
+    /* ══════════════════════════════════════════════
+       FEATURES / WHY CHOOSE US
+    ══════════════════════════════════════════════ */
+    .features-section { background: var(--navy); }
+    .features-layout {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center; margin-top: 4rem;
+    }
+    .feature-list { display: flex; flex-direction: column; gap: 1.5rem; }
+    .feature-item {
+      display: flex; gap: 1rem;
+      padding: 1.2rem 1.4rem;
+      border-radius: 10px; border: 1px solid transparent;
+      transition: all 0.3s;
+    }
+    .feature-item:hover {
+      background: rgba(201,168,76,0.05);
+      border-color: rgba(201,168,76,0.15);
+    }
+    .feature-icon-wrap {
+      width: 40px; height: 40px; flex-shrink: 0;
+      background: rgba(201,168,76,0.12);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+    }
+    .feature-text h4 { font-size: 0.95rem; font-weight: 600; color: var(--cream); margin-bottom: 0.3rem; }
+    .feature-text p { font-size: 0.83rem; color: var(--slate); line-height: 1.6; }
+
+    /* Metrics card */
+    .metrics-panel {
+      background: var(--navy-2);
+      border: 1px solid rgba(201,168,76,0.15);
+      border-radius: 16px; padding: 2.5rem;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    }
+    .metrics-title { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 2rem; }
+    .metric-row {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 1rem 0; border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .metric-row:last-child { border-bottom: none; }
+    .metric-bar-wrap { flex: 1; background: rgba(255,255,255,0.05); border-radius: 100px; height: 5px; overflow: hidden; }
+    .metric-bar { height: 100%; border-radius: 100px; background: linear-gradient(90deg, var(--gold), var(--gold-lt)); }
+    .metric-label { font-size: 0.82rem; color: var(--slate); min-width: 130px; }
+    .metric-value { font-family: var(--font-mono); font-size: 0.8rem; color: var(--gold); min-width: 40px; text-align: right; }
+
+    /* ══════════════════════════════════════════════
+       TESTIMONIALS / TRUST
+    ══════════════════════════════════════════════ */
+    .trust-bg { background: var(--navy-2); }
+    .trust-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem; margin-top: 3.5rem;
+    }
+    .testimonial {
+      background: var(--navy);
+      border: 1px solid rgba(201,168,76,0.1);
+      border-radius: 12px; padding: 2rem;
+      position: relative; transition: all 0.3s;
+    }
+    .testimonial:hover { border-color: rgba(201,168,76,0.3); transform: translateY(-3px); }
+    .testimonial::before {
+      content: '\201C';
+      font-family: var(--font-display);
+      font-size: 5rem; line-height: 1;
+      color: rgba(201,168,76,0.15);
+      position: absolute; top: 10px; left: 20px;
+    }
+    .testimonial-text { font-size: 0.9rem; color: var(--cream); line-height: 1.75; font-weight: 300; font-style: italic; position: relative; z-index: 1; }
+    .testimonial-author { display: flex; align-items: center; gap: 12px; margin-top: 1.5rem; }
+    .author-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--navy-3), var(--gold-dk));
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display); font-size: 1rem; font-weight: 700; color: var(--gold);
+    }
+    .author-name { font-size: 0.85rem; font-weight: 600; color: var(--cream); }
+    .author-org { font-size: 0.75rem; color: var(--slate); }
+    .stars { color: var(--gold); font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 1rem; }
+
+    /* ══════════════════════════════════════════════
+       CONTACT / CTA
+    ══════════════════════════════════════════════ */
+    .contact-section { background: var(--navy); }
+    .contact-layout {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; margin-top: 4rem;
+    }
+    .contact-info { display: flex; flex-direction: column; gap: 1.5rem; }
+    .contact-item {
+      display: flex; gap: 1rem; align-items: flex-start;
+      padding: 1.2rem; border-radius: 10px;
+      border: 1px solid rgba(201,168,76,0.1);
+      background: rgba(201,168,76,0.03);
+      transition: all 0.3s;
+    }
+    .contact-item:hover { border-color: rgba(201,168,76,0.3); background: rgba(201,168,76,0.07); }
+    .contact-item-icon { font-size: 1.3rem; margin-top: 2px; }
+    .contact-item-label { font-size: 0.72rem; font-family: var(--font-mono); color: var(--gold); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+    .contact-item-val { font-size: 0.92rem; color: var(--cream); }
+
+    /* Form */
+    .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-field { display: flex; flex-direction: column; gap: 6px; }
+    .form-field label { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--slate); }
+    .form-field input,
+    .form-field select,
+    .form-field textarea {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 6px;
+      padding: 10px 14px;
+      color: var(--cream); font-family: var(--font-body); font-size: 0.9rem;
+      outline: none; transition: all 0.25s;
+    }
+    .form-field input:focus,
+    .form-field select:focus,
+    .form-field textarea:focus {
+      border-color: var(--gold);
+      background: rgba(201,168,76,0.05);
+      box-shadow: 0 0 0 3px rgba(201,168,76,0.1);
+    }
+    .form-field select option { background: var(--navy); }
+    .form-field textarea { resize: vertical; min-height: 110px; }
+    .form-submit {
+      background: var(--gold); color: var(--navy);
+      border: none; border-radius: 6px;
+      padding: 13px 28px; font-family: var(--font-body);
+      font-size: 0.95rem; font-weight: 700; letter-spacing: 0.04em;
+      cursor: pointer; transition: all 0.25s var(--ease-out);
+      align-self: flex-start;
+    }
+    .form-submit:hover { background: var(--gold-lt); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,168,76,0.35); }
+
+    /* ══════════════════════════════════════════════
+       HERO CTA BAND
+    ══════════════════════════════════════════════ */
+    .cta-band {
+      background: linear-gradient(135deg, var(--gold-dk) 0%, var(--gold) 50%, var(--gold-lt) 100%);
+      padding: 60px 5vw;
+      text-align: center; position: relative; overflow: hidden;
+    }
+    .cta-band::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(0,0,0,0.08) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(0,0,0,0.08) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    .cta-band-inner { position: relative; z-index: 1; }
+    .cta-band h2 { font-size: clamp(1.8rem, 4vw, 3rem); color: var(--navy); margin-bottom: 1rem; }
+    .cta-band p { color: rgba(13,27,42,0.7); font-size: 1.05rem; margin-bottom: 2rem; }
+    .btn-dark {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--navy); color: var(--gold);
+      padding: 14px 32px; border-radius: 6px;
+      font-weight: 700; font-size: 0.95rem;
+      text-decoration: none; letter-spacing: 0.04em;
+      transition: all 0.25s; border: 2px solid transparent;
+    }
+    .btn-dark:hover { background: var(--navy-3); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+
+    /* ══════════════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════════════ */
+    footer {
+      background: #080F18;
+      padding: 60px 5vw 30px;
+      border-top: 1px solid rgba(201,168,76,0.1);
+    }
+    .footer-grid {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem; margin-bottom: 3rem;
+    }
+    .footer-brand p { font-size: 0.85rem; color: var(--slate); margin-top: 1rem; line-height: 1.7; max-width: 260px; }
+    .footer-col h5 { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.2rem; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .footer-col ul a { color: var(--slate); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+    .footer-col ul a:hover { color: var(--cream); }
+    .footer-bottom {
+      padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.05);
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-bottom p { font-size: 0.78rem; color: var(--slate); }
+    .footer-bottom .built-with { font-family: var(--font-mono); font-size: 0.7rem; color: var(--gold-dk); }
+
+    /* ══════════════════════════════════════════════
+       MOBILE RESPONSIVE
+    ══════════════════════════════════════════════ */
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
+      .workflow-layout,
+      .features-layout,
+      .contact-layout { grid-template-columns: 1fr; gap: 3rem; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .hero-stats .hero-stat { padding: 1rem 1.5rem; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .footer-grid { grid-template-columns: 1fr; }
+      .hero-stats { flex-direction: column; gap: 0; }
+      .hero-stat { border-left: none; border-top: 1px solid rgba(201,168,76,0.1); }
+      .hero-stat:first-child { border-top: none; }
+    }
+
+    /* Mobile nav menu */
+    .mobile-menu {
+      position: fixed; top: 70px; left: 0; right: 0; bottom: 0;
+      background: rgba(8, 15, 24, 0.98); backdrop-filter: blur(20px);
+      z-index: 99; padding: 3rem 5vw;
+      display: flex; flex-direction: column; gap: 1.5rem;
+      transform: translateX(100%); transition: transform 0.35s var(--ease-out);
+    }
+    .mobile-menu.open { transform: translateX(0); }
+    .mobile-menu a {
+      color: var(--cream); text-decoration: none;
+      font-size: 1.4rem; font-family: var(--font-display);
+      font-weight: 700; padding: 0.5rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      transition: color 0.2s;
+    }
+    .mobile-menu a:hover { color: var(--gold); }
+
+    /* ── Status badge (for docket tracker teaser) ── */
+    .status-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-family: var(--font-mono); font-size: 0.7rem;
+      padding: 3px 10px; border-radius: 100px;
+      letter-spacing: 0.05em;
+    }
+    .status-badge.dispatched { background: rgba(46,204,138,0.1); color: var(--green); border: 1px solid rgba(46,204,138,0.3); }
+    .status-badge.printing   { background: rgba(201,168,76,0.1); color: var(--gold); border: 1px solid rgba(201,168,76,0.3); }
+    .status-badge.processing { background: rgba(94,175,209,0.1); color: #5EAFD1; border: 1px solid rgba(94,175,209,0.3); }
+    .status-badge::before { content:''; width:5px;height:5px;border-radius:50%;background:currentColor; }
+  </style>
+</head>
+<body>
+
+  <!-- ── NAVIGATION ── -->
+  <nav id="navbar">
+    <a href="#" class="nav-logo">
+      <div class="nav-logo-mark">PF</div>
+      <span class="nav-logo-text">Print<span>Flow</span> Pro</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#workflow">How It Works</a></li>
+      <li><a href="#dispatch">Dispatch Modes</a></li>
+      <li><a href="#why-us">Why Us</a></li>
+      <li><a href="#contact" class="nav-cta">Get a Quote →</a></li>
+    </ul>
+    <div class="nav-hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#services" onclick="toggleMenu()">Services</a>
+    <a href="#workflow" onclick="toggleMenu()">How It Works</a>
+    <a href="#dispatch" onclick="toggleMenu()">Dispatch</a>
+    <a href="#why-us" onclick="toggleMenu()">Why Us</a>
+    <a href="#contact" onclick="toggleMenu()">Get a Quote</a>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       HERO
+  ══════════════════════════════════════════════ -->
+  <section class="hero" id="home">
+    <div class="hero-grid"></div>
+    <div class="hero-glow"></div>
+
+    <div class="hero-inner">
+      <div class="hero-tag">Variable Data · Bulk Mailing · Dispatch Automation</div>
+      <h1>
+        From Data File<br/>to <em>Delivered Mail</em><br/>in One Workflow
+      </h1>
+      <p class="hero-sub">
+        End-to-end printing and dispatch management — mail merge, PDF validation, simplex/duplex production, franking, and docket generation. All tracked. All automated.
+      </p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn-primary">
+          <span>Request a Quote</span>
+          <span>→</span>
+        </a>
+        <a href="#workflow" class="btn-outline">
+          <span>See How It Works</span>
+        </a>
+      </div>
+
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-num" data-count="2.5" data-suffix="M+">0</div>
+          <div class="hero-stat-label">Pieces Dispatched</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num" data-count="500" data-suffix="+">0</div>
+          <div class="hero-stat-label">Enterprise Clients</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num" data-count="99.4" data-suffix="%">0</div>
+          <div class="hero-stat-label">On-Time Dispatch Rate</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num" data-count="12" data-suffix=" yrs">0</div>
+          <div class="hero-stat-label">Industry Experience</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scroll-indicator">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ══════════════════════════════════════════════
+       SERVICES
+  ══════════════════════════════════════════════ -->
+  <section class="section-pad services-bg" id="services">
+    <div class="reveal">
+      <p class="section-tag">What We Do</p>
+      <h2 class="section-title">Complete Printing &amp;<br/><em>Dispatch Services</em></h2>
+      <p class="section-body">From raw data files to delivered envelopes — we handle every step of the printing and mailing lifecycle for banks, insurance companies, government agencies, and enterprises.</p>
+    </div>
+
+    <div class="services-grid reveal reveal-delay-2">
+      <div class="service-card">
+        <div class="service-icon">📊</div>
+        <h3>Variable Data Printing</h3>
+        <p>Mail merge and personalised data printing at scale. Each piece uniquely printed with recipient-specific content from your Excel, CSV, or database file.</p>
+        <span class="service-tag">PDF · XLSX · CSV</span>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">📄</div>
+        <h3>Simplex &amp; Duplex Print</h3>
+        <p>High-volume single-sided and double-sided printing. Multi-page document production with accurate page sequencing and quality control at every stage.</p>
+        <span class="service-tag">Mono · Colour</span>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">✉️</div>
+        <h3>Envelope Inserting</h3>
+        <p>Automated folding, inserting, and sealing. Single or multi-insert jobs handled with precision. Window envelope alignment guaranteed.</p>
+        <span class="service-tag">A4 · DL · C5</span>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">📬</div>
+        <h3>Inland Letter Production</h3>
+        <p>Complete inland letter printing, folding, and sorting. Designed for government and regulated communications requiring cost-effective postal delivery.</p>
+        <span class="service-tag">Sorted · Unsorted</span>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">⚡</div>
+        <h3>Speed Post Dispatch</h3>
+        <p>Speed Post with or without Acknowledgement. Full tracking reference generation, docket creation, and real-time dispatch status for every article.</p>
+        <span class="service-tag">With AC · Without AC</span>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🎯</div>
+        <h3>Data Processing &amp; Validation</h3>
+        <p>Pre-print file validation, duplicate detection, address cleansing, and record count verification. Catch errors before ink touches paper.</p>
+        <span class="service-tag">QC · Validated</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ══════════════════════════════════════════════
+       WORKFLOW PROCESS
+  ══════════════════════════════════════════════ -->
+  <section class="section-pad workflow-section" id="workflow">
+    <div class="workflow-layout">
+      <div>
+        <div class="reveal">
+          <p class="section-tag">Our Process</p>
+          <h2 class="section-title">Seven Steps.<br/><em>Zero Guesswork.</em></h2>
+          <p class="section-body">A transparent, trackable workflow from job receipt to dispatch confirmation. You always know where your job is.</p>
+        </div>
+
+        <div class="workflow-steps" style="margin-top: 2.5rem;">
+          <div class="workflow-step reveal reveal-delay-1">
+            <div class="step-num">01</div>
+            <div class="step-content">
+              <h4>Job Submission</h4>
+              <p>Email your print files (PDF, Excel, CSV) to our dedicated job inbox. Instant acknowledgement with a job reference number.</p>
+            </div>
+          </div>
+          <div class="workflow-step reveal reveal-delay-2">
+            <div class="step-num">02</div>
+            <div class="step-content">
+              <h4>Data Processing &amp; Validation</h4>
+              <p>File validation, mail merge processing, record count verification, and error reporting before production begins.</p>
+            </div>
+          </div>
+          <div class="workflow-step reveal reveal-delay-3">
+            <div class="step-num">03</div>
+            <div class="step-content">
+              <h4>Client Approval</h4>
+              <p>Proof sent to you for sign-off. Production holds until explicit approval is received — protecting you and us.</p>
+            </div>
+          </div>
+          <div class="workflow-step reveal reveal-delay-4">
+            <div class="step-num">04</div>
+            <div class="step-content">
+              <h4>Print Production</h4>
+              <p>Simplex, duplex, or multi-page production. Each job tracked by machine ID, operator, and timestamp.</p>
+            </div>
+          </div>
+          <div class="workflow-step reveal reveal-delay-5">
+            <div class="step-num">05</div>
+            <div class="step-content">
+              <h4>Post-Print Handling</h4>
+              <p>Folding, inserting, inland sorting, and franking. Every piece processed to dispatch-ready condition.</p>
+            </div>
+          </div>
+          <div class="workflow-step reveal">
+            <div class="step-num">06</div>
+            <div class="step-content">
+              <h4>Docket Generation</h4>
+              <p>Unique docket number auto-generated. Barcode, QR code, and piece count logged for dispatch records.</p>
+            </div>
+          </div>
+          <div class="workflow-step reveal">
+            <div class="step-num">07</div>
+            <div class="step-content">
+              <h4>Dispatch &amp; Tracking</h4>
+              <p>Articles dispatched via your chosen mode. Dispatch record, billing reference, and delivery tracking issued immediately.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Terminal Viz -->
+      <div class="reveal reveal-delay-2">
+        <div class="workflow-terminal">
+          <div class="terminal-bar">
+            <div class="terminal-dot r"></div>
+            <div class="terminal-dot y"></div>
+            <div class="terminal-dot g"></div>
+            <span class="terminal-title">printflow-tracker — job PRT-2025-00847</span>
+          </div>
+          <div class="terminal-body">
+            <div><span class="t-dim">$</span> <span class="t-cmd">track --job PRT-2025-00847</span></div>
+            <div>&nbsp;</div>
+            <div><span class="t-dim">[ JOB DETAILS ]</span></div>
+            <div><span class="t-info">Client     </span>: HDFC Bank Ltd.</div>
+            <div><span class="t-info">Type       </span>: Duplex · Variable Data</div>
+            <div><span class="t-info">Records    </span>: 14,820 pieces</div>
+            <div><span class="t-info">Received   </span>: 2025-05-14 09:32 AM</div>
+            <div>&nbsp;</div>
+            <div><span class="t-dim">[ STATUS TIMELINE ]</span></div>
+            <div><span class="t-ok">✓</span> 09:32 Job received &amp; acknowledged</div>
+            <div><span class="t-ok">✓</span> 10:05 File validation passed (0 errors)</div>
+            <div><span class="t-ok">✓</span> 10:48 Proof sent for client approval</div>
+            <div><span class="t-ok">✓</span> 11:22 Approval received — production start</div>
+            <div><span class="t-ok">✓</span> 16:44 Print complete · QC passed</div>
+            <div><span class="t-ok">✓</span> 17:10 Folded · Inserted · Franked</div>
+            <div><span class="t-warn">▶</span> 17:30 Docket DKT-20250514-0042 generated</div>
+            <div>&nbsp;</div>
+            <div><span class="t-dim">[ DISPATCH ]</span></div>
+            <div><span class="t-info">Mode       </span>: Speed Post (With AC)</div>
+            <div><span class="t-info">Frank Amt  </span>: ₹ 44,460.00</div>
+            <div><span class="t-info">Docket     </span>: <span class="t-ok">DKT-20250514-0042</span></div>
+            <div><span class="t-info">Status     </span>: <span class="t-ok">DISPATCHED ✓</span></div>
+            <div>&nbsp;</div>
+            <div><span class="t-dim">$</span> <span class="t-cursor"></span></div>
+          </div>
+        </div>
+
+        <!-- Live status pills -->
+        <div style="display:flex; gap:0.7rem; flex-wrap:wrap; margin-top:1.2rem;">
+          <span class="status-badge dispatched">Dispatched</span>
+          <span class="status-badge printing">3 Jobs Printing</span>
+          <span class="status-badge processing">7 In Validation</span>
+        </div>
+        <p style="font-family:var(--font-mono);font-size:0.68rem;color:var(--slate);margin-top:0.8rem;letter-spacing:0.05em;">
+          Live dashboard preview — available to clients in the portal
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ══════════════════════════════════════════════
+       DISPATCH MODES
+  ══════════════════════════════════════════════ -->
+  <section class="section-pad dispatch-bg" id="dispatch">
+    <div class="reveal">
+      <p class="section-tag">Dispatch Options</p>
+      <h2 class="section-title">Choose Your<br/><em>Delivery Mode</em></h2>
+      <p class="section-body">Four postal dispatch modes, each with full docket tracking, franking records, and billing integration.</p>
+    </div>
+
+    <div class="dispatch-grid">
+      <div class="dispatch-card reveal reveal-delay-1">
+        <div class="dispatch-icon">📮</div>
+        <h3>Ordinary Post</h3>
+        <p>Standard bulk mail dispatch. Cost-effective for high-volume non-urgent communications. Full piece count and franking records maintained.</p>
+        <span class="dispatch-badge">Lowest cost per piece</span>
+      </div>
+      <div class="dispatch-card reveal reveal-delay-2">
+        <div class="dispatch-icon">⚡</div>
+        <h3>Speed Post</h3>
+        <p>India Post Speed Post with full tracking. Guaranteed delivery timelines. Docket-level tracking reference for each batch.</p>
+        <span class="dispatch-badge">Tracked delivery</span>
+      </div>
+      <div class="dispatch-card reveal reveal-delay-3">
+        <div class="dispatch-icon">✅</div>
+        <h3>Speed Post with AC</h3>
+        <p>Speed Post with signed Acknowledgement Card. Mandatory for legal, financial, and regulatory communications requiring proof of delivery.</p>
+        <span class="dispatch-badge">Proof of delivery</span>
+      </div>
+      <div class="dispatch-card reveal reveal-delay-4">
+        <div class="dispatch-icon">📂</div>
+        <h3>Inland Letter</h3>
+        <p>Pre-sorted inland letters for maximum postal discount. Sorted by pin code zones, bundled, and dispatched per postal norms.</p>
+        <span class="dispatch-badge">Sorted · Discounted rate</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ══════════════════════════════════════════════
+       WHY CHOOSE US
+  ══════════════════════════════════════════════ -->
+  <section class="section-pad features-section" id="why-us">
+    <div class="features-layout">
+      <div class="reveal">
+        <p class="section-tag">Why PrintFlow Pro</p>
+        <h2 class="section-title">Built for<br/><em>Enterprise Scale</em></h2>
+        <p class="section-body">We don't just print — we manage your entire output management workflow with end-to-end accountability and real-time visibility.</p>
+
+        <div class="feature-list" style="margin-top: 2.5rem;">
+          <div class="feature-item">
+            <div class="feature-icon-wrap">🔍</div>
+            <div class="feature-text">
+              <h4>Pre-Print File Validation</h4>
+              <p>Every file checked before production. PDF dimensions, bleed, font embedding, colour mode, and record count verified automatically.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon-wrap">📋</div>
+            <div class="feature-text">
+              <h4>Docket-Based Tracking</h4>
+              <p>Every batch gets a unique docket number with QR code. One scan gives you full dispatch history, piece count, and billing reference.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon-wrap">💰</div>
+            <div class="feature-text">
+              <h4>Transparent Billing</h4>
+              <p>Itemised invoices: print cost, data processing, folding, inserting, franking — broken down per job, per dispatch mode.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon-wrap">🔒</div>
+            <div class="feature-text">
+              <h4>Secure Data Handling</h4>
+              <p>Client data stored with AES-256 encryption. Files purged post-completion as per agreed retention policy. DPDP Act compliant.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon-wrap">🚀</div>
+            <div class="feature-text">
+              <h4>Client Portal Access</h4>
+              <p>Approve proofs online, track live job status, download invoices, and view dispatch history — no phone calls needed.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Metrics Panel -->
+      <div class="reveal reveal-delay-2">
+        <div class="metrics-panel">
+          <p class="metrics-title">// Performance Benchmarks</p>
+
+          <div class="metric-row">
+            <span class="metric-label">On-Time Dispatch</span>
+            <div class="metric-bar-wrap"><div class="metric-bar" data-width="99" style="width:0%"></div></div>
+            <span class="metric-value">99.4%</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">File Validation Accuracy</span>
+            <div class="metric-bar-wrap"><div class="metric-bar" data-width="100" style="width:0%"></div></div>
+            <span class="metric-value">100%</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">Print Quality Pass Rate</span>
+            <div class="metric-bar-wrap"><div class="metric-bar" data-width="98" style="width:0%"></div></div>
+            <span class="metric-value">98.7%</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">Docket Accuracy</span>
+            <div class="metric-bar-wrap"><div class="metric-bar" data-width="100" style="width:0%"></div></div>
+            <span class="metric-value">100%</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">Client Satisfaction</span>
+            <div class="metric-bar-wrap"><div class="metric-bar" data-width="96" style="width:0%"></div></div>
+            <span class="metric-value">96%</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">Same-Day Turnaround</span>
+            <div class="metric-bar-wrap"><div class="metric-bar" data-width="87" style="width:0%"></div></div>
+            <span class="metric-value">87%</span>
+          </div>
+
+          <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.05);">
+            <p class="metrics-title" style="margin-bottom:1.2rem;">// Active Right Now</p>
+            <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+              <div style="text-align:center; flex:1; min-width:80px;">
+                <div style="font-family:var(--font-display);font-size:2rem;font-weight:900;color:var(--gold);">24</div>
+                <div style="font-size:0.72rem;color:var(--slate);letter-spacing:0.06em;text-transform:uppercase;">Jobs Active</div>
+              </div>
+              <div style="text-align:center; flex:1; min-width:80px; border-left:1px solid rgba(255,255,255,0.05); border-right:1px solid rgba(255,255,255,0.05);">
+                <div style="font-family:var(--font-display);font-size:2rem;font-weight:900;color:var(--green);">8</div>
+                <div style="font-size:0.72rem;color:var(--slate);letter-spacing:0.06em;text-transform:uppercase;">Dispatched Today</div>
+              </div>
+              <div style="text-align:center; flex:1; min-width:80px;">
+                <div style="font-family:var(--font-display);font-size:2rem;font-weight:900;color:var(--gold-lt);">3</div>
+                <div style="font-size:0.72rem;color:var(--slate);letter-spacing:0.06em;text-transform:uppercase;">Pending Approval</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ══════════════════════════════════════════════
+       TESTIMONIALS
+  ══════════════════════════════════════════════ */
+  <section class="section-pad trust-bg" id="testimonials">
+    <div class="reveal" style="text-align:center; max-width:600px; margin:0 auto;">
+      <p class="section-tag" style="justify-content:center;">Client Feedback</p>
+      <h2 class="section-title">Trusted by <em>Enterprise Teams</em></h2>
+    </div>
+
+    <div class="trust-grid" style="margin-top:3.5rem;">
+      <div class="testimonial reveal reveal-delay-1">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">Their docket system eliminated all disputes with the post office. Every piece is accounted for, every batch is traceable. This is how print management should work.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">A</div>
+          <div>
+            <div class="author-name">Amit Sharma</div>
+            <div class="author-org">Operations Head · Private Sector Bank</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial reveal reveal-delay-2">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">We send 50,000+ policy statements monthly. PrintFlow Pro handles our variable data, duplex printing, and Speed Post dispatch flawlessly. Zero errors in 18 months.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">P</div>
+          <div>
+            <div class="author-name">Priya Nair</div>
+            <div class="author-org">IT Manager · Insurance Corporation</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial reveal reveal-delay-3">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">The online approval system saved us hours every week. We upload the file, they validate it, we approve the proof, and the job is dispatched — all tracked in the portal.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">R</div>
+          <div>
+            <div class="author-name">Rajesh Menon</div>
+            <div class="author-org">Compliance Officer · NBFC</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ══════════════════════════════════════════════
+       CTA BAND
+  ══════════════════════════════════════════════ -->
+  <div class="cta-band">
+    <div class="cta-band-inner">
+      <h2>Ready to Streamline Your Print Operations?</h2>
+      <p>Get a personalised quote within 2 business hours. No commitment required.</p>
+      <a href="#contact" class="btn-dark">Start a Conversation →</a>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       CONTACT
+  ══════════════════════════════════════════════ -->
+  <section class="section-pad contact-section" id="contact">
+    <div class="reveal" style="text-align:center; max-width:600px; margin:0 auto 4rem;">
+      <p class="section-tag" style="justify-content:center;">Get In Touch</p>
+      <h2 class="section-title">Let's Discuss<br/><em>Your Next Job</em></h2>
+      <p class="section-body" style="margin:0 auto; text-align:center;">
+        Send your requirements and we'll respond within 2 business hours with a detailed quote.
+      </p>
+    </div>
+
+    <div class="contact-layout">
+      <div class="contact-info reveal">
+        <div class="contact-item">
+          <div class="contact-item-icon">📧</div>
+          <div>
+            <div class="contact-item-label">Job Submissions</div>
+            <div class="contact-item-val"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="03696c61704373716a6d77656f6c7473716c2d6a6d">[email&#160;protected]</a></div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">📞</div>
+          <div>
+            <div class="contact-item-label">Phone / WhatsApp</div>
+            <div class="contact-item-val">+91 98XXX XXXXX</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">🏢</div>
+          <div>
+            <div class="contact-item-label">Production Facility</div>
+            <div class="contact-item-val">Your City, India — 600 000</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">⏰</div>
+          <div>
+            <div class="contact-item-label">Working Hours</div>
+            <div class="contact-item-val">Monday – Saturday, 9:00 AM – 7:00 PM</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">🚀</div>
+          <div>
+            <div class="contact-item-label">Client Portal</div>
+            <div class="contact-item-val">portal.printflowpro.in <span style="color:var(--slate);font-size:0.8rem;">(Coming Soon)</span></div>
+          </div>
+        </div>
+      </div>
+
+      <form class="contact-form reveal reveal-delay-2" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+        <div class="form-row">
+          <div class="form-field">
+            <label for="name">Your Name *</label>
+            <input type="text" id="name" name="name" placeholder="Full name" required />
+          </div>
+          <div class="form-field">
+            <label for="company">Company</label>
+            <input type="text" id="company" name="company" placeholder="Organisation name" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label for="email">Email Address *</label>
+            <input type="email" id="email" name="email" placeholder="your@company.com" required />
+          </div>
+          <div class="form-field">
+            <label for="phone">Phone / WhatsApp</label>
+            <input type="tel" id="phone" name="phone" placeholder="+91 98XXX XXXXX" />
+          </div>
+        </div>
+        <div class="form-field">
+          <label for="service">Service Required</label>
+          <select id="service" name="service">
+            <option value="">— Select a service —</option>
+            <option>Variable Data Printing</option>
+            <option>Simplex / Duplex Print</option>
+            <option>Envelope Inserting</option>
+            <option>Inland Letter Production</option>
+            <option>Speed Post Dispatch</option>
+            <option>End-to-End Workflow</option>
+            <option>Other / Multiple Services</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label for="volume">Estimated Volume</label>
+            <input type="text" id="volume" name="volume" placeholder="e.g. 10,000 pieces/month" />
+          </div>
+          <div class="form-field">
+            <label for="timeline">Job Timeline</label>
+            <input type="text" id="timeline" name="timeline" placeholder="e.g. Weekly, Monthly" />
+          </div>
+        </div>
+        <div class="form-field">
+          <label for="message">Message / Requirements</label>
+          <textarea id="message" name="message" placeholder="Describe your printing and dispatch requirements…"></textarea>
+        </div>
+        <button type="submit" class="form-submit">Send Enquiry →</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════════════ -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="nav-logo" style="text-decoration:none;">
+          <div class="nav-logo-mark">PF</div>
+          <span class="nav-logo-text">Print<span>Flow</span> Pro</span>
+        </a>
+        <p>End-to-end variable data printing, bulk mail dispatch, and workflow management for Indian enterprises. From file to doorstep.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Services</h5>
+        <ul>
+          <li><a href="#services">Variable Data Print</a></li>
+          <li><a href="#services">Simplex / Duplex</a></li>
+          <li><a href="#services">Envelope Inserting</a></li>
+          <li><a href="#services">Inland Letters</a></li>
+          <li><a href="#services">Speed Post Dispatch</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="#workflow">How It Works</a></li>
+          <li><a href="#why-us">Why Choose Us</a></li>
+          <li><a href="#testimonials">Client Stories</a></li>
+          <li><a href="#contact">Get a Quote</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Connect</h5>
+        <ul>
+          <li><a href="/cdn-cgi/l/email-protection#e983868b9aa9999b80879d8f85869e999b86c78087"><span class="__cf_email__" data-cfemail="b9d3d6dbcaf9c9cbd0d7cddfd5d6cec9cbd697d0d7">[email&#160;protected]</span></a></li>
+          <li><a href="tel:+919800000000">+91 98XXX XXXXX</a></li>
+          <li><a href="#">Client Portal →</a></li>
+          <li><a href="#">Track a Docket →</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 PrintFlow Pro. All rights reserved.</p>
+      <span class="built-with">// Powered by PrintFlow Workflow Engine v1.0</span>
+    </div>
+  </footer>
+
+  <!-- ══════════════════════════════════════════════
+       JAVASCRIPT
+  ══════════════════════════════════════════════ -->
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    // ── Nav scroll behaviour ──
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // ── Mobile menu ──
+    let menuOpen = false;
+    function toggleMenu() {
+      menuOpen = !menuOpen;
+      document.getElementById('mobileMenu').classList.toggle('open', menuOpen);
+      document.body.style.overflow = menuOpen ? 'hidden' : '';
+    }
+
+    // ── Scroll reveal ──
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // ── Metric bar animation ──
+    const barObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.querySelectorAll('.metric-bar').forEach(bar => {
+            const w = bar.dataset.width;
+            setTimeout(() => { bar.style.transition = 'width 1.4s cubic-bezier(0.16,1,0.3,1)'; bar.style.width = w + '%'; }, 200);
+          });
+        }
+      });
+    }, { threshold: 0.4 });
+    document.querySelectorAll('.metrics-panel').forEach(el => barObserver.observe(el));
+
+    // ── Counter animation ──
+    function animateCounter(el, target, suffix, duration = 2000) {
+      const isDecimal = target % 1 !== 0;
+      const start = performance.now();
+      const update = (now) => {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 4);
+        const current = isDecimal
+          ? (eased * target).toFixed(1)
+          : Math.round(eased * target);
+        el.textContent = current + suffix;
+        if (progress < 1) requestAnimationFrame(update);
+      };
+      requestAnimationFrame(update);
+    }
+
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const el = e.target;
+          const count = parseFloat(el.dataset.count);
+          const suffix = el.dataset.suffix || '';
+          animateCounter(el, count, suffix);
+          counterObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('[data-count]').forEach(el => counterObserver.observe(el));
+
+    // ── Smooth anchor links ──
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          const offset = 70;
+          const top = target.getBoundingClientRect().top + window.scrollY - offset;
+          window.scrollTo({ top, behavior: 'smooth' });
+        }
+      });
+    });
+
+    // ── Form submission feedback ──
+    const form = document.querySelector('.contact-form');
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        const btn = form.querySelector('.form-submit');
+        btn.textContent = 'Sending…
