@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>PrintFlow Pro — Directory & Run Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F2EFE9;--surface:#FAFAF7;--ink:#0F1C2E;--ink2:#2A3D52;--muted:#7A9BB0;
+  --border:#D4CFC7;--teal:#0E4D4A;--teal2:#1A6B67;--teal-bg:#E8F5F4;
+  --amber:#D4830A;--amber-bg:#FEF3DC;--green:#1A8A5A;--green-bg:#E6F7F0;
+  --font:'Sora',sans-serif;--mono:'JetBrains Mono',monospace;
+}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.65;padding-bottom:4rem}
+.header{background:var(--ink);padding:2rem 5vw 1.8rem;border-bottom:3px solid var(--amber)}
+.header-tag{font-family:var(--mono);font-size:0.65rem;letter-spacing:0.15em;color:#F5A623;margin-bottom:0.5rem;text-transform:uppercase}
+.header h1{font-size:clamp(1.4rem,3vw,2.2rem);color:#fff;font-weight:700;letter-spacing:-0.02em}
+.header p{color:rgba(255,255,255,0.4);font-size:0.85rem;margin-top:0.4rem}
+.main{max-width:900px;margin:0 auto;padding:2.5rem 5vw}
+h2{font-size:1.15rem;font-weight:700;color:var(--ink);margin:2.5rem 0 1rem;display:flex;align-items:center;gap:10px}
+.num{width:26px;height:26px;background:var(--teal);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:0.72rem;font-weight:700;flex-shrink:0}
+p{font-size:0.88rem;color:var(--ink2);line-height:1.7;margin-bottom:0.8rem}
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:2.5rem 0}
+.tree{background:#0A1520;border-radius:12px;padding:1.4rem 1.6rem;font-family:var(--mono);font-size:0.8rem;line-height:2.1;overflow-x:auto;margin:1rem 0}
+.code{background:#0A1520;border-radius:10px;overflow:hidden;margin:0.8rem 0}
+.code-hdr{background:rgba(255,255,255,0.04);padding:7px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.06)}
+.code-tag{font-family:var(--mono);font-size:0.63rem;color:rgba(255,255,255,0.3);letter-spacing:0.1em;text-transform:uppercase}
+.code-copy{font-family:var(--mono);font-size:0.63rem;color:rgba(255,255,255,0.3);cursor:pointer;padding:2px 8px;border:1px solid rgba(255,255,255,0.1);border-radius:4px;background:none;transition:all 0.2s}
+.code-copy:hover{color:rgba(255,255,255,0.7);border-color:rgba(255,255,255,0.3)}
+.code-body{padding:1rem 1.4rem;font-family:var(--mono);font-size:0.79rem;line-height:1.9;overflow-x:auto;color:#A8C8E8}
+.cmd{color:#F5A623}.cmt{color:#2D4A60;font-style:italic}.ok{color:#64C896}
+.step{display:flex;gap:1.2rem;padding:1rem 0;border-bottom:1px solid var(--border)}
+.step:last-child{border-bottom:none}
+.sc{width:28px;height:28px;border-radius:50%;background:var(--amber-bg);border:1.5px solid var(--amber);color:var(--amber);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:0.72rem;font-weight:700;flex-shrink:0;margin-top:2px}
+.step h4{font-size:0.9rem;font-weight:700;color:var(--ink);margin-bottom:3px}
+.step p{font-size:0.82rem;color:var(--muted);margin:0}
+.url-card{display:flex;align-items:center;gap:1rem;background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:0.9rem 1.2rem;margin:0.6rem 0;flex-wrap:wrap}
+.url-icon{font-size:1.4rem;flex-shrink:0}
+.url-label{font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+.url-val{font-family:var(--mono);font-size:0.82rem;font-weight:600;color:var(--teal)}
+.url-badge{margin-left:auto;flex-shrink:0}
+.badge{display:inline-flex;align-items:center;gap:4px;font-family:var(--mono);font-size:0.63rem;font-weight:700;padding:3px 10px;border-radius:100px}
+.badge.green{background:var(--green-bg);color:var(--green);border:1px solid rgba(26,138,90,0.2)}
+.badge.amber{background:var(--amber-bg);color:var(--amber);border:1px solid rgba(212,131,10,0.2)}
+.alert{display:flex;gap:1rem;padding:1rem 1.2rem;border-radius:10px;margin:1rem 0;font-size:0.85rem;line-height:1.6}
+.alert.info{background:var(--teal-bg);border:1px solid rgba(14,77,74,0.2);color:var(--teal2)}
+.alert.warn{background:var(--amber-bg);border:1px solid rgba(212,131,10,0.2);color:var(--amber)}
+.alert.good{background:var(--green-bg);border:1px solid rgba(26,138,90,0.2);color:var(--green)}
+.port-table{width:100%;border-collapse:collapse;font-size:0.85rem;margin:0.8rem 0}
+.port-table th{text-align:left;padding:9px 14px;background:var(--bg);border:1px solid var(--border);font-size:0.68rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted)}
+.port-table td{padding:9px 14px;border:1px solid var(--border);color:var(--ink2);vertical-align:middle}
+.port-table tr:nth-child(even) td{background:var(--surface)}
+.mono{font-family:var(--mono);font-weight:600;color:var(--teal);font-size:0.83rem}
+.phase-row{display:flex;align-items:center;gap:1rem;padding:0.8rem 1rem;background:var(--surface);border:1px solid var(--border);border-radius:10px;margin-bottom:0.5rem;flex-wrap:wrap}
+.phase-num{font-family:var(--mono);font-size:0.72rem;font-weight:700;color:var(--amber);min-width:60px}
+.phase-files{flex:1;font-family:var(--mono);font-size:0.78rem;color:var(--teal)}
+.phase-desc{font-size:0.78rem;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-tag">PrintFlow Pro · All Phases</div>
+  <h1>Directory Structure &amp; Run Guide</h1>
+  <p>How to organise, run, and test every file from Phase 1 to Phase 5</p>
+</div>
+<div class="main">
+
+<h2><span class="num">1</span> Complete Directory Structure</h2>
+<p>Create one root folder called <code style="font-family:var(--mono);background:var(--teal-bg);padding:1px 6px;border-radius:4px;color:var(--teal)">printing-workflow/</code>. This is also your GitHub repository root.</p>
+
+<div class="tree">
+<span style="color:#F5A623;font-weight:700">printing-workflow/</span>                        <span style="color:#2D4A60;font-style:italic">&#x2190; GitHub repo root</span>
+<span style="color:#2D4A60">|</span>
+<span style="color:#2D4A60">|--</span> <span style="color:#F5A623">index.html</span>                            <span style="color:#2D4A60;font-style:italic">&#x2190; Phase 1: Public website</span>
+<span style="color:#2D4A60">|</span>
+<span style="color:#2D4A60">|--</span> <span style="color:#7EC8A4">dashboard/</span>
+<span style="color:#2D4A60">|   |--</span> <span style="color:#F5A623">index.html</span>                        <span style="color:#2D4A60;font-style:italic">&#x2190; Phase 2: Staff dashboard</span>
+<span style="color:#2D4A60">|</span>
+<span style="color:#2D4A60">|--</span> <span style="color:#7EC8A4">portal/</span>
+<span style="color:#2D4A60">|   |--</span> <span style="color:#F5A623">index.html</span>                        <span style="color:#2D4A60;font-style:italic">&#x2190; Phase 4: Client portal</span>
+<span style="color:#2D4A60">|</span>
+<span style="color:#2D4A60">|--</span> <span style="color:#7EC8A4">reports/</span>
+<span style="color:#2D4A60">|   |--</span> <span style="color:#F5A623">index.html</span>                        <span style="color:#2D4A60;font-style:italic">&#x2190; Phase 5: MIS reports page</span>
+<span style="color:#2D4A60">|   |--</span> <span style="color:#7EC8A4">exports/</span>
+<span style="color:#2D4A60">|       |--</span> <span style="color:#64C896">PrintFlow_MIS_Report_May2025.xlsx</span>
+<span style="color:#2D4A60">|</span>
+<span style="color:#2D4A60">|--</span> <span style="color:#7EC8A4">backend/</span>                                  <span style="color:#2D4A60;font-style:italic">&#x2190; Phase 3: Node.js API</span>
+<span style="color:#2D4A60">|   |--</span> <span style="color:#F0C060">server.js</span>                         <span style="color:#2D4A60;font-style:italic">&#x2190; Main API entry point</span>
+<span style="color:#2D4A60">|   |--</span> <span style="color:#F0C060">package.json</span>
+<span style="color:#2D4A60">|   |--</span> <span style="color:#FF8A80">.env</span>                              <span style="color:#2D4A60;font-style:italic">&#x2190; Your secrets (NEVER commit!)</span>
+<span style="color:#2D4A60">|   |--</span> <span style="color:#FF8A80">.env.example</span>                      <span style="color:#2D4A60;font-style:italic">&#x2190; Template (safe to commit)</span>
+<span style="color:#2D4A60">|   |--</span> <span style="color:#7EC8A4">routes/</span>
+<span style="color:#2D4A60">|   |   |--</span> <span style="color:#F0C060">jobs.js</span>
+<span style="color:#2D4A60">|   |   |--</span> <span style="color:#F0C060">dispatch.js</span>
+<span style="color:#2D4A60">|   |   |--</span> <span style="color:#F0C060">dockets.js</span>
+<span style="color:#2D4A60">|   |   |--</span> <span style="color:#F0C060">billing.js</span>
+<span style="color:#2D4A60">|   |   |--</span> <span style="color:#F0C060">webhooks.js</span>
+<span style="color:#2D4A60">|   |   |--</span> <span style="color:#F0C060">notifications.js</span>
+<span style="color:#2D4A60">|   |--</span> <span style="color:#7EC8A4">utils/</span>
+<span style="color:#2D4A60">|       |--</span> <span style="color:#F0C060">generators.js</span>                 <span style="color:#2D4A60;font-style:italic">&#x2190; Job / docket number logic</span>
+<span style="color:#2D4A60">|       |--</span> <span style="color:#F0C060">storage.js</span>                    <span style="color:#2D4A60;font-style:italic">&#x2190; Supabase file uploads</span>
+<span style="color:#2D4A60">|       |--</span> <span style="color:#F0C060">mailer.js</span>                     <span style="color:#2D4A60;font-style:italic">&#x2190; Email sender (nodemailer)</span>
+<span style="color:#2D4A60">|</span>
+<span style="color:#2D4A60">|--</span> <span style="color:#7EC8A4">automation/</span>                               <span style="color:#2D4A60;font-style:italic">&#x2190; Phase 3: Python scripts</span>
+<span style="color:#2D4A60">|   |--</span> <span style="color:#90C9A0">email_parser.py</span>                   <span style="color:#2D4A60;font-style:italic">&#x2190; IMAP inbox monitor</span>
+<span style="color:#2D4A60">|   |--</span> <span style="color:#90C9A0">pdf_validator.py</span>                  <span style="color:#2D4A60;font-style:italic">&#x2190; PDF quality checker</span>
+<span style="color:#2D4A60">|   |--</span> <span style="color:#90C9A0">excel_processor.py</span>                <span style="color:#2D4A60;font-style:italic">&#x2190; Variable data validator</span>
+<span style="color:#2D4A60">|   |--</span> <span style="color:#90C9A0">mis_report.py</span>                     <span style="color:#2D4A60;font-style:italic">&#x2190; Excel MIS generator</span>
+<span style="color:#2D4A60">|   |--</span> <span style="color:#FF8A80">requirements.txt</span>                  <span style="color:#2D4A60;font-style:italic">&#x2190; pip install -r requirements.txt</span>
+<span style="color:#2D4A60">|   |--</span> <span style="color:#7EC8A4">logs/</span>                             <span style="color:#2D4A60;font-style:italic">&#x2190; Auto-created by scripts</span>
+<span style="color:#2D4A60">|</span>
+<span style="color:#2D4A60">|--</span> <span style="color:#7EC8A4">.github/workflows/</span>
+<span style="color:#2D4A60">|   |--</span> <span style="color:#CE93D8">automation.yml</span>                    <span style="color:#2D4A60;font-style:italic">&#x2190; GitHub Actions cron (runs free)</span>
+<span style="color:#2D4A60">|</span>
+<span style="color:#2D4A60">|--</span> <span style="color:#A8C8E8">.gitignore</span>                                <span style="color:#2D4A60;font-style:italic">&#x2190; Excludes .env, node_modules, logs</span>
+</div>
+
+<div class="phase-row"><span class="phase-num">Phase 1</span><span class="phase-files">index.html</span><span class="phase-desc">Public website &rarr; GitHub Pages (no server needed)</span></div>
+<div class="phase-row"><span class="phase-num">Phase 2</span><span class="phase-files">dashboard/index.html</span><span class="phase-desc">Staff dashboard &rarr; GitHub Pages (no server needed)</span></div>
+<div class="phase-row"><span class="phase-num">Phase 3</span><span class="phase-files">backend/ + automation/</span><span class="phase-desc">Node.js API &rarr; Render.com · Python scripts &rarr; GitHub Actions</span></div>
+<div class="phase-row"><span class="phase-num">Phase 4</span><span class="phase-files">portal/index.html</span><span class="phase-desc">Client portal &rarr; GitHub Pages (no server needed)</span></div>
+<div class="phase-row"><span class="phase-num">Phase 5</span><span class="phase-files">reports/index.html + mis_report.py</span><span class="phase-desc">MIS dashboard + Excel report generator</span></div>
+
+<div class="divider"></div>
+
+<h2><span class="num">2</span> Rename Downloaded Files</h2>
+<table class="port-table">
+  <thead><tr><th>File downloaded as</th><th>Rename to</th><th>Put in folder</th></tr></thead>
+  <tbody>
+    <tr><td>index.html (public site)</td><td class="mono">index.html</td><td><code style="font-family:var(--mono);font-size:0.82rem">printing-workflow/</code></td></tr>
+    <tr><td>dashboard.html</td><td class="mono">index.html</td><td><code style="font-family:var(--mono);font-size:0.82rem">printing-workflow/dashboard/</code></td></tr>
+    <tr><td>portal.html</td><td class="mono">index.html</td><td><code style="font-family:var(--mono);font-size:0.82rem">printing-workflow/portal/</code></td></tr>
+    <tr><td>mis_reports.html</td><td class="mono">index.html</td><td><code style="font-family:var(--mono);font-size:0.82rem">printing-workflow/reports/</code></td></tr>
+    <tr><td>PrintFlow_MIS_Report_May2025.xlsx</td><td class="mono">keep name</td><td><code style="font-family:var(--mono);font-size:0.82rem">printing-workflow/reports/exports/</code></td></tr>
+    <tr><td>mis_report.py</td><td class="mono">mis_report.py</td><td><code style="font-family:var(--mono);font-size:0.82rem">printing-workflow/automation/</code></td></tr>
+    <tr><td>server.js + routes + utils</td><td class="mono">keep structure</td><td><code style="font-family:var(--mono);font-size:0.82rem">printing-workflow/backend/</code></td></tr>
+  </tbody>
+</table>
+
+<div class="divider"></div>
+
+<h2><span class="num">3</span> First-Time Setup (run once)</h2>
+<div class="code">
+  <div class="code-hdr"><span class="code-tag">Terminal</span><button class="code-copy" onclick="copyCode(this)">copy</button></div>
+  <div class="code-body">
+<span class="cmt"># Create folder structure</span><br/>
+<span class="cmd">mkdir -p printing-workflow/{dashboard,portal,reports/exports,backend/routes,backend/utils,automation,logs,.github/workflows}</span><br/>
+<span class="cmd">cd printing-workflow</span><br/><br/>
+<span class="cmt"># Node.js dependencies (for backend)</span><br/>
+<span class="cmd">cd backend && npm install && cd ..</span><br/><br/>
+<span class="cmt"># Python dependencies (for automation scripts)</span><br/>
+<span class="cmd">pip install PyPDF2 pymupdf pandas openpyxl requests python-dotenv imapclient</span><br/><br/>
+<span class="cmt"># Create .env from template</span><br/>
+<span class="cmd">cp backend/.env.example backend/.env</span><br/>
+<span class="cmt"># Open backend/.env in any editor and fill in your keys</span>
+  </div>
+</div>
+
+<h2><span class="num">4</span> .gitignore File</h2>
+<p>Create <code style="font-family:var(--mono);background:var(--teal-bg);padding:1px 6px;border-radius:4px;color:var(--teal)">printing-workflow/.gitignore</code> with this content:</p>
+<div class="code">
+  <div class="code-hdr"><span class="code-tag">.gitignore</span><button class="code-copy" onclick="copyCode(this)">copy</button></div>
+  <div class="code-body">
+backend/.env<br/>
+automation/.env<br/>
+backend/node_modules/<br/>
+__pycache__/<br/>
+*.pyc<br/>
+logs/<br/>
+*.log<br/>
+.DS_Store<br/>
+Thumbs.db
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<h2><span class="num">5</span> Testing Each Phase</h2>
+
+<p style="font-weight:700;color:var(--ink);margin-bottom:0.5rem">Phases 1, 2, 4, 5 — HTML files (no server needed)</p>
+
+<div class="step">
+  <div class="sc">A</div>
+  <div>
+    <h4>Double-click any HTML file</h4>
+    <p>Works immediately in Chrome or Firefox. Best for a quick check.</p>
+  </div>
+</div>
+<div class="step">
+  <div class="sc">B</div>
+  <div>
+    <h4>Python local server (recommended for all pages together)</h4>
+    <div class="code" style="margin-top:0.5rem">
+      <div class="code-hdr"><span class="code-tag">Terminal</span><button class="code-copy" onclick="copyCode(this)">copy</button></div>
+      <div class="code-body">
+<span class="cmd">cd printing-workflow</span><br/>
+<span class="cmd">python3 -m http.server 8080</span><br/>
+<span class="cmt"># Then open in browser:</span><br/>
+<span class="ok">http://localhost:8080/             &larr; Public website</span><br/>
+<span class="ok">http://localhost:8080/dashboard/   &larr; Staff dashboard</span><br/>
+<span class="ok">http://localhost:8080/portal/      &larr; Client portal</span><br/>
+<span class="ok">http://localhost:8080/reports/     &larr; MIS reports</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p style="font-weight:700;color:var(--ink);margin:1.5rem 0 0.5rem">Phase 3A — Node.js API</p>
+<div class="code">
+  <div class="code-hdr"><span class="code-tag">Terminal — open a NEW terminal window for this</span><button class="code-copy" onclick="copyCode(this)">copy</button></div>
+  <div class="code-body">
+<span class="cmd">cd printing-workflow/backend</span><br/>
+<span class="cmd">node server.js</span><br/><br/>
+<span class="ok">&#10003; PrintFlow API running on port 3000</span><br/>
+<span class="ok">  Health: http://localhost:3000/health</span><br/><br/>
+<span class="cmt"># Test endpoints:</span><br/>
+<span class="cmd">curl http://localhost:3000/health</span><br/>
+<span class="cmd">curl http://localhost:3000/api/jobs</span><br/>
+<span class="cmd">curl http://localhost:3000/api/dockets</span>
+  </div>
+</div>
+
+<p style="font-weight:700;color:var(--ink);margin:1.5rem 0 0.5rem">Phase 3B — Python scripts</p>
+<div class="code">
+  <div class="code-hdr"><span class="code-tag">Terminal</span><button class="code-copy" onclick="copyCode(this)">copy</button></div>
+  <div class="code-body">
+<span class="cmt"># PDF Validator (give it any PDF)</span><br/>
+<span class="cmd">python3 automation/pdf_validator.py /path/to/file.pdf</span><br/><br/>
+<span class="cmt"># Excel Processor (give it any xlsx or csv)</span><br/>
+<span class="cmd">python3 automation/excel_processor.py /path/to/data.xlsx</span><br/><br/>
+<span class="cmt"># Generate MIS Excel Report</span><br/>
+<span class="cmd">python3 automation/mis_report.py</span><br/>
+<span class="ok">Saved: reports/exports/PrintFlow_MIS_Report_May2025.xlsx</span><br/><br/>
+<span class="cmt"># Email Parser (needs .env filled in)</span><br/>
+<span class="cmd">python3 automation/email_parser.py</span>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<h2><span class="num">6</span> Push to GitHub and Go Live</h2>
+<div class="code">
+  <div class="code-hdr"><span class="code-tag">Terminal — run once from printing-workflow folder</span><button class="code-copy" onclick="copyCode(this)">copy</button></div>
+  <div class="code-body">
+<span class="cmd">cd printing-workflow</span><br/>
+<span class="cmd">git init</span><br/>
+<span class="cmd">git add .</span><br/>
+<span class="cmd">git commit -m "PrintFlow Pro — all phases"</span><br/>
+<span class="cmd">git remote add origin https://github.com/vitthal8/printing-workflow.git</span><br/>
+<span class="cmd">git push -u origin main</span>
+  </div>
+</div>
+<p>Then: GitHub repo &rarr; Settings &rarr; Pages &rarr; Source: <strong>main branch / root</strong> &rarr; Save. Live in ~2 minutes.</p>
+
+<div class="divider"></div>
+
+<h2><span class="num">7</span> Live URLs After Deployment</h2>
+<div class="url-card"><span class="url-icon">&#127760;</span><div><div class="url-label">Public Website</div><div class="url-val">https://vitthal8.github.io/printing-workflow</div></div><span class="url-badge"><span class="badge green">&#9679; Live now</span></span></div>
+<div class="url-card"><span class="url-icon">&#128421;</span><div><div class="url-label">Staff Dashboard</div><div class="url-val">https://vitthal8.github.io/printing-workflow/dashboard</div></div><span class="url-badge"><span class="badge green">&#9679; Live now</span></span></div>
+<div class="url-card"><span class="url-icon">&#128100;</span><div><div class="url-label">Client Portal</div><div class="url-val">https://vitthal8.github.io/printing-workflow/portal</div></div><span class="url-badge"><span class="badge green">&#9679; Live now</span></span></div>
+<div class="url-card"><span class="url-icon">&#128202;</span><div><div class="url-label">MIS Reports</div><div class="url-val">https://vitthal8.github.io/printing-workflow/reports</div></div><span class="url-badge"><span class="badge green">&#9679; Live now</span></span></div>
+<div class="url-card"><span class="url-icon">&#9881;</span><div><div class="url-label">API Health Check (Render)</div><div class="url-val">https://printing-api.onrender.com/health</div></div><span class="url-badge"><span class="badge amber">Deploy when ready</span></span></div>
+
+<div class="alert good" style="margin-top:1.5rem">
+  <div style="font-size:1.1rem;flex-shrink:0">&#10003;</div>
+  <div><strong>Phases 1, 2, 4, 5 work right now</strong> — just double-click the HTML files. All sample data is built in. No internet or server needed to test locally.</div>
+</div>
+
+</div>
+<script>
+function copyCode(btn){
+  const block=btn.closest('.code').querySelector('.code-body');
+  const text=block.innerText.replace(/&#x2190;.*$/gm,'').replace(/\n{3,}/g,'\n\n').trim();
+  navigator.clipboard.writeText(text).then(()=>{btn.textContent='&#10003; copied';setTimeout(()=>btn.textContent='copy',1800);});
+}
+</script>
+</body>
+</html>
