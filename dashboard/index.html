@@ -1,1404 +1,1697 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PrintFlow Pro — Professional Printing & Dispatch Solutions</title>
-  <meta name="description" content="End-to-end variable data printing, dispatch management, and bulk mailing solutions. Trusted by enterprises across India." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>PrintFlow Pro — Staff Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+/* ═══════════════════════════════════════════
+   DESIGN: Clean Industrial Control Room
+   Light warm-white base · Deep ink navy accents · Amber status system
+═══════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:       #F2EFE9;
+  --bg2:      #EAE6DF;
+  --bg3:      #E0DCD4;
+  --surface:  #FAFAF7;
+  --ink:      #0F1C2E;
+  --ink2:     #2A3D52;
+  --ink3:     #4A5E72;
+  --muted:    #8A9BB0;
+  --border:   #D4CFC7;
+  --border2:  #C4BFB7;
+  --amber:    #D4830A;
+  --amber-lt: #F5A623;
+  --amber-bg: #FEF3DC;
+  --green:    #1A8A5A;
+  --green-lt: #22C37A;
+  --green-bg: #E6F7F0;
+  --red:      #C0392B;
+  --red-bg:   #FDECEA;
+  --blue:     #1A5FAA;
+  --blue-bg:  #E6EEF9;
+  --violet:   #7B3FA0;
+  --violet-bg:#F2E8FA;
+  --font:     'Sora', system-ui, sans-serif;
+  --mono:     'JetBrains Mono', monospace;
+  --sidebar-w:240px;
+  --header-h: 56px;
+  --ease:     cubic-bezier(0.16,1,0.3,1);
+  --shadow:   0 1px 3px rgba(15,28,46,0.08), 0 4px 16px rgba(15,28,46,0.06);
+  --shadow-lg:0 8px 32px rgba(15,28,46,0.12), 0 2px 8px rgba(15,28,46,0.06);
+}
 
-  <style>
-    /* ══════════════════════════════════════════════
-       DESIGN SYSTEM — Industrial Letterpress Aesthetic
-       Dark navy base · Warm gold accents · Crisp type
-    ══════════════════════════════════════════════ */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);display:flex;flex-direction:column;min-height:100vh;overflow-x:hidden}
 
-    :root {
-      --navy:    #0D1B2A;
-      --navy-2:  #152336;
-      --navy-3:  #1E3251;
-      --gold:    #C9A84C;
-      --gold-lt: #E8C97A;
-      --gold-dk: #9A7A2E;
-      --cream:   #F5F0E8;
-      --cream-2: #EDE7D9;
-      --white:   #FAFAF8;
-      --slate:   #8899AA;
-      --green:   #2ECC8A;
-      --red:     #E05555;
-      --font-display: 'Playfair Display', Georgia, serif;
-      --font-body:    'DM Sans', system-ui, sans-serif;
-      --font-mono:    'IBM Plex Mono', monospace;
-      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-    }
+/* ── Login Screen ── */
+#login-screen{
+  position:fixed;inset:0;z-index:1000;
+  background:var(--ink);
+  display:flex;align-items:center;justify-content:center;
+  padding:2rem;
+}
+.login-card{
+  background:var(--surface);
+  border-radius:16px;
+  padding:2.8rem 2.4rem;
+  width:100%;max-width:380px;
+  box-shadow:0 32px 80px rgba(0,0,0,0.5);
+}
+.login-logo{
+  display:flex;align-items:center;gap:12px;margin-bottom:2rem;
+}
+.login-logo-mark{
+  width:42px;height:42px;background:var(--ink);border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:1rem;font-weight:600;color:var(--amber-lt);
+}
+.login-logo-text{font-weight:700;font-size:1.1rem;color:var(--ink)}
+.login-logo-text span{color:var(--amber)}
+.login-title{font-size:1.4rem;font-weight:700;color:var(--ink);margin-bottom:0.3rem}
+.login-sub{font-size:0.82rem;color:var(--muted);margin-bottom:2rem}
+.login-field{display:flex;flex-direction:column;gap:5px;margin-bottom:1rem}
+.login-field label{font-size:0.72rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink3)}
+.login-field input{
+  border:1.5px solid var(--border);border-radius:8px;
+  padding:10px 14px;font-family:var(--font);font-size:0.9rem;color:var(--ink);
+  background:var(--bg);outline:none;transition:all 0.2s;
+}
+.login-field input:focus{border-color:var(--amber);background:var(--surface);box-shadow:0 0 0 3px rgba(212,131,10,0.12)}
+.login-submit{
+  width:100%;background:var(--ink);color:var(--amber-lt);
+  border:none;border-radius:8px;padding:12px;
+  font-family:var(--font);font-size:0.95rem;font-weight:600;
+  cursor:pointer;transition:all 0.2s;margin-top:0.5rem;
+  letter-spacing:0.02em;
+}
+.login-submit:hover{background:var(--ink2);transform:translateY(-1px);box-shadow:var(--shadow-lg)}
+.login-hint{font-size:0.75rem;color:var(--muted);text-align:center;margin-top:1.2rem;font-family:var(--mono)}
+.login-roles{display:flex;gap:0.5rem;margin-top:1rem;flex-wrap:wrap}
+.role-chip{
+  padding:4px 12px;border-radius:100px;font-size:0.72rem;font-weight:600;
+  cursor:pointer;border:1.5px solid var(--border);color:var(--ink3);background:var(--bg);
+  transition:all 0.2s;letter-spacing:0.03em;
+}
+.role-chip:hover,.role-chip.active{background:var(--ink);color:var(--amber-lt);border-color:var(--ink)}
 
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: var(--font-body);
-      background: var(--navy);
-      color: var(--cream);
-      overflow-x: hidden;
-      line-height: 1.6;
-    }
+/* ── App Shell ── */
+#app{display:none;flex-direction:row;min-height:100vh}
+#app.visible{display:flex}
 
-    /* ── Scrollbar ── */
-    ::-webkit-scrollbar { width: 5px; }
-    ::-webkit-scrollbar-track { background: var(--navy); }
-    ::-webkit-scrollbar-thumb { background: var(--gold-dk); border-radius: 3px; }
+/* ── Sidebar ── */
+.sidebar{
+  width:var(--sidebar-w);flex-shrink:0;
+  background:var(--ink);
+  display:flex;flex-direction:column;
+  position:fixed;top:0;left:0;bottom:0;z-index:50;
+  overflow-y:auto;
+  transform:translateX(-100%);
+  transition:transform 0.3s var(--ease);
+}
+.sidebar.open{transform:translateX(0)}
+.sidebar-logo{
+  padding:1.2rem 1.2rem 0.8rem;
+  display:flex;align-items:center;gap:10px;
+  border-bottom:1px solid rgba(255,255,255,0.07);
+  margin-bottom:0.5rem;
+}
+.sidebar-logo-mark{
+  width:34px;height:34px;background:var(--amber);border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:0.88rem;font-weight:600;color:var(--ink);
+}
+.sidebar-logo-text{font-size:0.9rem;font-weight:700;color:#fff}
+.sidebar-logo-text span{color:var(--amber-lt)}
+.sidebar-section{padding:0.6rem 0.8rem 0;margin-top:0.4rem}
+.sidebar-section-label{
+  font-size:0.62rem;font-weight:600;letter-spacing:0.14em;
+  text-transform:uppercase;color:rgba(255,255,255,0.28);
+  padding:0 0.6rem;margin-bottom:0.35rem;
+}
+.nav-item{
+  display:flex;align-items:center;gap:10px;
+  padding:8px 12px;border-radius:8px;
+  font-size:0.85rem;font-weight:500;color:rgba(255,255,255,0.55);
+  cursor:pointer;transition:all 0.18s;margin-bottom:2px;
+  text-decoration:none;position:relative;
+}
+.nav-item:hover{background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.85)}
+.nav-item.active{background:rgba(212,131,10,0.18);color:var(--amber-lt)}
+.nav-item.active::before{
+  content:'';position:absolute;left:0;top:20%;bottom:20%;
+  width:2px;background:var(--amber-lt);border-radius:2px;
+}
+.nav-icon{font-size:1rem;width:20px;text-align:center;flex-shrink:0}
+.nav-badge{
+  margin-left:auto;background:var(--red);color:#fff;
+  font-size:0.62rem;font-weight:700;
+  padding:1px 6px;border-radius:100px;font-family:var(--mono);
+}
+.nav-badge.amber{background:var(--amber)}
+.sidebar-user{
+  margin-top:auto;padding:1rem 1.2rem;
+  border-top:1px solid rgba(255,255,255,0.07);
+  display:flex;align-items:center;gap:10px;
+}
+.user-avatar{
+  width:32px;height:32px;border-radius:50%;
+  background:linear-gradient(135deg,var(--amber-dk,#9A6A10),var(--amber));
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:0.8rem;color:var(--ink);flex-shrink:0;
+}
+.user-name{font-size:0.82rem;font-weight:600;color:#fff;line-height:1.2}
+.user-role{font-size:0.68rem;color:rgba(255,255,255,0.35);letter-spacing:0.04em}
+.logout-btn{margin-left:auto;font-size:0.75rem;color:rgba(255,255,255,0.3);cursor:pointer;transition:color 0.2s;background:none;border:none;font-family:var(--font);padding:4px;}
+.logout-btn:hover{color:var(--red)}
 
-    /* ── Noise texture overlay ── */
-    body::before {
-      content: '';
-      position: fixed; inset: 0; z-index: 0; pointer-events: none;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-      opacity: 0.35;
-    }
+/* ── Main Area ── */
+.main-area{flex:1;margin-left:0;display:flex;flex-direction:column;min-height:100vh;transition:margin 0.3s var(--ease)}
+.main-area.sidebar-open{margin-left:var(--sidebar-w)}
 
-    /* ── Typography ── */
-    h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.15; }
-    .mono { font-family: var(--font-mono); }
-    .gold { color: var(--gold); }
-    .cream { color: var(--cream); }
-    .slate { color: var(--slate); }
+/* ── Topbar ── */
+.topbar{
+  height:var(--header-h);background:var(--surface);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;padding:0 1.5rem;gap:1rem;
+  position:sticky;top:0;z-index:40;
+  box-shadow:0 1px 0 var(--border);
+}
+.topbar-hamburger{
+  display:flex;flex-direction:column;gap:4.5px;cursor:pointer;padding:4px;
+  background:none;border:none;
+}
+.topbar-hamburger span{display:block;width:20px;height:2px;background:var(--ink);border-radius:2px;transition:all 0.3s}
+.topbar-title{font-size:1rem;font-weight:700;color:var(--ink);flex:1}
+.topbar-title span{color:var(--muted);font-weight:400;font-size:0.85rem;margin-left:0.5rem}
+.topbar-actions{display:flex;align-items:center;gap:0.8rem}
+.topbar-date{font-family:var(--mono);font-size:0.72rem;color:var(--muted);display:none}
+.topbar-notify{
+  position:relative;background:var(--bg);border:1px solid var(--border);
+  border-radius:8px;padding:7px 10px;cursor:pointer;font-size:1rem;
+  transition:all 0.2s;
+}
+.topbar-notify:hover{background:var(--bg2);border-color:var(--border2)}
+.notify-dot{
+  position:absolute;top:5px;right:5px;width:7px;height:7px;
+  background:var(--red);border-radius:50%;border:2px solid var(--surface);
+}
+.btn{
+  display:inline-flex;align-items:center;gap:7px;
+  border:none;border-radius:8px;cursor:pointer;
+  font-family:var(--font);font-weight:600;font-size:0.82rem;
+  transition:all 0.2s;letter-spacing:0.01em;
+}
+.btn-primary{background:var(--ink);color:var(--amber-lt);padding:8px 16px}
+.btn-primary:hover{background:var(--ink2);transform:translateY(-1px);box-shadow:var(--shadow)}
+.btn-secondary{background:var(--bg2);color:var(--ink);padding:8px 14px;border:1px solid var(--border)}
+.btn-secondary:hover{background:var(--bg3);border-color:var(--border2)}
+.btn-danger{background:var(--red-bg);color:var(--red);padding:8px 14px;border:1px solid rgba(192,57,43,0.2)}
+.btn-danger:hover{background:rgba(192,57,43,0.15)}
+.btn-sm{padding:5px 12px;font-size:0.76rem}
 
-    /* ══════════════════════════════════════════════
-       NAVIGATION
-    ══════════════════════════════════════════════ */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 5vw;
-      height: 70px;
-      background: rgba(13, 27, 42, 0.92);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(201, 168, 76, 0.18);
-      transition: all 0.4s;
-    }
-    nav.scrolled {
-      height: 58px;
-      background: rgba(13, 27, 42, 0.98);
-      border-bottom-color: rgba(201, 168, 76, 0.35);
-    }
-    .nav-logo {
-      display: flex; align-items: center; gap: 12px;
-      text-decoration: none;
-    }
-    .nav-logo-mark {
-      width: 38px; height: 38px;
-      background: var(--gold);
-      display: flex; align-items: center; justify-content: center;
-      font-family: var(--font-display);
-      font-size: 20px; font-weight: 900;
-      color: var(--navy);
-      border-radius: 4px;
-      letter-spacing: -1px;
-    }
-    .nav-logo-text { font-size: 1rem; font-weight: 600; color: var(--cream); letter-spacing: 0.01em; }
-    .nav-logo-text span { color: var(--gold); }
-    .nav-links { display: flex; gap: 2rem; align-items: center; list-style: none; }
-    .nav-links a {
-      color: var(--slate); text-decoration: none; font-size: 0.875rem;
-      font-weight: 500; letter-spacing: 0.02em;
-      transition: color 0.2s;
-      position: relative;
-    }
-    .nav-links a::after {
-      content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
-      height: 1px; background: var(--gold);
-      transform: scaleX(0); transition: transform 0.25s var(--ease-out);
-    }
-    .nav-links a:hover { color: var(--cream); }
-    .nav-links a:hover::after { transform: scaleX(1); }
-    .nav-cta {
-      background: var(--gold); color: var(--navy) !important;
-      padding: 8px 20px; border-radius: 4px;
-      font-weight: 600 !important; letter-spacing: 0.04em;
-      transition: background 0.2s, transform 0.15s !important;
-    }
-    .nav-cta::after { display: none !important; }
-    .nav-cta:hover { background: var(--gold-lt) !important; transform: translateY(-1px); }
-    .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
-    .nav-hamburger span { display: block; width: 24px; height: 2px; background: var(--cream); border-radius: 2px; transition: all 0.3s; }
+/* ── Page Content ── */
+.page-content{padding:1.5rem;flex:1;max-width:1400px}
+.page{display:none}
+.page.active{display:block;animation:fadeIn 0.25s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
-    /* ══════════════════════════════════════════════
-       HERO
-    ══════════════════════════════════════════════ */
-    .hero {
-      min-height: 100vh;
-      display: grid; place-items: center;
-      padding: 120px 5vw 80px;
-      position: relative;
-      overflow: hidden;
-    }
-    /* Geometric grid backdrop */
-    .hero-grid {
-      position: absolute; inset: 0; z-index: 0;
-      background-image:
-        linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
-      background-size: 60px 60px;
-      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
-    }
-    .hero-glow {
-      position: absolute; width: 600px; height: 600px;
-      background: radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%);
-      border-radius: 50%; top: 10%; right: -100px; z-index: 0;
-      animation: pulse-glow 8s ease-in-out infinite;
-    }
-    @keyframes pulse-glow {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.15); opacity: 0.7; }
-    }
-    .hero-inner {
-      position: relative; z-index: 1;
-      max-width: 900px; text-align: center;
-    }
-    .hero-tag {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(201,168,76,0.1);
-      border: 1px solid rgba(201,168,76,0.3);
-      border-radius: 100px;
-      padding: 6px 18px;
-      font-family: var(--font-mono);
-      font-size: 0.72rem; letter-spacing: 0.12em;
-      color: var(--gold); text-transform: uppercase;
-      margin-bottom: 2rem;
-      opacity: 0; animation: fadeUp 0.8s 0.2s var(--ease-out) forwards;
-    }
-    .hero-tag::before {
-      content: ''; width: 6px; height: 6px;
-      background: var(--green); border-radius: 50%;
-      animation: blink 2s infinite;
-    }
-    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
-    .hero h1 {
-      font-size: clamp(2.8rem, 7vw, 5.5rem);
-      font-weight: 900;
-      color: var(--cream);
-      line-height: 1.08;
-      letter-spacing: -0.02em;
-      margin-bottom: 1.5rem;
-      opacity: 0; animation: fadeUp 0.9s 0.35s var(--ease-out) forwards;
-    }
-    .hero h1 em {
-      font-style: normal;
-      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-lt) 50%, var(--gold) 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .hero-sub {
-      font-size: clamp(1rem, 2vw, 1.2rem);
-      color: var(--slate); max-width: 600px; margin: 0 auto 2.5rem;
-      font-weight: 300; line-height: 1.7;
-      opacity: 0; animation: fadeUp 0.9s 0.5s var(--ease-out) forwards;
-    }
-    .hero-actions {
-      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
-      opacity: 0; animation: fadeUp 0.9s 0.65s var(--ease-out) forwards;
-    }
-    .btn-primary {
-      display: inline-flex; align-items: center; gap: 10px;
-      background: var(--gold); color: var(--navy);
-      padding: 14px 32px; border-radius: 6px;
-      font-weight: 600; font-size: 0.95rem;
-      text-decoration: none; letter-spacing: 0.03em;
-      transition: all 0.25s var(--ease-out);
-      border: 2px solid var(--gold);
-      position: relative; overflow: hidden;
-    }
-    .btn-primary::before {
-      content: ''; position: absolute; inset: 0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
-      opacity: 0; transition: opacity 0.25s;
-    }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(201,168,76,0.4); }
-    .btn-primary:hover::before { opacity: 1; }
-    .btn-outline {
-      display: inline-flex; align-items: center; gap: 10px;
-      background: transparent; color: var(--cream);
-      padding: 14px 32px; border-radius: 6px;
-      font-weight: 500; font-size: 0.95rem;
-      text-decoration: none; letter-spacing: 0.03em;
-      border: 1.5px solid rgba(255,255,255,0.2);
-      transition: all 0.25s var(--ease-out);
-    }
-    .btn-outline:hover { border-color: rgba(201,168,76,0.6); color: var(--gold); transform: translateY(-2px); }
+/* ── KPI Cards ── */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem;margin-bottom:1.5rem}
+.kpi-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:12px;
+  padding:1.2rem;position:relative;overflow:hidden;
+  transition:all 0.2s;cursor:default;
+}
+.kpi-card:hover{box-shadow:var(--shadow);transform:translateY(-2px)}
+.kpi-card::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:3px;
+  background:var(--kpi-color,var(--amber));
+}
+.kpi-label{font-size:0.72rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:0.6rem}
+.kpi-value{font-size:2rem;font-weight:700;color:var(--ink);line-height:1;font-family:var(--mono);margin-bottom:0.4rem}
+.kpi-delta{font-size:0.75rem;color:var(--green);display:flex;align-items:center;gap:4px}
+.kpi-delta.down{color:var(--red)}
+.kpi-icon{position:absolute;top:1rem;right:1rem;font-size:1.4rem;opacity:0.2}
 
-    .hero-stats {
-      display: flex; justify-content: center; gap: 0;
-      margin-top: 4rem; flex-wrap: wrap;
-      opacity: 0; animation: fadeUp 0.9s 0.85s var(--ease-out) forwards;
-    }
-    .hero-stat {
-      padding: 1.5rem 2.5rem;
-      border-left: 1px solid rgba(201,168,76,0.15);
-      text-align: center;
-    }
-    .hero-stat:first-child { border-left: none; }
-    .hero-stat-num {
-      font-family: var(--font-display);
-      font-size: 2.4rem; font-weight: 900;
-      color: var(--gold); line-height: 1;
-      margin-bottom: 0.4rem;
-    }
-    .hero-stat-label { font-size: 0.78rem; color: var(--slate); letter-spacing: 0.08em; text-transform: uppercase; }
+/* ── Section Cards ── */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:1.5rem}
+.card-header{
+  padding:1rem 1.4rem;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+}
+.card-title{font-size:0.95rem;font-weight:700;color:var(--ink)}
+.card-body{padding:1.2rem 1.4rem}
+.card-body.no-pad{padding:0}
 
-    /* Scroll indicator */
-    .scroll-indicator {
-      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
-      display: flex; flex-direction: column; align-items: center; gap: 8px;
-      opacity: 0; animation: fadeUp 1s 1.2s var(--ease-out) forwards;
-    }
-    .scroll-indicator span { font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.15em; color: var(--slate); text-transform: uppercase; }
-    .scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--gold), transparent); animation: scroll-line 2s ease-in-out infinite; }
-    @keyframes scroll-line { 0%,100%{transform:scaleY(1);opacity:1} 50%{transform:scaleY(0.4);opacity:0.4} }
+/* ── Status Pills ── */
+.pill{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:0.68rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;
+  padding:3px 10px;border-radius:100px;white-space:nowrap;font-family:var(--mono);
+}
+.pill::before{content:'';width:5px;height:5px;border-radius:50%;background:currentColor}
+.pill.new{background:var(--blue-bg);color:var(--blue)}
+.pill.processing{background:var(--amber-bg);color:var(--amber)}
+.pill.approval{background:var(--violet-bg);color:var(--violet)}
+.pill.printing{background:rgba(26,138,90,0.12);color:var(--green)}
+.pill.dispatch{background:rgba(26,95,170,0.12);color:var(--blue)}
+.pill.complete{background:var(--green-bg);color:var(--green)}
+.pill.error{background:var(--red-bg);color:var(--red)}
 
-    /* ══════════════════════════════════════════════
-       SECTIONS COMMON
-    ══════════════════════════════════════════════ */
-    section { position: relative; z-index: 1; }
-    .section-pad { padding: 100px 5vw; }
-    .section-tag {
-      font-family: var(--font-mono);
-      font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase;
-      color: var(--gold); margin-bottom: 1rem;
-      display: flex; align-items: center; gap: 12px;
-    }
-    .section-tag::before {
-      content: ''; display: block; width: 24px; height: 1px; background: var(--gold);
-    }
-    .section-title {
-      font-size: clamp(2rem, 4vw, 3.2rem);
-      font-weight: 900; color: var(--cream);
-      line-height: 1.12; margin-bottom: 1.2rem;
-      letter-spacing: -0.02em;
-    }
-    .section-title em { font-style: italic; color: var(--gold); }
-    .section-body { color: var(--slate); font-size: 1.05rem; font-weight: 300; max-width: 560px; line-height: 1.75; }
-    .divider {
-      width: 100%; height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(201,168,76,0.25), transparent);
-    }
+/* ── Jobs Table ── */
+.jobs-table{width:100%;border-collapse:collapse;font-size:0.83rem}
+.jobs-table th{
+  text-align:left;padding:10px 14px;
+  background:var(--bg);border-bottom:1px solid var(--border);
+  font-size:0.7rem;font-weight:700;letter-spacing:0.08em;
+  text-transform:uppercase;color:var(--muted);white-space:nowrap;
+}
+.jobs-table td{padding:11px 14px;border-bottom:1px solid var(--border);color:var(--ink2);vertical-align:middle}
+.jobs-table tr:last-child td{border-bottom:none}
+.jobs-table tr:hover td{background:var(--bg)}
+.job-number{font-family:var(--mono);font-weight:600;color:var(--ink);font-size:0.8rem}
+.job-client{font-weight:600;color:var(--ink)}
+.job-type{font-size:0.75rem;color:var(--muted)}
+.action-btn{
+  background:none;border:1px solid var(--border);border-radius:6px;
+  padding:4px 10px;font-size:0.72rem;font-weight:600;color:var(--ink3);
+  cursor:pointer;transition:all 0.18s;font-family:var(--font);
+}
+.action-btn:hover{background:var(--bg2);border-color:var(--border2);color:var(--ink)}
+.action-btn.primary{background:var(--ink);color:var(--amber-lt);border-color:var(--ink)}
+.action-btn.primary:hover{background:var(--ink2)}
 
-    /* ── Animations ── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(28px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .reveal {
-      opacity: 0; transform: translateY(32px);
-      transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
-    }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-    .reveal-delay-1 { transition-delay: 0.1s; }
-    .reveal-delay-2 { transition-delay: 0.2s; }
-    .reveal-delay-3 { transition-delay: 0.3s; }
-    .reveal-delay-4 { transition-delay: 0.4s; }
-    .reveal-delay-5 { transition-delay: 0.5s; }
+/* ── Search / Filter bar ── */
+.filter-bar{display:flex;gap:0.7rem;flex-wrap:wrap;align-items:center}
+.search-input{
+  flex:1;min-width:180px;
+  border:1.5px solid var(--border);border-radius:8px;
+  padding:8px 14px;font-family:var(--font);font-size:0.85rem;color:var(--ink);
+  background:var(--bg);outline:none;transition:all 0.2s;
+}
+.search-input:focus{border-color:var(--amber);background:var(--surface);box-shadow:0 0 0 3px rgba(212,131,10,0.1)}
+.filter-select{
+  border:1.5px solid var(--border);border-radius:8px;
+  padding:8px 12px;font-family:var(--font);font-size:0.82rem;color:var(--ink);
+  background:var(--bg);outline:none;cursor:pointer;transition:all 0.2s;
+}
+.filter-select:focus{border-color:var(--amber)}
 
-    /* ══════════════════════════════════════════════
-       SERVICES
-    ══════════════════════════════════════════════ */
-    .services-bg { background: var(--navy-2); }
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-      gap: 1.5px;
-      background: rgba(201,168,76,0.1);
-      border: 1px solid rgba(201,168,76,0.1);
-      border-radius: 12px;
-      overflow: hidden;
-      margin-top: 4rem;
-    }
-    .service-card {
-      background: var(--navy-2);
-      padding: 2rem 2rem 2.5rem;
-      position: relative;
-      transition: background 0.3s;
-      cursor: default;
-    }
-    .service-card::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--gold), transparent);
-      transform: scaleX(0); transform-origin: left;
-      transition: transform 0.4s var(--ease-out);
-    }
-    .service-card:hover { background: var(--navy-3); }
-    .service-card:hover::before { transform: scaleX(1); }
-    .service-icon {
-      width: 48px; height: 48px;
-      background: rgba(201,168,76,0.1);
-      border: 1px solid rgba(201,168,76,0.2);
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.4rem; margin-bottom: 1.4rem;
-      transition: all 0.3s;
-    }
-    .service-card:hover .service-icon {
-      background: rgba(201,168,76,0.2);
-      border-color: rgba(201,168,76,0.5);
-      transform: scale(1.08);
-    }
-    .service-card h3 {
-      font-size: 1.15rem; font-weight: 700;
-      color: var(--cream); margin-bottom: 0.6rem;
-    }
-    .service-card p { font-size: 0.88rem; color: var(--slate); line-height: 1.7; }
-    .service-tag {
-      display: inline-block; margin-top: 1.2rem;
-      font-family: var(--font-mono); font-size: 0.68rem;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--gold); background: rgba(201,168,76,0.08);
-      border: 1px solid rgba(201,168,76,0.2);
-      padding: 3px 10px; border-radius: 100px;
-    }
+/* ── Forms ── */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.form-grid.three{grid-template-columns:1fr 1fr 1fr}
+.form-grid.full{grid-template-columns:1fr}
+.form-group{display:flex;flex-direction:column;gap:5px}
+.form-group.span2{grid-column:span 2}
+.form-label{font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink3)}
+.form-label .req{color:var(--red)}
+.form-control{
+  border:1.5px solid var(--border);border-radius:8px;
+  padding:9px 13px;font-family:var(--font);font-size:0.88rem;color:var(--ink);
+  background:var(--surface);outline:none;transition:all 0.2s;width:100%;
+}
+.form-control:focus{border-color:var(--amber);box-shadow:0 0 0 3px rgba(212,131,10,0.1)}
+.form-control select{cursor:pointer}
+textarea.form-control{resize:vertical;min-height:80px}
+.checkbox-group{display:flex;flex-wrap:wrap;gap:0.8rem;margin-top:4px}
+.check-opt{display:flex;align-items:center;gap:8px;cursor:pointer;font-size:0.85rem;color:var(--ink2)}
+.check-opt input[type=checkbox]{width:16px;height:16px;accent-color:var(--amber);cursor:pointer}
+.radio-group{display:flex;flex-wrap:wrap;gap:0.8rem;margin-top:4px}
+.radio-opt{
+  display:flex;align-items:center;gap:8px;cursor:pointer;
+  border:1.5px solid var(--border);border-radius:8px;padding:8px 14px;
+  font-size:0.83rem;color:var(--ink2);transition:all 0.2s;
+}
+.radio-opt:has(input:checked){border-color:var(--amber);background:var(--amber-bg);color:var(--amber)}
+.radio-opt input[type=radio]{accent-color:var(--amber);cursor:pointer}
+.form-hint{font-size:0.72rem;color:var(--muted);margin-top:3px}
+.form-actions{display:flex;gap:0.8rem;padding-top:0.5rem;align-items:center;flex-wrap:wrap}
+.form-divider{height:1px;background:var(--border);margin:1.2rem 0}
+.section-sub{font-size:0.8rem;font-weight:700;color:var(--ink);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:0.8rem;padding-bottom:0.5rem;border-bottom:1px solid var(--border)}
 
-    /* ══════════════════════════════════════════════
-       WORKFLOW PROCESS
-    ══════════════════════════════════════════════ */
-    .workflow-section { background: var(--navy); }
-    .workflow-layout {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 80px; align-items: start; margin-top: 4rem;
-    }
-    .workflow-steps { display: flex; flex-direction: column; gap: 0; }
-    .workflow-step {
-      display: flex; gap: 1.5rem;
-      padding: 1.5rem 0;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-      cursor: default;
-      transition: all 0.3s;
-    }
-    .workflow-step:last-child { border-bottom: none; }
-    .step-num {
-      font-family: var(--font-mono);
-      font-size: 0.75rem; font-weight: 500;
-      color: var(--gold-dk);
-      min-width: 32px; padding-top: 3px;
-      letter-spacing: 0.05em;
-    }
-    .step-content h4 { font-size: 1rem; font-weight: 600; color: var(--cream); margin-bottom: 0.35rem; }
-    .step-content p { font-size: 0.85rem; color: var(--slate); line-height: 1.65; }
-    .workflow-step:hover .step-num { color: var(--gold); }
-    .workflow-step:hover .step-content h4 { color: var(--gold-lt); }
+/* ── Docket Card ── */
+.docket-preview{
+  background:var(--surface);border:2px solid var(--ink);border-radius:12px;
+  padding:1.5rem;max-width:560px;
+}
+.docket-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1rem;padding-bottom:1rem;border-bottom:2px solid var(--ink)}
+.docket-logo-text{font-family:var(--mono);font-weight:700;font-size:0.9rem;color:var(--ink)}
+.docket-num{font-family:var(--mono);font-size:0.75rem;color:var(--amber);font-weight:600;background:var(--amber-bg);padding:4px 10px;border-radius:6px;border:1px solid var(--amber)}
+.docket-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin-bottom:1rem}
+.docket-field label{font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted)}
+.docket-field .val{font-size:0.85rem;font-weight:600;color:var(--ink);margin-top:2px;font-family:var(--mono)}
+.docket-qr{
+  background:var(--bg);border:1px solid var(--border);border-radius:8px;
+  width:80px;height:80px;display:flex;align-items:center;justify-content:center;
+  font-size:0.6rem;color:var(--muted);text-align:center;font-family:var(--mono);
+}
+.docket-barcode{
+  font-family:var(--mono);font-size:2.2rem;letter-spacing:0.15em;
+  color:var(--ink);text-align:center;padding:0.5rem 0;
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  margin:0.8rem 0;line-height:1;
+}
+.docket-barcode-label{font-size:0.62rem;font-family:var(--mono);color:var(--muted);text-align:center;margin-top:4px;letter-spacing:0.12em}
+.docket-footer{font-size:0.7rem;color:var(--muted);text-align:center;font-family:var(--mono)}
 
-    /* Terminal-style workflow viz */
-    .workflow-terminal {
-      background: #0A1520;
-      border: 1px solid rgba(201,168,76,0.2);
-      border-radius: 12px; overflow: hidden;
-      box-shadow: 0 24px 80px rgba(0,0,0,0.5);
-    }
-    .terminal-bar {
-      background: #111C2B;
-      padding: 12px 16px;
-      display: flex; align-items: center; gap: 10px;
-      border-bottom: 1px solid rgba(201,168,76,0.1);
-    }
-    .terminal-dot { width: 11px; height: 11px; border-radius: 50%; }
-    .terminal-dot.r { background: #FF5F56; }
-    .terminal-dot.y { background: #FFBD2E; }
-    .terminal-dot.g { background: #27C93F; }
-    .terminal-title { font-family: var(--font-mono); font-size: 0.7rem; color: var(--slate); margin-left: 6px; letter-spacing: 0.05em; }
-    .terminal-body { padding: 1.5rem; font-family: var(--font-mono); font-size: 0.78rem; line-height: 2; }
-    .t-dim { color: #3D5472; }
-    .t-cmd { color: var(--gold); }
-    .t-ok  { color: var(--green); }
-    .t-info{ color: #5EAFD1; }
-    .t-warn{ color: #E8C97A; }
-    .t-err { color: var(--red); }
-    .t-cursor {
-      display: inline-block; width: 8px; height: 1em;
-      background: var(--gold); vertical-align: middle;
-      animation: cursor-blink 1.2s step-end infinite;
-    }
-    @keyframes cursor-blink { 0%,100%{opacity:1} 50%{opacity:0} }
+/* ── Timeline ── */
+.timeline{display:flex;flex-direction:column;gap:0;position:relative}
+.timeline::before{content:'';position:absolute;left:14px;top:8px;bottom:8px;width:2px;background:var(--border)}
+.timeline-item{display:flex;gap:1.2rem;padding:0.8rem 0;position:relative}
+.timeline-dot{
+  width:28px;height:28px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:0.8rem;
+  position:relative;z-index:1;border:2px solid var(--border);background:var(--surface);
+}
+.timeline-dot.done{background:var(--green-bg);border-color:var(--green);color:var(--green)}
+.timeline-dot.active{background:var(--amber-bg);border-color:var(--amber);color:var(--amber);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(212,131,10,0.3)}50%{box-shadow:0 0 0 6px rgba(212,131,10,0)}}
+.timeline-dot.pending{background:var(--bg);color:var(--muted)}
+.timeline-content{flex:1;padding-top:3px}
+.timeline-label{font-size:0.85rem;font-weight:600;color:var(--ink);margin-bottom:2px}
+.timeline-meta{font-size:0.75rem;color:var(--muted);font-family:var(--mono)}
 
-    /* ══════════════════════════════════════════════
-       DISPATCH MODES
-    ══════════════════════════════════════════════ */
-    .dispatch-bg { background: var(--navy-2); }
-    .dispatch-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 1rem; margin-top: 3.5rem;
-    }
-    .dispatch-card {
-      background: var(--navy);
-      border: 1px solid rgba(201,168,76,0.1);
-      border-radius: 10px;
-      padding: 1.6rem 1.5rem;
-      position: relative; overflow: hidden;
-      transition: all 0.3s var(--ease-out);
-    }
-    .dispatch-card::after {
-      content: ''; position: absolute;
-      bottom: 0; left: 0; right: 0; height: 3px;
-      background: linear-gradient(90deg, var(--gold), transparent);
-      transform: scaleX(0); transform-origin: left;
-      transition: transform 0.4s var(--ease-out);
-    }
-    .dispatch-card:hover { border-color: rgba(201,168,76,0.35); transform: translateY(-4px); box-shadow: 0 16px 48px rgba(0,0,0,0.4); }
-    .dispatch-card:hover::after { transform: scaleX(1); }
-    .dispatch-icon { font-size: 2rem; margin-bottom: 1rem; }
-    .dispatch-card h3 { font-size: 1rem; font-weight: 700; color: var(--cream); margin-bottom: 0.5rem; }
-    .dispatch-card p { font-size: 0.83rem; color: var(--slate); line-height: 1.65; }
-    .dispatch-badge {
-      display: inline-flex; align-items: center; gap: 6px;
-      margin-top: 1rem;
-      font-family: var(--font-mono); font-size: 0.68rem;
-      color: var(--green); letter-spacing: 0.08em;
-    }
-    .dispatch-badge::before { content:''; width:5px;height:5px;background:var(--green);border-radius:50%; }
+/* ── Dashboard grid ── */
+.dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.span-full{grid-column:1/-1}
 
-    /* ══════════════════════════════════════════════
-       FEATURES / WHY CHOOSE US
-    ══════════════════════════════════════════════ */
-    .features-section { background: var(--navy); }
-    .features-layout {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 80px; align-items: center; margin-top: 4rem;
-    }
-    .feature-list { display: flex; flex-direction: column; gap: 1.5rem; }
-    .feature-item {
-      display: flex; gap: 1rem;
-      padding: 1.2rem 1.4rem;
-      border-radius: 10px; border: 1px solid transparent;
-      transition: all 0.3s;
-    }
-    .feature-item:hover {
-      background: rgba(201,168,76,0.05);
-      border-color: rgba(201,168,76,0.15);
-    }
-    .feature-icon-wrap {
-      width: 40px; height: 40px; flex-shrink: 0;
-      background: rgba(201,168,76,0.12);
-      border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.1rem;
-    }
-    .feature-text h4 { font-size: 0.95rem; font-weight: 600; color: var(--cream); margin-bottom: 0.3rem; }
-    .feature-text p { font-size: 0.83rem; color: var(--slate); line-height: 1.6; }
+/* ── Activity feed ── */
+.activity-list{display:flex;flex-direction:column;gap:0}
+.activity-item{
+  display:flex;gap:1rem;padding:0.9rem 0;
+  border-bottom:1px solid var(--border);align-items:flex-start;
+}
+.activity-item:last-child{border-bottom:none}
+.activity-icon{
+  width:32px;height:32px;border-radius:8px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:0.9rem;
+}
+.activity-text{flex:1;font-size:0.82rem;color:var(--ink2);line-height:1.5}
+.activity-text strong{color:var(--ink);font-weight:600}
+.activity-time{font-family:var(--mono);font-size:0.68rem;color:var(--muted);white-space:nowrap}
 
-    /* Metrics card */
-    .metrics-panel {
-      background: var(--navy-2);
-      border: 1px solid rgba(201,168,76,0.15);
-      border-radius: 16px; padding: 2.5rem;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-    }
-    .metrics-title { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 2rem; }
-    .metric-row {
-      display: flex; align-items: center; gap: 1rem;
-      padding: 1rem 0; border-bottom: 1px solid rgba(255,255,255,0.04);
-    }
-    .metric-row:last-child { border-bottom: none; }
-    .metric-bar-wrap { flex: 1; background: rgba(255,255,255,0.05); border-radius: 100px; height: 5px; overflow: hidden; }
-    .metric-bar { height: 100%; border-radius: 100px; background: linear-gradient(90deg, var(--gold), var(--gold-lt)); }
-    .metric-label { font-size: 0.82rem; color: var(--slate); min-width: 130px; }
-    .metric-value { font-family: var(--font-mono); font-size: 0.8rem; color: var(--gold); min-width: 40px; text-align: right; }
+/* ── Job Detail Modal ── */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(15,28,46,0.55);z-index:200;
+  display:none;align-items:flex-start;justify-content:center;
+  padding:2rem;overflow-y:auto;backdrop-filter:blur(4px);
+}
+.modal-overlay.open{display:flex}
+.modal{
+  background:var(--surface);border-radius:16px;width:100%;max-width:700px;
+  box-shadow:var(--shadow-lg);animation:modalIn 0.3s var(--ease);
+  margin:auto;
+}
+@keyframes modalIn{from{opacity:0;transform:scale(0.96)translateY(16px)}to{opacity:1;transform:none}}
+.modal-header{padding:1.2rem 1.4rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.modal-title{font-size:1rem;font-weight:700;color:var(--ink)}
+.modal-close{background:var(--bg2);border:none;border-radius:6px;width:30px;height:30px;cursor:pointer;font-size:1.1rem;color:var(--ink3);transition:all 0.2s;display:flex;align-items:center;justify-content:center}
+.modal-close:hover{background:var(--red-bg);color:var(--red)}
+.modal-body{padding:1.4rem}
 
-    /* ══════════════════════════════════════════════
-       TESTIMONIALS / TRUST
-    ══════════════════════════════════════════════ */
-    .trust-bg { background: var(--navy-2); }
-    .trust-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1.5rem; margin-top: 3.5rem;
-    }
-    .testimonial {
-      background: var(--navy);
-      border: 1px solid rgba(201,168,76,0.1);
-      border-radius: 12px; padding: 2rem;
-      position: relative; transition: all 0.3s;
-    }
-    .testimonial:hover { border-color: rgba(201,168,76,0.3); transform: translateY(-3px); }
-    .testimonial::before {
-      content: '\201C';
-      font-family: var(--font-display);
-      font-size: 5rem; line-height: 1;
-      color: rgba(201,168,76,0.15);
-      position: absolute; top: 10px; left: 20px;
-    }
-    .testimonial-text { font-size: 0.9rem; color: var(--cream); line-height: 1.75; font-weight: 300; font-style: italic; position: relative; z-index: 1; }
-    .testimonial-author { display: flex; align-items: center; gap: 12px; margin-top: 1.5rem; }
-    .author-avatar {
-      width: 40px; height: 40px; border-radius: 50%;
-      background: linear-gradient(135deg, var(--navy-3), var(--gold-dk));
-      display: flex; align-items: center; justify-content: center;
-      font-family: var(--font-display); font-size: 1rem; font-weight: 700; color: var(--gold);
-    }
-    .author-name { font-size: 0.85rem; font-weight: 600; color: var(--cream); }
-    .author-org { font-size: 0.75rem; color: var(--slate); }
-    .stars { color: var(--gold); font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 1rem; }
+/* ── Toast ── */
+.toast-container{position:fixed;bottom:1.5rem;right:1.5rem;z-index:300;display:flex;flex-direction:column;gap:0.5rem}
+.toast{
+  background:var(--ink);color:#fff;
+  border-radius:10px;padding:10px 16px;
+  font-size:0.82rem;font-weight:500;
+  display:flex;align-items:center;gap:10px;
+  box-shadow:var(--shadow-lg);
+  animation:toastIn 0.3s var(--ease);max-width:320px;
+}
+@keyframes toastIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:none}}
+.toast.success{background:var(--green)}
+.toast.error{background:var(--red)}
+.toast.amber{background:var(--amber)}
 
-    /* ══════════════════════════════════════════════
-       CONTACT / CTA
-    ══════════════════════════════════════════════ */
-    .contact-section { background: var(--navy); }
-    .contact-layout {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 80px; margin-top: 4rem;
-    }
-    .contact-info { display: flex; flex-direction: column; gap: 1.5rem; }
-    .contact-item {
-      display: flex; gap: 1rem; align-items: flex-start;
-      padding: 1.2rem; border-radius: 10px;
-      border: 1px solid rgba(201,168,76,0.1);
-      background: rgba(201,168,76,0.03);
-      transition: all 0.3s;
-    }
-    .contact-item:hover { border-color: rgba(201,168,76,0.3); background: rgba(201,168,76,0.07); }
-    .contact-item-icon { font-size: 1.3rem; margin-top: 2px; }
-    .contact-item-label { font-size: 0.72rem; font-family: var(--font-mono); color: var(--gold); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
-    .contact-item-val { font-size: 0.92rem; color: var(--cream); }
+/* ── Responsive ── */
+@media(min-width:900px){
+  .sidebar{transform:translateX(0)}
+  .main-area{margin-left:var(--sidebar-w)}
+  .topbar-hamburger{display:none}
+  .topbar-date{display:block}
+}
+@media(max-width:700px){
+  .form-grid,.form-grid.three{grid-template-columns:1fr}
+  .form-group.span2{grid-column:span 1}
+  .dash-grid{grid-template-columns:1fr}
+  .kpi-grid{grid-template-columns:repeat(2,1fr)}
+  .page-content{padding:1rem}
+  .jobs-table{font-size:0.78rem}
+  .jobs-table th:nth-child(3),.jobs-table td:nth-child(3),
+  .jobs-table th:nth-child(5),.jobs-table td:nth-child(5){display:none}
+}
 
-    /* Form */
-    .contact-form { display: flex; flex-direction: column; gap: 1rem; }
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-    .form-field { display: flex; flex-direction: column; gap: 6px; }
-    .form-field label { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--slate); }
-    .form-field input,
-    .form-field select,
-    .form-field textarea {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 6px;
-      padding: 10px 14px;
-      color: var(--cream); font-family: var(--font-body); font-size: 0.9rem;
-      outline: none; transition: all 0.25s;
-    }
-    .form-field input:focus,
-    .form-field select:focus,
-    .form-field textarea:focus {
-      border-color: var(--gold);
-      background: rgba(201,168,76,0.05);
-      box-shadow: 0 0 0 3px rgba(201,168,76,0.1);
-    }
-    .form-field select option { background: var(--navy); }
-    .form-field textarea { resize: vertical; min-height: 110px; }
-    .form-submit {
-      background: var(--gold); color: var(--navy);
-      border: none; border-radius: 6px;
-      padding: 13px 28px; font-family: var(--font-body);
-      font-size: 0.95rem; font-weight: 700; letter-spacing: 0.04em;
-      cursor: pointer; transition: all 0.25s var(--ease-out);
-      align-self: flex-start;
-    }
-    .form-submit:hover { background: var(--gold-lt); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,168,76,0.35); }
-
-    /* ══════════════════════════════════════════════
-       HERO CTA BAND
-    ══════════════════════════════════════════════ */
-    .cta-band {
-      background: linear-gradient(135deg, var(--gold-dk) 0%, var(--gold) 50%, var(--gold-lt) 100%);
-      padding: 60px 5vw;
-      text-align: center; position: relative; overflow: hidden;
-    }
-    .cta-band::before {
-      content: '';
-      position: absolute; inset: 0;
-      background-image: linear-gradient(rgba(0,0,0,0.08) 1px, transparent 1px),
-                        linear-gradient(90deg, rgba(0,0,0,0.08) 1px, transparent 1px);
-      background-size: 40px 40px;
-    }
-    .cta-band-inner { position: relative; z-index: 1; }
-    .cta-band h2 { font-size: clamp(1.8rem, 4vw, 3rem); color: var(--navy); margin-bottom: 1rem; }
-    .cta-band p { color: rgba(13,27,42,0.7); font-size: 1.05rem; margin-bottom: 2rem; }
-    .btn-dark {
-      display: inline-flex; align-items: center; gap: 10px;
-      background: var(--navy); color: var(--gold);
-      padding: 14px 32px; border-radius: 6px;
-      font-weight: 700; font-size: 0.95rem;
-      text-decoration: none; letter-spacing: 0.04em;
-      transition: all 0.25s; border: 2px solid transparent;
-    }
-    .btn-dark:hover { background: var(--navy-3); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
-
-    /* ══════════════════════════════════════════════
-       FOOTER
-    ══════════════════════════════════════════════ */
-    footer {
-      background: #080F18;
-      padding: 60px 5vw 30px;
-      border-top: 1px solid rgba(201,168,76,0.1);
-    }
-    .footer-grid {
-      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
-      gap: 3rem; margin-bottom: 3rem;
-    }
-    .footer-brand p { font-size: 0.85rem; color: var(--slate); margin-top: 1rem; line-height: 1.7; max-width: 260px; }
-    .footer-col h5 { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.2rem; }
-    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
-    .footer-col ul a { color: var(--slate); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
-    .footer-col ul a:hover { color: var(--cream); }
-    .footer-bottom {
-      padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.05);
-      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
-    }
-    .footer-bottom p { font-size: 0.78rem; color: var(--slate); }
-    .footer-bottom .built-with { font-family: var(--font-mono); font-size: 0.7rem; color: var(--gold-dk); }
-
-    /* ══════════════════════════════════════════════
-       MOBILE RESPONSIVE
-    ══════════════════════════════════════════════ */
-    @media (max-width: 900px) {
-      .nav-links { display: none; }
-      .nav-hamburger { display: flex; }
-      .workflow-layout,
-      .features-layout,
-      .contact-layout { grid-template-columns: 1fr; gap: 3rem; }
-      .footer-grid { grid-template-columns: 1fr 1fr; }
-      .hero-stats .hero-stat { padding: 1rem 1.5rem; }
-      .form-row { grid-template-columns: 1fr; }
-    }
-    @media (max-width: 600px) {
-      .footer-grid { grid-template-columns: 1fr; }
-      .hero-stats { flex-direction: column; gap: 0; }
-      .hero-stat { border-left: none; border-top: 1px solid rgba(201,168,76,0.1); }
-      .hero-stat:first-child { border-top: none; }
-    }
-
-    /* Mobile nav menu */
-    .mobile-menu {
-      position: fixed; top: 70px; left: 0; right: 0; bottom: 0;
-      background: rgba(8, 15, 24, 0.98); backdrop-filter: blur(20px);
-      z-index: 99; padding: 3rem 5vw;
-      display: flex; flex-direction: column; gap: 1.5rem;
-      transform: translateX(100%); transition: transform 0.35s var(--ease-out);
-    }
-    .mobile-menu.open { transform: translateX(0); }
-    .mobile-menu a {
-      color: var(--cream); text-decoration: none;
-      font-size: 1.4rem; font-family: var(--font-display);
-      font-weight: 700; padding: 0.5rem 0;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-      transition: color 0.2s;
-    }
-    .mobile-menu a:hover { color: var(--gold); }
-
-    /* ── Status badge (for docket tracker teaser) ── */
-    .status-badge {
-      display: inline-flex; align-items: center; gap: 6px;
-      font-family: var(--font-mono); font-size: 0.7rem;
-      padding: 3px 10px; border-radius: 100px;
-      letter-spacing: 0.05em;
-    }
-    .status-badge.dispatched { background: rgba(46,204,138,0.1); color: var(--green); border: 1px solid rgba(46,204,138,0.3); }
-    .status-badge.printing   { background: rgba(201,168,76,0.1); color: var(--gold); border: 1px solid rgba(201,168,76,0.3); }
-    .status-badge.processing { background: rgba(94,175,209,0.1); color: #5EAFD1; border: 1px solid rgba(94,175,209,0.3); }
-    .status-badge::before { content:''; width:5px;height:5px;border-radius:50%;background:currentColor; }
-  </style>
+/* Print styles for docket */
+@media print{
+  #app>*:not(.main-area){display:none!important}
+  .topbar,.filter-bar,.card-header .btn,.form-actions{display:none!important}
+  .docket-preview{border:2px solid #000;max-width:100%}
+  body{background:#fff}
+}
+</style>
 </head>
 <body>
 
-  <!-- ── NAVIGATION ── -->
-  <nav id="navbar">
-    <a href="#" class="nav-logo">
-      <div class="nav-logo-mark">PF</div>
-      <span class="nav-logo-text">Print<span>Flow</span> Pro</span>
-    </a>
-    <ul class="nav-links">
-      <li><a href="#services">Services</a></li>
-      <li><a href="#workflow">How It Works</a></li>
-      <li><a href="#dispatch">Dispatch Modes</a></li>
-      <li><a href="#why-us">Why Us</a></li>
-      <li><a href="#contact" class="nav-cta">Get a Quote →</a></li>
-    </ul>
-    <div class="nav-hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
-      <span></span><span></span><span></span>
+<!-- ════════════════════════════════════════
+     LOGIN SCREEN
+════════════════════════════════════════ -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="login-logo-mark">PF</div>
+      <div>
+        <div class="login-logo-text">Print<span>Flow</span> Pro</div>
+        <div style="font-size:0.7rem;color:var(--muted);font-family:var(--mono)">Staff Portal</div>
+      </div>
+    </div>
+    <div class="login-title">Welcome back</div>
+    <div class="login-sub">Sign in to access the workflow dashboard</div>
+    <div style="margin-bottom:0.8rem">
+      <div style="font-size:0.72rem;color:var(--muted);margin-bottom:0.5rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase">Quick sign in as:</div>
+      <div class="login-roles">
+        <div class="role-chip active" onclick="setRole('Admin','admin@printflow.in','AD')">Admin</div>
+        <div class="role-chip" onclick="setRole('Operator','operator@printflow.in','OP')">Operator</div>
+        <div class="role-chip" onclick="setRole('Dispatch','dispatch@printflow.in','DS')">Dispatch</div>
+        <div class="role-chip" onclick="setRole('Accounts','accounts@printflow.in','AC')">Accounts</div>
+      </div>
+    </div>
+    <div class="login-field">
+      <label>Email</label>
+      <input type="email" id="login-email" value="admin@printflow.in"/>
+    </div>
+    <div class="login-field">
+      <label>Password</label>
+      <input type="password" id="login-pass" value="••••••••" placeholder="Password"/>
+    </div>
+    <button class="login-submit" onclick="doLogin()">Sign In → Dashboard</button>
+    <div class="login-hint">// demo — click any role above, then Sign In</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     APP SHELL
+════════════════════════════════════════ -->
+<div id="app">
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-mark">PF</div>
+      <div class="sidebar-logo-text">Print<span>Flow</span></div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Overview</div>
+      <a class="nav-item active" onclick="showPage('dashboard')">
+        <span class="nav-icon">◈</span> Dashboard
+      </a>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Jobs</div>
+      <a class="nav-item" onclick="showPage('jobs')">
+        <span class="nav-icon">☰</span> All Jobs
+        <span class="nav-badge amber" id="badge-jobs">24</span>
+      </a>
+      <a class="nav-item" onclick="showPage('new-job')">
+        <span class="nav-icon">＋</span> New Job
+      </a>
+      <a class="nav-item" onclick="showPage('approval')">
+        <span class="nav-icon">◉</span> Pending Approval
+        <span class="nav-badge" id="badge-approval">3</span>
+      </a>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Production</div>
+      <a class="nav-item" onclick="showPage('dispatch')">
+        <span class="nav-icon">◎</span> Dispatch Entry
+      </a>
+      <a class="nav-item" onclick="showPage('dockets')">
+        <span class="nav-icon">⊞</span> Dockets
+      </a>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Finance</div>
+      <a class="nav-item" onclick="showPage('billing')">
+        <span class="nav-icon">₹</span> Billing
+      </a>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Reports</div>
+      <a class="nav-item" onclick="showPage('reports')">
+        <span class="nav-icon">▦</span> MIS Reports
+      </a>
+    </div>
+
+    <div class="sidebar-user">
+      <div class="user-avatar" id="user-avatar">AD</div>
+      <div>
+        <div class="user-name" id="user-name">Admin User</div>
+        <div class="user-role" id="user-role">Administrator</div>
+      </div>
+      <button class="logout-btn" onclick="doLogout()" title="Logout">⏻</button>
     </div>
   </nav>
 
-  <!-- Mobile Menu -->
-  <div class="mobile-menu" id="mobileMenu">
-    <a href="#services" onclick="toggleMenu()">Services</a>
-    <a href="#workflow" onclick="toggleMenu()">How It Works</a>
-    <a href="#dispatch" onclick="toggleMenu()">Dispatch</a>
-    <a href="#why-us" onclick="toggleMenu()">Why Us</a>
-    <a href="#contact" onclick="toggleMenu()">Get a Quote</a>
-  </div>
+  <!-- MAIN AREA -->
+  <div class="main-area" id="main-area">
 
-  <!-- ══════════════════════════════════════════════
-       HERO
-  ══════════════════════════════════════════════ -->
-  <section class="hero" id="home">
-    <div class="hero-grid"></div>
-    <div class="hero-glow"></div>
-
-    <div class="hero-inner">
-      <div class="hero-tag">Variable Data · Bulk Mailing · Dispatch Automation</div>
-      <h1>
-        From Data File<br/>to <em>Delivered Mail</em><br/>in One Workflow
-      </h1>
-      <p class="hero-sub">
-        End-to-end printing and dispatch management — mail merge, PDF validation, simplex/duplex production, franking, and docket generation. All tracked. All automated.
-      </p>
-      <div class="hero-actions">
-        <a href="#contact" class="btn-primary">
-          <span>Request a Quote</span>
-          <span>→</span>
-        </a>
-        <a href="#workflow" class="btn-outline">
-          <span>See How It Works</span>
-        </a>
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <button class="topbar-hamburger" onclick="toggleSidebar()">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="topbar-title" id="topbar-title">
+        Dashboard <span id="topbar-sub"></span>
       </div>
-
-      <div class="hero-stats">
-        <div class="hero-stat">
-          <div class="hero-stat-num" data-count="2.5" data-suffix="M+">0</div>
-          <div class="hero-stat-label">Pieces Dispatched</div>
+      <div class="topbar-actions">
+        <div class="topbar-date" id="topbar-date"></div>
+        <div class="topbar-notify" onclick="showToast('3 pending approvals require attention','amber')">
+          🔔<div class="notify-dot"></div>
         </div>
-        <div class="hero-stat">
-          <div class="hero-stat-num" data-count="500" data-suffix="+">0</div>
-          <div class="hero-stat-label">Enterprise Clients</div>
-        </div>
-        <div class="hero-stat">
-          <div class="hero-stat-num" data-count="99.4" data-suffix="%">0</div>
-          <div class="hero-stat-label">On-Time Dispatch Rate</div>
-        </div>
-        <div class="hero-stat">
-          <div class="hero-stat-num" data-count="12" data-suffix=" yrs">0</div>
-          <div class="hero-stat-label">Industry Experience</div>
-        </div>
+        <button class="btn btn-primary btn-sm" onclick="showPage('new-job')">+ New Job</button>
       </div>
     </div>
 
-    <div class="scroll-indicator">
-      <span>Scroll</span>
-      <div class="scroll-line"></div>
-    </div>
-  </section>
+    <!-- PAGE CONTENT -->
+    <div class="page-content">
 
-  <div class="divider"></div>
+      <!-- ═══ DASHBOARD ═══ -->
+      <div class="page active" id="page-dashboard">
+        <div class="kpi-grid">
+          <div class="kpi-card" style="--kpi-color:var(--amber)">
+            <div class="kpi-icon">📋</div>
+            <div class="kpi-label">Active Jobs</div>
+            <div class="kpi-value">24</div>
+            <div class="kpi-delta">↑ +3 since yesterday</div>
+          </div>
+          <div class="kpi-card" style="--kpi-color:var(--green)">
+            <div class="kpi-icon">📬</div>
+            <div class="kpi-label">Dispatched Today</div>
+            <div class="kpi-value">8</div>
+            <div class="kpi-delta">↑ On track</div>
+          </div>
+          <div class="kpi-card" style="--kpi-color:var(--violet)">
+            <div class="kpi-icon">⏳</div>
+            <div class="kpi-label">Pending Approval</div>
+            <div class="kpi-value">3</div>
+            <div class="kpi-delta down">↓ Awaiting client</div>
+          </div>
+          <div class="kpi-card" style="--kpi-color:var(--blue)">
+            <div class="kpi-icon">⚡</div>
+            <div class="kpi-label">In Production</div>
+            <div class="kpi-value">11</div>
+            <div class="kpi-delta">↑ Running smooth</div>
+          </div>
+          <div class="kpi-card" style="--kpi-color:var(--red)">
+            <div class="kpi-icon">⚠</div>
+            <div class="kpi-label">Jobs with Errors</div>
+            <div class="kpi-value">2</div>
+            <div class="kpi-delta down">↑ Needs attention</div>
+          </div>
+          <div class="kpi-card" style="--kpi-color:#8B5CF6">
+            <div class="kpi-icon">💰</div>
+            <div class="kpi-label">Revenue This Month</div>
+            <div class="kpi-value" style="font-size:1.4rem">₹4.2L</div>
+            <div class="kpi-delta">↑ +18% vs last month</div>
+          </div>
+        </div>
 
-  <!-- ══════════════════════════════════════════════
-       SERVICES
-  ══════════════════════════════════════════════ -->
-  <section class="section-pad services-bg" id="services">
-    <div class="reveal">
-      <p class="section-tag">What We Do</p>
-      <h2 class="section-title">Complete Printing &amp;<br/><em>Dispatch Services</em></h2>
-      <p class="section-body">From raw data files to delivered envelopes — we handle every step of the printing and mailing lifecycle for banks, insurance companies, government agencies, and enterprises.</p>
-    </div>
+        <div class="dash-grid">
+          <!-- Recent jobs -->
+          <div class="card span-full">
+            <div class="card-header">
+              <div class="card-title">Recent Jobs</div>
+              <button class="btn btn-secondary btn-sm" onclick="showPage('jobs')">View All →</button>
+            </div>
+            <div class="card-body no-pad">
+              <table class="jobs-table">
+                <thead>
+                  <tr>
+                    <th>Job #</th>
+                    <th>Client</th>
+                    <th>Type</th>
+                    <th>Qty</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="dash-jobs-tbody"></tbody>
+              </table>
+            </div>
+          </div>
 
-    <div class="services-grid reveal reveal-delay-2">
-      <div class="service-card">
-        <div class="service-icon">📊</div>
-        <h3>Variable Data Printing</h3>
-        <p>Mail merge and personalised data printing at scale. Each piece uniquely printed with recipient-specific content from your Excel, CSV, or database file.</p>
-        <span class="service-tag">PDF · XLSX · CSV</span>
-      </div>
-      <div class="service-card">
-        <div class="service-icon">📄</div>
-        <h3>Simplex &amp; Duplex Print</h3>
-        <p>High-volume single-sided and double-sided printing. Multi-page document production with accurate page sequencing and quality control at every stage.</p>
-        <span class="service-tag">Mono · Colour</span>
-      </div>
-      <div class="service-card">
-        <div class="service-icon">✉️</div>
-        <h3>Envelope Inserting</h3>
-        <p>Automated folding, inserting, and sealing. Single or multi-insert jobs handled with precision. Window envelope alignment guaranteed.</p>
-        <span class="service-tag">A4 · DL · C5</span>
-      </div>
-      <div class="service-card">
-        <div class="service-icon">📬</div>
-        <h3>Inland Letter Production</h3>
-        <p>Complete inland letter printing, folding, and sorting. Designed for government and regulated communications requiring cost-effective postal delivery.</p>
-        <span class="service-tag">Sorted · Unsorted</span>
-      </div>
-      <div class="service-card">
-        <div class="service-icon">⚡</div>
-        <h3>Speed Post Dispatch</h3>
-        <p>Speed Post with or without Acknowledgement. Full tracking reference generation, docket creation, and real-time dispatch status for every article.</p>
-        <span class="service-tag">With AC · Without AC</span>
-      </div>
-      <div class="service-card">
-        <div class="service-icon">🎯</div>
-        <h3>Data Processing &amp; Validation</h3>
-        <p>Pre-print file validation, duplicate detection, address cleansing, and record count verification. Catch errors before ink touches paper.</p>
-        <span class="service-tag">QC · Validated</span>
-      </div>
-    </div>
-  </section>
+          <!-- Activity -->
+          <div class="card">
+            <div class="card-header"><div class="card-title">Live Activity</div></div>
+            <div class="card-body">
+              <div class="activity-list">
+                <div class="activity-item">
+                  <div class="activity-icon" style="background:var(--green-bg)">📬</div>
+                  <div class="activity-text"><strong>PRT-2025-00847</strong> dispatched via Speed Post. Docket DKT-20250514-0042 generated.</div>
+                  <div class="activity-time">2m ago</div>
+                </div>
+                <div class="activity-item">
+                  <div class="activity-icon" style="background:var(--amber-bg)">✅</div>
+                  <div class="activity-text"><strong>HDFC Bank</strong> approved proof for job PRT-2025-00851.</div>
+                  <div class="activity-time">18m ago</div>
+                </div>
+                <div class="activity-item">
+                  <div class="activity-icon" style="background:var(--red-bg)">⚠️</div>
+                  <div class="activity-text"><strong>PRT-2025-00849</strong> validation failed — font not embedded in PDF.</div>
+                  <div class="activity-time">34m ago</div>
+                </div>
+                <div class="activity-item">
+                  <div class="activity-icon" style="background:var(--blue-bg)">📥</div>
+                  <div class="activity-text">New job received from <strong>LIC of India</strong>. 22,400 pieces. Duplex variable data.</div>
+                  <div class="activity-time">1h ago</div>
+                </div>
+                <div class="activity-item">
+                  <div class="activity-icon" style="background:var(--violet-bg)">🖨</div>
+                  <div class="activity-text"><strong>PRT-2025-00844</strong> print complete. Moving to folding & inserting.</div>
+                  <div class="activity-time">2h ago</div>
+                </div>
+              </div>
+            </div>
+          </div>
 
-  <div class="divider"></div>
+          <!-- Quick stats -->
+          <div class="card">
+            <div class="card-header"><div class="card-title">Today's Dispatch Summary</div></div>
+            <div class="card-body">
+              <div style="display:flex;flex-direction:column;gap:1rem">
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:0.7rem;background:var(--bg);border-radius:8px">
+                  <span style="font-size:0.85rem;color:var(--ink2)">📮 Ordinary Post</span>
+                  <div style="text-align:right">
+                    <div style="font-family:var(--mono);font-weight:700;color:var(--ink)">14,820</div>
+                    <div style="font-size:0.7rem;color:var(--muted)">pieces</div>
+                  </div>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:0.7rem;background:var(--bg);border-radius:8px">
+                  <span style="font-size:0.85rem;color:var(--ink2)">⚡ Speed Post (AC)</span>
+                  <div style="text-align:right">
+                    <div style="font-family:var(--mono);font-weight:700;color:var(--ink)">3,200</div>
+                    <div style="font-size:0.7rem;color:var(--muted)">pieces</div>
+                  </div>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:0.7rem;background:var(--bg);border-radius:8px">
+                  <span style="font-size:0.85rem;color:var(--ink2)">📂 Inland Letter</span>
+                  <div style="text-align:right">
+                    <div style="font-family:var(--mono);font-weight:700;color:var(--ink)">8,500</div>
+                    <div style="font-size:0.7rem;color:var(--muted)">pieces</div>
+                  </div>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:0.8rem;background:var(--amber-bg);border-radius:8px;border:1px solid var(--amber)">
+                  <span style="font-size:0.85rem;font-weight:700;color:var(--amber)">Total Frank Amount</span>
+                  <div style="font-family:var(--mono);font-weight:700;color:var(--amber);font-size:1.1rem">₹1,12,440</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div><!-- /dashboard -->
 
-  <!-- ══════════════════════════════════════════════
-       WORKFLOW PROCESS
-  ══════════════════════════════════════════════ -->
-  <section class="section-pad workflow-section" id="workflow">
-    <div class="workflow-layout">
+      <!-- ═══ ALL JOBS ═══ -->
+      <div class="page" id="page-jobs">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">All Jobs</div>
+            <button class="btn btn-primary btn-sm" onclick="showPage('new-job')">+ New Job</button>
+          </div>
+          <div class="card-body">
+            <div class="filter-bar" style="margin-bottom:1rem">
+              <input class="search-input" type="search" placeholder="🔍  Search by job #, client, type…" oninput="filterJobs(this.value)"/>
+              <select class="filter-select" onchange="filterByStatus(this.value)">
+                <option value="">All Statuses</option>
+                <option value="new">New</option>
+                <option value="processing">Processing</option>
+                <option value="approval">Pending Approval</option>
+                <option value="printing">Printing</option>
+                <option value="dispatch">Dispatch</option>
+                <option value="complete">Complete</option>
+                <option value="error">Error</option>
+              </select>
+              <select class="filter-select">
+                <option>All Types</option>
+                <option>Simplex</option>
+                <option>Duplex</option>
+                <option>Multi-Page</option>
+              </select>
+            </div>
+          </div>
+          <div class="card-body no-pad">
+            <table class="jobs-table" id="jobs-table">
+              <thead>
+                <tr>
+                  <th>Job #</th>
+                  <th>Client</th>
+                  <th>Type</th>
+                  <th>Qty</th>
+                  <th>Received</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="jobs-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div><!-- /jobs -->
+
+      <!-- ═══ NEW JOB ═══ -->
+      <div class="page" id="page-new-job">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Create New Job</div>
+            <div style="font-family:var(--mono);font-size:0.72rem;color:var(--muted)">Job # auto-generated on save</div>
+          </div>
+          <div class="card-body">
+
+            <div class="section-sub">Client & Job Details</div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label">Client <span class="req">*</span></label>
+                <select class="form-control" id="nj-client">
+                  <option value="">— Select client —</option>
+                  <option>HDFC Bank Ltd.</option>
+                  <option>LIC of India</option>
+                  <option>SBI Cards</option>
+                  <option>ICICI Prudential</option>
+                  <option>Bajaj Allianz</option>
+                  <option>Axis Bank</option>
+                  <option>BSNL</option>
+                  <option>Maharashtra Govt. — RTO</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Received Date & Time <span class="req">*</span></label>
+                <input class="form-control" type="datetime-local" id="nj-received"/>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Contact Person</label>
+                <input class="form-control" type="text" placeholder="Client contact name" id="nj-contact"/>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Contact Email</label>
+                <input class="form-control" type="email" placeholder="approval@client.com" id="nj-email"/>
+              </div>
+            </div>
+
+            <div class="form-divider"></div>
+            <div class="section-sub">Print Specifications</div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label">Print Type <span class="req">*</span></label>
+                <div class="radio-group">
+                  <label class="radio-opt"><input type="radio" name="print-type" value="simplex" checked/> Simplex</label>
+                  <label class="radio-opt"><input type="radio" name="print-type" value="duplex"/> Duplex</label>
+                  <label class="radio-opt"><input type="radio" name="print-type" value="multipage"/> Multi-Page</label>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Quantity (Pieces) <span class="req">*</span></label>
+                <input class="form-control" type="number" placeholder="e.g. 14820" id="nj-qty" min="1"/>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Pages Per Piece</label>
+                <input class="form-control" type="number" value="1" min="1" id="nj-pages"/>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Variable Data</label>
+                <div class="radio-group">
+                  <label class="radio-opt"><input type="radio" name="vd" value="yes"/> Yes — Mail Merge</label>
+                  <label class="radio-opt"><input type="radio" name="vd" value="no" checked/> No — Static</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-divider"></div>
+            <div class="section-sub">File Upload</div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label">Print File (PDF) <span class="req">*</span></label>
+                <input class="form-control" type="file" accept=".pdf" id="nj-pdf"/>
+                <div class="form-hint">Max 50MB. PDF only. Ensure fonts are embedded.</div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Data File (for variable data)</label>
+                <input class="form-control" type="file" accept=".xlsx,.xls,.csv" id="nj-data"/>
+                <div class="form-hint">Excel or CSV. Required for mail merge jobs.</div>
+              </div>
+              <div class="form-group span2">
+                <label class="form-label">Internal Notes</label>
+                <textarea class="form-control" placeholder="Special instructions, client references, priority notes…" id="nj-notes"></textarea>
+              </div>
+            </div>
+
+            <div class="form-divider"></div>
+            <div class="section-sub">Dispatch Planning</div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label">Dispatch Mode <span class="req">*</span></label>
+                <select class="form-control" id="nj-dispatch">
+                  <option value="">— Select dispatch mode —</option>
+                  <option value="ordinary">Ordinary Post</option>
+                  <option value="speed_ack">Speed Post — With Acknowledgement</option>
+                  <option value="speed_no_ack">Speed Post — Without Acknowledgement</option>
+                  <option value="inland">Inland Letter</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Post-Print Handling</label>
+                <div class="checkbox-group">
+                  <label class="check-opt"><input type="checkbox" id="nj-fold"/> Folding</label>
+                  <label class="check-opt"><input type="checkbox" id="nj-insert"/> Inserting (Envelope)</label>
+                  <label class="check-opt"><input type="checkbox" id="nj-sort"/> Inland Sorting</label>
+                  <label class="check-opt"><input type="checkbox" id="nj-frank" checked/> Franking</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button class="btn btn-primary" onclick="createJob()">✓ Create Job & Generate Job #</button>
+              <button class="btn btn-secondary" onclick="showPage('jobs')">Cancel</button>
+              <span style="font-size:0.75rem;color:var(--muted);margin-left:auto;font-family:var(--mono)">Job # format: PRT-YYYY-NNNNN</span>
+            </div>
+
+          </div>
+        </div>
+      </div><!-- /new-job -->
+
+      <!-- ═══ PENDING APPROVAL ═══ -->
+      <div class="page" id="page-approval">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Jobs Pending Client Approval</div>
+            <span class="pill approval">3 Waiting</span>
+          </div>
+          <div class="card-body">
+            <div id="approval-list"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ DISPATCH ENTRY ═══ -->
+      <div class="page" id="page-dispatch">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Dispatch Entry</div>
+            <div style="font-size:0.78rem;color:var(--muted)">Complete post-print details and generate docket</div>
+          </div>
+          <div class="card-body">
+
+            <div class="section-sub">Select Job</div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label">Job Number <span class="req">*</span></label>
+                <select class="form-control" id="disp-job" onchange="loadDispatchJob(this.value)">
+                  <option value="">— Select approved job —</option>
+                  <option value="PRT-2025-00851">PRT-2025-00851 — HDFC Bank (14,820 pcs)</option>
+                  <option value="PRT-2025-00853">PRT-2025-00853 — LIC of India (22,400 pcs)</option>
+                  <option value="PRT-2025-00855">PRT-2025-00855 — SBI Cards (8,100 pcs)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Dispatch Date & Time <span class="req">*</span></label>
+                <input class="form-control" type="datetime-local" id="disp-date"/>
+              </div>
+            </div>
+
+            <div id="dispatch-details" style="display:none">
+              <div class="form-divider"></div>
+
+              <!-- STAGE 1: POST-PRINT -->
+              <div class="section-sub" style="display:flex;align-items:center;gap:8px">
+                <span style="background:var(--ink);color:var(--amber-lt);width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:700;flex-shrink:0">1</span>
+                Post-Print Operations
+              </div>
+              <div class="form-grid" style="margin-bottom:0.5rem">
+                <div class="form-group">
+                  <label class="form-label">Completed Operations</label>
+                  <div class="checkbox-group">
+                    <label class="check-opt"><input type="checkbox" id="d-fold"/> Folding Done</label>
+                    <label class="check-opt"><input type="checkbox" id="d-insert"/> Inserting Done</label>
+                    <label class="check-opt"><input type="checkbox" id="d-sort"/> Inland Sorting Done</label>
+                  </div>
+                  <div class="form-hint">Check all completed before proceeding to franking</div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Dispatch Mode <span class="req">*</span></label>
+                  <select class="form-control" id="disp-mode">
+                    <option value="ordinary">Ordinary Post</option>
+                    <option value="speed_ack" selected>Speed Post &mdash; With Acknowledgement</option>
+                    <option value="speed_no_ack">Speed Post &mdash; Without Acknowledgement</option>
+                    <option value="inland">Inland Letter</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Total Pieces <span class="req">*</span></label>
+                  <input class="form-control" type="number" id="disp-pieces" placeholder="Total piece count"/>
+                </div>
+              </div>
+
+              <div class="form-divider"></div>
+
+              <!-- STAGE 2: FRANKING — must be done on machine BEFORE docket -->
+              <div class="section-sub" style="display:flex;align-items:center;gap:8px">
+                <span style="background:var(--amber);color:var(--ink);width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:700;flex-shrink:0">2</span>
+                Franking
+                <span style="font-size:0.7rem;color:var(--muted);font-weight:400;letter-spacing:normal;text-transform:none">&mdash; Frank on machine first, then enter details below</span>
+              </div>
+              <div class="form-grid" style="margin-bottom:0.5rem">
+                <div class="form-group">
+                  <label class="form-label">Frank Amount (&curren;) <span class="req">*</span></label>
+                  <input class="form-control" type="number" id="disp-frank" placeholder="Amount shown on franking machine" step="0.01"/>
+                  <div class="form-hint">Enter exact rupee amount printed by the franking machine</div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Franking Confirmed? <span class="req">*</span></label>
+                  <div class="radio-group">
+                    <label class="radio-opt"><input type="radio" name="frank-confirm" value="yes" onchange="checkFrankingDone()"/> &#10003; Yes &mdash; Franking Complete</label>
+                    <label class="radio-opt"><input type="radio" name="frank-confirm" value="no" checked onchange="checkFrankingDone()"/> &#10007; Not Yet</label>
+                  </div>
+                  <div class="form-hint" id="frank-hint" style="color:var(--red)">&#9888; Docket cannot be generated until franking is confirmed</div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Franking Date &amp; Time <span class="req">*</span></label>
+                  <input class="form-control" type="datetime-local" id="disp-frank-time"/>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Operator Name</label>
+                  <input class="form-control" type="text" id="disp-operator" placeholder="Dispatch staff name"/>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Tracking Reference (Speed Post)</label>
+                  <input class="form-control" type="text" id="disp-track" placeholder="India Post tracking number"/>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Dispatch Date &amp; Time</label>
+                  <input class="form-control" type="datetime-local" id="disp-date"/>
+                </div>
+              </div>
+
+              <div class="form-divider"></div>
+
+              <!-- STAGE 3: DOCKET — only after franking confirmed -->
+              <div class="section-sub" style="display:flex;align-items:center;gap:8px">
+                <span id="docket-step-badge" style="background:var(--border);color:var(--muted);width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:700;flex-shrink:0">3</span>
+                Docket Generation
+                <span id="docket-step-hint" style="font-size:0.7rem;color:var(--muted);font-weight:400;letter-spacing:normal;text-transform:none">&mdash; Unlocks after franking is confirmed above</span>
+              </div>
+              <div style="background:var(--bg);border:1.5px dashed var(--border2);border-radius:10px;padding:1rem 1.2rem;margin-bottom:1rem" id="docket-locked-msg">
+                <div style="display:flex;align-items:center;gap:12px;color:var(--muted);font-size:0.85rem">
+                  <span style="font-size:1.5rem">&#128274;</span>
+                  <div>
+                    <div style="font-weight:700;color:var(--ink3);margin-bottom:2px">Docket generation is locked</div>
+                    <div style="font-size:0.8rem">Confirm franking is complete (Step 2) to unlock. <strong style="color:var(--ink)">Docket number is assigned only after franking is done.</strong></div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-actions" id="docket-gen-actions" style="display:none">
+                <button class="btn btn-primary" onclick="generateDocket()">&#8862; Generate Docket Number &amp; Complete Dispatch</button>
+                <button class="btn btn-secondary" onclick="resetDispatchForm()">Clear Form</button>
+                <span style="font-size:0.72rem;color:var(--muted);margin-left:auto;font-family:var(--mono)">Format: DKT-YYYYMMDD-XXXX</span>
+              </div>
+              <div id="docket-locked-actions">
+                <button class="btn btn-secondary btn-sm" onclick="resetDispatchForm()">Clear</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div><!-- /dispatch -->
+
+      <!-- ═══ DOCKETS ═══ -->
+      <div class="page" id="page-dockets">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Docket Register</div>
+            <div class="filter-bar">
+              <input class="search-input" type="search" placeholder="🔍  Search docket number…" style="min-width:200px"/>
+              <button class="btn btn-secondary btn-sm" onclick="window.print()">🖨 Print Manifest</button>
+            </div>
+          </div>
+          <div class="card-body no-pad">
+            <table class="jobs-table">
+              <thead>
+                <tr>
+                  <th>Docket #</th>
+                  <th>Job #</th>
+                  <th>Client</th>
+                  <th>Pieces</th>
+                  <th>Mode</th>
+                  <th>Frank ₹</th>
+                  <th>Date</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="dockets-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Docket Preview -->
+        <div id="docket-preview-wrap" style="display:none;margin-top:1.5rem">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Docket Slip Preview</div>
+              <div style="display:flex;gap:0.5rem">
+                <button class="btn btn-secondary btn-sm" onclick="document.getElementById('docket-preview-wrap').style.display='none'">✕ Close</button>
+                <button class="btn btn-primary btn-sm" onclick="window.print()">🖨 Print Slip</button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="docket-preview" id="docket-preview-content"></div>
+            </div>
+          </div>
+        </div>
+      </div><!-- /dockets -->
+
+      <!-- ═══ BILLING ═══ -->
+      <div class="page" id="page-billing">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Billing & Invoices</div>
+            <button class="btn btn-primary btn-sm" onclick="showToast('Invoice generation coming in Phase 3!','amber')">+ Create Invoice</button>
+          </div>
+          <div class="card-body no-pad">
+            <table class="jobs-table">
+              <thead><tr><th>Invoice #</th><th>Client</th><th>Job #</th><th>Amount ₹</th><th>GST ₹</th><th>Total ₹</th><th>Status</th><th>Action</th></tr></thead>
+              <tbody id="billing-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ REPORTS ═══ -->
+      <div class="page" id="page-reports">
+        <div class="kpi-grid">
+          <div class="kpi-card" style="--kpi-color:var(--green)">
+            <div class="kpi-label">This Month Pieces</div>
+            <div class="kpi-value" style="font-size:1.6rem">2.8M</div>
+            <div class="kpi-delta">↑ +12% vs last month</div>
+          </div>
+          <div class="kpi-card" style="--kpi-color:var(--amber)">
+            <div class="kpi-label">Total Frank Amount</div>
+            <div class="kpi-value" style="font-size:1.4rem">₹8.4L</div>
+            <div class="kpi-delta">↑ May 2025</div>
+          </div>
+          <div class="kpi-card" style="--kpi-color:var(--blue)">
+            <div class="kpi-label">Jobs Completed</div>
+            <div class="kpi-value">187</div>
+            <div class="kpi-delta">↑ This month</div>
+          </div>
+          <div class="kpi-card" style="--kpi-color:var(--violet)">
+            <div class="kpi-label">Avg Turnaround</div>
+            <div class="kpi-value" style="font-size:1.6rem">6.2h</div>
+            <div class="kpi-delta">↑ SLA: under 8h</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">MIS Reports — Coming in Phase 3</div></div>
+          <div class="card-body">
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem">
+              <div style="padding:1.2rem;background:var(--bg);border-radius:10px;border:1px solid var(--border);text-align:center;cursor:pointer;transition:all 0.2s" onmouseover="this.style.borderColor='var(--amber)'" onmouseout="this.style.borderColor='var(--border)'">
+                <div style="font-size:1.8rem;margin-bottom:0.5rem">📊</div>
+                <div style="font-weight:600;font-size:0.88rem;color:var(--ink)">Job Volume Report</div>
+                <div style="font-size:0.75rem;color:var(--muted);margin-top:4px">Monthly job counts by client</div>
+              </div>
+              <div style="padding:1.2rem;background:var(--bg);border-radius:10px;border:1px solid var(--border);text-align:center;cursor:pointer;transition:all 0.2s" onmouseover="this.style.borderColor='var(--amber)'" onmouseout="this.style.borderColor='var(--border)'">
+                <div style="font-size:1.8rem;margin-bottom:0.5rem">📬</div>
+                <div style="font-weight:600;font-size:0.88rem;color:var(--ink)">Dispatch Mode Report</div>
+                <div style="font-size:0.75rem;color:var(--muted);margin-top:4px">Post mode breakdown & costs</div>
+              </div>
+              <div style="padding:1.2rem;background:var(--bg);border-radius:10px;border:1px solid var(--border);text-align:center;cursor:pointer;transition:all 0.2s" onmouseover="this.style.borderColor='var(--amber)'" onmouseout="this.style.borderColor='var(--border)'">
+                <div style="font-size:1.8rem;margin-bottom:0.5rem">💰</div>
+                <div style="font-weight:600;font-size:0.88rem;color:var(--ink)">Revenue Report</div>
+                <div style="font-size:0.75rem;color:var(--muted);margin-top:4px">Client-wise billing summary</div>
+              </div>
+              <div style="padding:1.2rem;background:var(--bg);border-radius:10px;border:1px solid var(--border);text-align:center;cursor:pointer;transition:all 0.2s" onmouseover="this.style.borderColor='var(--amber)'" onmouseout="this.style.borderColor='var(--border)'">
+                <div style="font-size:1.8rem;margin-bottom:0.5rem">⏱</div>
+                <div style="font-weight:600;font-size:0.88rem;color:var(--ink)">SLA Performance</div>
+                <div style="font-size:0.75rem;color:var(--muted);margin-top:4px">Turnaround time tracking</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /page-content -->
+  </div><!-- /main-area -->
+</div><!-- /app -->
+
+<!-- JOB DETAIL MODAL -->
+<div class="modal-overlay" id="job-modal">
+  <div class="modal">
+    <div class="modal-header">
       <div>
-        <div class="reveal">
-          <p class="section-tag">Our Process</p>
-          <h2 class="section-title">Seven Steps.<br/><em>Zero Guesswork.</em></h2>
-          <p class="section-body">A transparent, trackable workflow from job receipt to dispatch confirmation. You always know where your job is.</p>
-        </div>
-
-        <div class="workflow-steps" style="margin-top: 2.5rem;">
-          <div class="workflow-step reveal reveal-delay-1">
-            <div class="step-num">01</div>
-            <div class="step-content">
-              <h4>Job Submission</h4>
-              <p>Email your print files (PDF, Excel, CSV) to our dedicated job inbox. Instant acknowledgement with a job reference number.</p>
-            </div>
-          </div>
-          <div class="workflow-step reveal reveal-delay-2">
-            <div class="step-num">02</div>
-            <div class="step-content">
-              <h4>Data Processing &amp; Validation</h4>
-              <p>File validation, mail merge processing, record count verification, and error reporting before production begins.</p>
-            </div>
-          </div>
-          <div class="workflow-step reveal reveal-delay-3">
-            <div class="step-num">03</div>
-            <div class="step-content">
-              <h4>Client Approval</h4>
-              <p>Proof sent to you for sign-off. Production holds until explicit approval is received — protecting you and us.</p>
-            </div>
-          </div>
-          <div class="workflow-step reveal reveal-delay-4">
-            <div class="step-num">04</div>
-            <div class="step-content">
-              <h4>Print Production</h4>
-              <p>Simplex, duplex, or multi-page production. Each job tracked by machine ID, operator, and timestamp.</p>
-            </div>
-          </div>
-          <div class="workflow-step reveal reveal-delay-5">
-            <div class="step-num">05</div>
-            <div class="step-content">
-              <h4>Post-Print Handling</h4>
-              <p>Folding, inserting, inland sorting, and franking. Every piece processed to dispatch-ready condition.</p>
-            </div>
-          </div>
-          <div class="workflow-step reveal">
-            <div class="step-num">06</div>
-            <div class="step-content">
-              <h4>Docket Generation</h4>
-              <p>Unique docket number auto-generated. Barcode, QR code, and piece count logged for dispatch records.</p>
-            </div>
-          </div>
-          <div class="workflow-step reveal">
-            <div class="step-num">07</div>
-            <div class="step-content">
-              <h4>Dispatch &amp; Tracking</h4>
-              <p>Articles dispatched via your chosen mode. Dispatch record, billing reference, and delivery tracking issued immediately.</p>
-            </div>
-          </div>
-        </div>
+        <div class="modal-title" id="modal-job-title">Job Details</div>
+        <div style="font-size:0.75rem;color:var(--muted);font-family:var(--mono);margin-top:2px" id="modal-job-num"></div>
       </div>
-
-      <!-- Terminal Viz -->
-      <div class="reveal reveal-delay-2">
-        <div class="workflow-terminal">
-          <div class="terminal-bar">
-            <div class="terminal-dot r"></div>
-            <div class="terminal-dot y"></div>
-            <div class="terminal-dot g"></div>
-            <span class="terminal-title">printflow-tracker — job PRT-2025-00847</span>
-          </div>
-          <div class="terminal-body">
-            <div><span class="t-dim">$</span> <span class="t-cmd">track --job PRT-2025-00847</span></div>
-            <div>&nbsp;</div>
-            <div><span class="t-dim">[ JOB DETAILS ]</span></div>
-            <div><span class="t-info">Client     </span>: HDFC Bank Ltd.</div>
-            <div><span class="t-info">Type       </span>: Duplex · Variable Data</div>
-            <div><span class="t-info">Records    </span>: 14,820 pieces</div>
-            <div><span class="t-info">Received   </span>: 2025-05-14 09:32 AM</div>
-            <div>&nbsp;</div>
-            <div><span class="t-dim">[ STATUS TIMELINE ]</span></div>
-            <div><span class="t-ok">✓</span> 09:32 Job received &amp; acknowledged</div>
-            <div><span class="t-ok">✓</span> 10:05 File validation passed (0 errors)</div>
-            <div><span class="t-ok">✓</span> 10:48 Proof sent for client approval</div>
-            <div><span class="t-ok">✓</span> 11:22 Approval received — production start</div>
-            <div><span class="t-ok">✓</span> 16:44 Print complete · QC passed</div>
-            <div><span class="t-ok">✓</span> 17:10 Folded · Inserted · Franked</div>
-            <div><span class="t-warn">▶</span> 17:30 Docket DKT-20250514-0042 generated</div>
-            <div>&nbsp;</div>
-            <div><span class="t-dim">[ DISPATCH ]</span></div>
-            <div><span class="t-info">Mode       </span>: Speed Post (With AC)</div>
-            <div><span class="t-info">Frank Amt  </span>: ₹ 44,460.00</div>
-            <div><span class="t-info">Docket     </span>: <span class="t-ok">DKT-20250514-0042</span></div>
-            <div><span class="t-info">Status     </span>: <span class="t-ok">DISPATCHED ✓</span></div>
-            <div>&nbsp;</div>
-            <div><span class="t-dim">$</span> <span class="t-cursor"></span></div>
-          </div>
-        </div>
-
-        <!-- Live status pills -->
-        <div style="display:flex; gap:0.7rem; flex-wrap:wrap; margin-top:1.2rem;">
-          <span class="status-badge dispatched">Dispatched</span>
-          <span class="status-badge printing">3 Jobs Printing</span>
-          <span class="status-badge processing">7 In Validation</span>
-        </div>
-        <p style="font-family:var(--font-mono);font-size:0.68rem;color:var(--slate);margin-top:0.8rem;letter-spacing:0.05em;">
-          Live dashboard preview — available to clients in the portal
-        </p>
-      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
     </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- ══════════════════════════════════════════════
-       DISPATCH MODES
-  ══════════════════════════════════════════════ -->
-  <section class="section-pad dispatch-bg" id="dispatch">
-    <div class="reveal">
-      <p class="section-tag">Dispatch Options</p>
-      <h2 class="section-title">Choose Your<br/><em>Delivery Mode</em></h2>
-      <p class="section-body">Four postal dispatch modes, each with full docket tracking, franking records, and billing integration.</p>
-    </div>
-
-    <div class="dispatch-grid">
-      <div class="dispatch-card reveal reveal-delay-1">
-        <div class="dispatch-icon">📮</div>
-        <h3>Ordinary Post</h3>
-        <p>Standard bulk mail dispatch. Cost-effective for high-volume non-urgent communications. Full piece count and franking records maintained.</p>
-        <span class="dispatch-badge">Lowest cost per piece</span>
-      </div>
-      <div class="dispatch-card reveal reveal-delay-2">
-        <div class="dispatch-icon">⚡</div>
-        <h3>Speed Post</h3>
-        <p>India Post Speed Post with full tracking. Guaranteed delivery timelines. Docket-level tracking reference for each batch.</p>
-        <span class="dispatch-badge">Tracked delivery</span>
-      </div>
-      <div class="dispatch-card reveal reveal-delay-3">
-        <div class="dispatch-icon">✅</div>
-        <h3>Speed Post with AC</h3>
-        <p>Speed Post with signed Acknowledgement Card. Mandatory for legal, financial, and regulatory communications requiring proof of delivery.</p>
-        <span class="dispatch-badge">Proof of delivery</span>
-      </div>
-      <div class="dispatch-card reveal reveal-delay-4">
-        <div class="dispatch-icon">📂</div>
-        <h3>Inland Letter</h3>
-        <p>Pre-sorted inland letters for maximum postal discount. Sorted by pin code zones, bundled, and dispatched per postal norms.</p>
-        <span class="dispatch-badge">Sorted · Discounted rate</span>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- ══════════════════════════════════════════════
-       WHY CHOOSE US
-  ══════════════════════════════════════════════ -->
-  <section class="section-pad features-section" id="why-us">
-    <div class="features-layout">
-      <div class="reveal">
-        <p class="section-tag">Why PrintFlow Pro</p>
-        <h2 class="section-title">Built for<br/><em>Enterprise Scale</em></h2>
-        <p class="section-body">We don't just print — we manage your entire output management workflow with end-to-end accountability and real-time visibility.</p>
-
-        <div class="feature-list" style="margin-top: 2.5rem;">
-          <div class="feature-item">
-            <div class="feature-icon-wrap">🔍</div>
-            <div class="feature-text">
-              <h4>Pre-Print File Validation</h4>
-              <p>Every file checked before production. PDF dimensions, bleed, font embedding, colour mode, and record count verified automatically.</p>
-            </div>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon-wrap">📋</div>
-            <div class="feature-text">
-              <h4>Docket-Based Tracking</h4>
-              <p>Every batch gets a unique docket number with QR code. One scan gives you full dispatch history, piece count, and billing reference.</p>
-            </div>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon-wrap">💰</div>
-            <div class="feature-text">
-              <h4>Transparent Billing</h4>
-              <p>Itemised invoices: print cost, data processing, folding, inserting, franking — broken down per job, per dispatch mode.</p>
-            </div>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon-wrap">🔒</div>
-            <div class="feature-text">
-              <h4>Secure Data Handling</h4>
-              <p>Client data stored with AES-256 encryption. Files purged post-completion as per agreed retention policy. DPDP Act compliant.</p>
-            </div>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon-wrap">🚀</div>
-            <div class="feature-text">
-              <h4>Client Portal Access</h4>
-              <p>Approve proofs online, track live job status, download invoices, and view dispatch history — no phone calls needed.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Metrics Panel -->
-      <div class="reveal reveal-delay-2">
-        <div class="metrics-panel">
-          <p class="metrics-title">// Performance Benchmarks</p>
-
-          <div class="metric-row">
-            <span class="metric-label">On-Time Dispatch</span>
-            <div class="metric-bar-wrap"><div class="metric-bar" data-width="99" style="width:0%"></div></div>
-            <span class="metric-value">99.4%</span>
-          </div>
-          <div class="metric-row">
-            <span class="metric-label">File Validation Accuracy</span>
-            <div class="metric-bar-wrap"><div class="metric-bar" data-width="100" style="width:0%"></div></div>
-            <span class="metric-value">100%</span>
-          </div>
-          <div class="metric-row">
-            <span class="metric-label">Print Quality Pass Rate</span>
-            <div class="metric-bar-wrap"><div class="metric-bar" data-width="98" style="width:0%"></div></div>
-            <span class="metric-value">98.7%</span>
-          </div>
-          <div class="metric-row">
-            <span class="metric-label">Docket Accuracy</span>
-            <div class="metric-bar-wrap"><div class="metric-bar" data-width="100" style="width:0%"></div></div>
-            <span class="metric-value">100%</span>
-          </div>
-          <div class="metric-row">
-            <span class="metric-label">Client Satisfaction</span>
-            <div class="metric-bar-wrap"><div class="metric-bar" data-width="96" style="width:0%"></div></div>
-            <span class="metric-value">96%</span>
-          </div>
-          <div class="metric-row">
-            <span class="metric-label">Same-Day Turnaround</span>
-            <div class="metric-bar-wrap"><div class="metric-bar" data-width="87" style="width:0%"></div></div>
-            <span class="metric-value">87%</span>
-          </div>
-
-          <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.05);">
-            <p class="metrics-title" style="margin-bottom:1.2rem;">// Active Right Now</p>
-            <div style="display:flex; gap:1rem; flex-wrap:wrap;">
-              <div style="text-align:center; flex:1; min-width:80px;">
-                <div style="font-family:var(--font-display);font-size:2rem;font-weight:900;color:var(--gold);">24</div>
-                <div style="font-size:0.72rem;color:var(--slate);letter-spacing:0.06em;text-transform:uppercase;">Jobs Active</div>
-              </div>
-              <div style="text-align:center; flex:1; min-width:80px; border-left:1px solid rgba(255,255,255,0.05); border-right:1px solid rgba(255,255,255,0.05);">
-                <div style="font-family:var(--font-display);font-size:2rem;font-weight:900;color:var(--green);">8</div>
-                <div style="font-size:0.72rem;color:var(--slate);letter-spacing:0.06em;text-transform:uppercase;">Dispatched Today</div>
-              </div>
-              <div style="text-align:center; flex:1; min-width:80px;">
-                <div style="font-family:var(--font-display);font-size:2rem;font-weight:900;color:var(--gold-lt);">3</div>
-                <div style="font-size:0.72rem;color:var(--slate);letter-spacing:0.06em;text-transform:uppercase;">Pending Approval</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- ══════════════════════════════════════════════
-       TESTIMONIALS
-  ══════════════════════════════════════════════ */
-  <section class="section-pad trust-bg" id="testimonials">
-    <div class="reveal" style="text-align:center; max-width:600px; margin:0 auto;">
-      <p class="section-tag" style="justify-content:center;">Client Feedback</p>
-      <h2 class="section-title">Trusted by <em>Enterprise Teams</em></h2>
-    </div>
-
-    <div class="trust-grid" style="margin-top:3.5rem;">
-      <div class="testimonial reveal reveal-delay-1">
-        <div class="stars">★★★★★</div>
-        <p class="testimonial-text">Their docket system eliminated all disputes with the post office. Every piece is accounted for, every batch is traceable. This is how print management should work.</p>
-        <div class="testimonial-author">
-          <div class="author-avatar">A</div>
-          <div>
-            <div class="author-name">Amit Sharma</div>
-            <div class="author-org">Operations Head · Private Sector Bank</div>
-          </div>
-        </div>
-      </div>
-      <div class="testimonial reveal reveal-delay-2">
-        <div class="stars">★★★★★</div>
-        <p class="testimonial-text">We send 50,000+ policy statements monthly. PrintFlow Pro handles our variable data, duplex printing, and Speed Post dispatch flawlessly. Zero errors in 18 months.</p>
-        <div class="testimonial-author">
-          <div class="author-avatar">P</div>
-          <div>
-            <div class="author-name">Priya Nair</div>
-            <div class="author-org">IT Manager · Insurance Corporation</div>
-          </div>
-        </div>
-      </div>
-      <div class="testimonial reveal reveal-delay-3">
-        <div class="stars">★★★★★</div>
-        <p class="testimonial-text">The online approval system saved us hours every week. We upload the file, they validate it, we approve the proof, and the job is dispatched — all tracked in the portal.</p>
-        <div class="testimonial-author">
-          <div class="author-avatar">R</div>
-          <div>
-            <div class="author-name">Rajesh Menon</div>
-            <div class="author-org">Compliance Officer · NBFC</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- ══════════════════════════════════════════════
-       CTA BAND
-  ══════════════════════════════════════════════ -->
-  <div class="cta-band">
-    <div class="cta-band-inner">
-      <h2>Ready to Streamline Your Print Operations?</h2>
-      <p>Get a personalised quote within 2 business hours. No commitment required.</p>
-      <a href="#contact" class="btn-dark">Start a Conversation →</a>
-    </div>
+    <div class="modal-body" id="modal-body"></div>
   </div>
+</div>
 
-  <!-- ══════════════════════════════════════════════
-       CONTACT
-  ══════════════════════════════════════════════ -->
-  <section class="section-pad contact-section" id="contact">
-    <div class="reveal" style="text-align:center; max-width:600px; margin:0 auto 4rem;">
-      <p class="section-tag" style="justify-content:center;">Get In Touch</p>
-      <h2 class="section-title">Let's Discuss<br/><em>Your Next Job</em></h2>
-      <p class="section-body" style="margin:0 auto; text-align:center;">
-        Send your requirements and we'll respond within 2 business hours with a detailed quote.
-      </p>
-    </div>
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toast-container"></div>
 
-    <div class="contact-layout">
-      <div class="contact-info reveal">
-        <div class="contact-item">
-          <div class="contact-item-icon">📧</div>
-          <div>
-            <div class="contact-item-label">Job Submissions</div>
-            <div class="contact-item-val">vittalmali3@gmail.com</div>
-          </div>
-        </div>
-        <div class="contact-item">
-          <div class="contact-item-icon">📞</div>
-          <div>
-            <div class="contact-item-label">Phone / WhatsApp</div>
-            <div class="contact-item-val">+91 79773 34282</div>
-          </div>
-        </div>
-        <div class="contact-item">
-          <div class="contact-item-icon">🏢</div>
-          <div>
-            <div class="contact-item-label">Production Facility</div>
-            <div class="contact-item-val">Your City, India — 600 000</div>
-          </div>
-        </div>
-        <div class="contact-item">
-          <div class="contact-item-icon">⏰</div>
-          <div>
-            <div class="contact-item-label">Working Hours</div>
-            <div class="contact-item-val">Monday – Saturday, 9:00 AM – 7:00 PM</div>
-          </div>
-        </div>
-        <div class="contact-item">
-          <div class="contact-item-icon">🚀</div>
-          <div>
-            <div class="contact-item-label">Client Portal</div>
-            <div class="contact-item-val">portal.printflowpro.in <span style="color:var(--slate);font-size:0.8rem;">(Coming Soon)</span></div>
-          </div>
-        </div>
-      </div>
+<script>
+// ════════════════════════════════════════
+// DATA
+// ════════════════════════════════════════
+const JOBS = [
+  {id:'PRT-2025-00858',client:'Maharashtra Govt. RTO',type:'Duplex',qty:5200,date:'2025-05-14',status:'new',dispatch:'ordinary',notes:''},
+  {id:'PRT-2025-00857',client:'LIC of India',type:'Multi-Page',qty:22400,date:'2025-05-14',status:'processing',dispatch:'speed_ack',notes:''},
+  {id:'PRT-2025-00856',client:'Bajaj Allianz',type:'Simplex',qty:9800,date:'2025-05-14',status:'approval',dispatch:'inland',notes:''},
+  {id:'PRT-2025-00855',client:'SBI Cards',type:'Duplex',qty:8100,date:'2025-05-13',status:'printing',dispatch:'speed_no_ack',notes:''},
+  {id:'PRT-2025-00854',client:'ICICI Prudential',type:'Simplex',qty:15500,date:'2025-05-13',status:'postprint',dispatch:'speed_ack',notes:''},
+  {id:'PRT-2025-00853',client:'Axis Bank',type:'Duplex',qty:11200,date:'2025-05-13',status:'franking',dispatch:'ordinary',notes:''},
+  {id:'PRT-2025-00852',client:'BSNL',type:'Simplex',qty:4300,date:'2025-05-12',status:'error',dispatch:'inland',notes:'Font not embedded in PDF'},
+  {id:'PRT-2025-00851',client:'HDFC Bank Ltd.',type:'Duplex',qty:14820,date:'2025-05-12',status:'docket',dispatch:'speed_ack',notes:''},
+  {id:'PRT-2025-00850',client:'SBI Cards',type:'Multi-Page',qty:6600,date:'2025-05-12',status:'dispatch',dispatch:'ordinary',notes:''},
+  {id:'PRT-2025-00849',client:'ICICI Prudential',type:'Duplex',qty:18900,date:'2025-05-11',status:'complete',dispatch:'speed_ack',notes:''},
+];
 
-      <form class="contact-form reveal reveal-delay-2" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-        <div class="form-row">
-          <div class="form-field">
-            <label for="name">Your Name *</label>
-            <input type="text" id="name" name="name" placeholder="Full name" required />
-          </div>
-          <div class="form-field">
-            <label for="company">Company</label>
-            <input type="text" id="company" name="company" placeholder="Organisation name" />
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-field">
-            <label for="email">Email Address *</label>
-            <input type="email" id="email" name="email" placeholder="your@company.com" required />
-          </div>
-          <div class="form-field">
-            <label for="phone">Phone / WhatsApp</label>
-            <input type="tel" id="phone" name="phone" placeholder="+91 79773 34282" />
-          </div>
-        </div>
-        <div class="form-field">
-          <label for="service">Service Required</label>
-          <select id="service" name="service">
-            <option value="">— Select a service —</option>
-            <option>Variable Data Printing</option>
-            <option>Simplex / Duplex Print</option>
-            <option>Envelope Inserting</option>
-            <option>Inland Letter Production</option>
-            <option>Speed Post Dispatch</option>
-            <option>End-to-End Workflow</option>
-            <option>Other / Multiple Services</option>
-          </select>
-        </div>
-        <div class="form-row">
-          <div class="form-field">
-            <label for="volume">Estimated Volume</label>
-            <input type="text" id="volume" name="volume" placeholder="e.g. 10,000 pieces/month" />
-          </div>
-          <div class="form-field">
-            <label for="timeline">Job Timeline</label>
-            <input type="text" id="timeline" name="timeline" placeholder="e.g. Weekly, Monthly" />
-          </div>
-        </div>
-        <div class="form-field">
-          <label for="message">Message / Requirements</label>
-          <textarea id="message" name="message" placeholder="Describe your printing and dispatch requirements…"></textarea>
-        </div>
-        <button type="submit" class="form-submit">Send Enquiry →</button>
-      </form>
-    </div>
-  </section>
+const DOCKETS = [
+  {num:'DKT-20250514-0045',job:'PRT-2025-00854',client:'ICICI Prudential',pieces:15500,mode:'Speed Post (AC)',frank:'46,500',frankTime:'14 May 2025, 4:55 PM',date:'14 May 2025, 5:30 PM'},
+  {num:'DKT-20250514-0044',job:'PRT-2025-00855',client:'SBI Cards',pieces:8100,mode:'Speed Post',frank:'24,300',frankTime:'14 May 2025, 2:45 PM',date:'14 May 2025, 3:15 PM'},
+  {num:'DKT-20250514-0043',job:'PRT-2025-00853',client:'Axis Bank',pieces:11200,mode:'Ordinary Post',frank:'16,800',frankTime:'14 May 2025, 12:30 PM',date:'14 May 2025, 1:00 PM'},
+  {num:'DKT-20250513-0042',job:'PRT-2025-00851',client:'HDFC Bank Ltd.',pieces:14820,mode:'Speed Post (AC)',frank:'44,460',frankTime:'13 May 2025, 4:55 PM',date:'13 May 2025, 5:30 PM'},
+  {num:'DKT-20250513-0041',job:'PRT-2025-00850',client:'SBI Cards',pieces:6600,mode:'Ordinary Post',frank:'9,900',frankTime:'13 May 2025, 3:30 PM',date:'13 May 2025, 4:00 PM'},
+];
 
-  <!-- ══════════════════════════════════════════════
-       FOOTER
-  ══════════════════════════════════════════════ -->
-  <footer>
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <a href="#" class="nav-logo" style="text-decoration:none;">
-          <div class="nav-logo-mark">PF</div>
-          <span class="nav-logo-text">Print<span>Flow</span> Pro</span>
-        </a>
-        <p>End-to-end variable data printing, bulk mail dispatch, and workflow management for Indian enterprises. From file to doorstep.</p>
-      </div>
-      <div class="footer-col">
-        <h5>Services</h5>
-        <ul>
-          <li><a href="#services">Variable Data Print</a></li>
-          <li><a href="#services">Simplex / Duplex</a></li>
-          <li><a href="#services">Envelope Inserting</a></li>
-          <li><a href="#services">Inland Letters</a></li>
-          <li><a href="#services">Speed Post Dispatch</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h5>Company</h5>
-        <ul>
-          <li><a href="#workflow">How It Works</a></li>
-          <li><a href="#why-us">Why Choose Us</a></li>
-          <li><a href="#testimonials">Client Stories</a></li>
-          <li><a href="#contact">Get a Quote</a></li>
-          <li><a href="#">Privacy Policy</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h5>Connect</h5>
-        <ul>
-          <li><a href="mailto:vittalmali3@gmail.com">vittalmali3@gmail.com</a></li>
-          <li><a href="tel:+919800000000">+91 79773 34282</a></li>
-          <li><a href="#">Client Portal →</a></li>
-          <li><a href="#">Track a Docket →</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>© 2025 PrintFlow Pro. All rights reserved.</p>
-      <span class="built-with">// Powered by PrintFlow Workflow Engine v1.0</span>
-    </div>
-  </footer>
+const INVOICES = [
+  {num:'INV-2025-00312',client:'HDFC Bank Ltd.',job:'PRT-2025-00851',amount:'74,100',gst:'13,338',total:'87,438',status:'paid'},
+  {num:'INV-2025-00311',client:'Axis Bank',job:'PRT-2025-00853',amount:'56,000',gst:'10,080',total:'66,080',status:'sent'},
+  {num:'INV-2025-00310',client:'ICICI Prudential',job:'PRT-2025-00849',amount:'94,500',gst:'17,010',total:'1,11,510',status:'paid'},
+  {num:'INV-2025-00309',client:'SBI Cards',job:'PRT-2025-00850',amount:'33,000',gst:'5,940',total:'38,940',status:'overdue'},
+];
 
-  <!-- ══════════════════════════════════════════════
-       JAVASCRIPT
-  ══════════════════════════════════════════════ -->
-  <script>
-    // ── Nav scroll behaviour ──
-    const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-      navbar.classList.toggle('scrolled', window.scrollY > 40);
-    });
+const APPROVALS = [
+  {id:'PRT-2025-00856',client:'Bajaj Allianz',qty:9800,type:'Simplex',sent:'14 May 2025, 10:30 AM'},
+  {id:'PRT-2025-00857',client:'LIC of India',qty:22400,type:'Multi-Page',sent:'14 May 2025, 11:15 AM'},
+  {id:'PRT-2025-00858',client:'Maharashtra Govt. RTO',qty:5200,type:'Duplex',sent:'14 May 2025, 2:00 PM'},
+];
 
-    // ── Mobile menu ──
-    let menuOpen = false;
-    function toggleMenu() {
-      menuOpen = !menuOpen;
-      document.getElementById('mobileMenu').classList.toggle('open', menuOpen);
-      document.body.style.overflow = menuOpen ? 'hidden' : '';
+let currentUser = {name:'Admin User',role:'Administrator',initials:'AD'};
+let sidebarOpen = window.innerWidth >= 900;
+let jobCounter = 859;
+
+// ════════════════════════════════════════
+// AUTH
+// ════════════════════════════════════════
+function setRole(name, email, initials) {
+  document.getElementById('login-email').value = email;
+  document.querySelectorAll('.role-chip').forEach(c=>c.classList.remove('active'));
+  event.target.classList.add('active');
+  currentUser = {name, role: name+' User', initials};
+}
+
+function doLogin() {
+  const ls = document.getElementById('login-screen');
+  ls.style.opacity='0';ls.style.transition='opacity 0.4s';
+  setTimeout(()=>{
+    ls.style.display='none';
+    const app = document.getElementById('app');
+    app.classList.add('visible');
+    document.getElementById('user-name').textContent = currentUser.name;
+    document.getElementById('user-role').textContent = currentUser.role;
+    document.getElementById('user-avatar').textContent = currentUser.initials;
+    updateTopbarDate();
+    renderAll();
+    if(sidebarOpen) {
+      document.getElementById('sidebar').classList.add('open');
+      document.getElementById('main-area').classList.add('sidebar-open');
     }
+    showToast('Welcome back, '+currentUser.name+'! 👋','success');
+  },400);
+}
 
-    // ── Scroll reveal ──
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+function doLogout() {
+  const app=document.getElementById('app');
+  app.style.opacity='0';app.style.transition='opacity 0.3s';
+  setTimeout(()=>{
+    app.classList.remove('visible');app.style.opacity='';
+    const ls=document.getElementById('login-screen');
+    ls.style.display='flex';ls.style.opacity='0';ls.style.transition='opacity 0.3s';
+    setTimeout(()=>ls.style.opacity='1',10);
+  },300);
+}
 
-    // ── Metric bar animation ──
-    const barObserver = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.querySelectorAll('.metric-bar').forEach(bar => {
-            const w = bar.dataset.width;
-            setTimeout(() => { bar.style.transition = 'width 1.4s cubic-bezier(0.16,1,0.3,1)'; bar.style.width = w + '%'; }, 200);
-          });
-        }
-      });
-    }, { threshold: 0.4 });
-    document.querySelectorAll('.metrics-panel').forEach(el => barObserver.observe(el));
+// ════════════════════════════════════════
+// NAVIGATION
+// ════════════════════════════════════════
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>{
+    if(n.getAttribute('onclick')&&n.getAttribute('onclick').includes("'"+id+"'"))
+      n.classList.add('active');
+  });
+  const titles = {
+    dashboard:'Dashboard',jobs:'All Jobs',
+    'new-job':'New Job',approval:'Pending Approval',
+    dispatch:'Dispatch Entry',dockets:'Dockets',
+    billing:'Billing',reports:'MIS Reports'
+  };
+  document.getElementById('topbar-title').textContent = titles[id]||id;
+  document.getElementById('topbar-sub').textContent = '';
+  // Close sidebar on mobile
+  if(window.innerWidth<900) { document.getElementById('sidebar').classList.remove('open'); }
+  window.scrollTo(0,0);
+}
 
-    // ── Counter animation ──
-    function animateCounter(el, target, suffix, duration = 2000) {
-      const isDecimal = target % 1 !== 0;
-      const start = performance.now();
-      const update = (now) => {
-        const progress = Math.min((now - start) / duration, 1);
-        const eased = 1 - Math.pow(1 - progress, 4);
-        const current = isDecimal
-          ? (eased * target).toFixed(1)
-          : Math.round(eased * target);
-        el.textContent = current + suffix;
-        if (progress < 1) requestAnimationFrame(update);
-      };
-      requestAnimationFrame(update);
+function toggleSidebar() {
+  const sb=document.getElementById('sidebar');
+  const ma=document.getElementById('main-area');
+  sb.classList.toggle('open');
+  if(window.innerWidth>=900) ma.classList.toggle('sidebar-open');
+}
+
+// ════════════════════════════════════════
+// RENDER FUNCTIONS
+// ════════════════════════════════════════
+function statusPill(s) {
+  const labels={new:'New',processing:'Processing',approval:'Awaiting Approval',printing:'Printing',postprint:'Post-Print',franking:'Franking',docket:'Docket Ready',dispatch:'Dispatched',complete:'Complete',error:'Error'};
+  const cls={new:'new',processing:'processing',approval:'approval',printing:'printing',postprint:'processing',franking:'approval',docket:'dispatch',dispatch:'dispatch',complete:'complete',error:'error'};
+  return `<span class="pill ${cls[s]||'new'}">${labels[s]||s}</span>`;
+}
+function dispatchLabel(d) {
+  const m={ordinary:'Ordinary Post',speed_ack:'Speed Post (AC)',speed_no_ack:'Speed Post',inland:'Inland Letter'};
+  return m[d]||d;
+}
+
+function renderJobsTable(data, tbodyId) {
+  const tb = document.getElementById(tbodyId);
+  if(!tb) return;
+  tb.innerHTML = data.map(j=>`
+    <tr>
+      <td><span class="job-number">${j.id}</span></td>
+      <td><span class="job-client">${j.client}</span></td>
+      <td><span class="job-type">${j.type}</span></td>
+      <td><span style="font-family:var(--mono)">${j.qty.toLocaleString('en-IN')}</span></td>
+      ${tbodyId==='jobs-tbody'?`<td style="font-family:var(--mono);font-size:0.76rem;color:var(--muted)">${j.date}</td>`:''}
+      <td>${statusPill(j.status)}</td>
+      <td>
+        <div style="display:flex;gap:0.4rem">
+          <button class="action-btn" onclick="openJobModal('${j.id}')">View</button>
+          ${j.status==='approval'?`<button class="action-btn primary" onclick="approveJob('${j.id}')">Approve</button>`:''}
+          ${j.status==='complete'||j.status==='dispatch'?`<button class="action-btn" onclick="showPage('dockets')">Docket</button>`:''}
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function renderDockets() {
+  const tb = document.getElementById('dockets-tbody');
+  if(!tb) return;
+  tb.innerHTML = DOCKETS.map(d=>`
+    <tr>
+      <td><span class="job-number" style="color:var(--amber)">${d.num}</span></td>
+      <td><span class="job-number">${d.job}</span></td>
+      <td>${d.client}</td>
+      <td style="font-family:var(--mono)">${d.pieces.toLocaleString('en-IN')}</td>
+      <td><span class="pill dispatch">${d.mode}</span></td>
+      <td style="font-family:var(--mono)">₹${d.frank}</td>
+      <td style="font-family:var(--mono);font-size:0.76rem;color:var(--muted)">${d.date}</td>
+      <td><button class="action-btn primary" onclick="showDocketSlip('${d.num}')">Slip</button></td>
+    </tr>
+  `).join('');
+}
+
+function renderBilling() {
+  const tb = document.getElementById('billing-tbody');
+  if(!tb) return;
+  const sColors = {paid:'complete',sent:'processing',overdue:'error',draft:'new'};
+  tb.innerHTML = INVOICES.map(i=>`
+    <tr>
+      <td><span class="job-number">${i.num}</span></td>
+      <td>${i.client}</td>
+      <td><span class="job-number">${i.job}</span></td>
+      <td style="font-family:var(--mono)">₹${i.amount}</td>
+      <td style="font-family:var(--mono)">₹${i.gst}</td>
+      <td style="font-family:var(--mono);font-weight:700">₹${i.total}</td>
+      <td>${statusPill(sColors[i.status]||'new')}</td>
+      <td><button class="action-btn" onclick="showToast('Invoice PDF coming in Phase 3','amber')">PDF</button></td>
+    </tr>
+  `).join('');
+}
+
+function renderApprovals() {
+  const el = document.getElementById('approval-list');
+  if(!el) return;
+  el.innerHTML = APPROVALS.map(a=>`
+    <div style="border:1px solid var(--border);border-radius:10px;padding:1.2rem;margin-bottom:1rem;background:var(--bg)">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap">
+        <div>
+          <span class="job-number" style="display:block;margin-bottom:4px">${a.id}</span>
+          <div style="font-weight:700;color:var(--ink);font-size:1rem">${a.client}</div>
+          <div style="font-size:0.82rem;color:var(--muted);margin-top:4px">${a.type} · ${a.qty.toLocaleString('en-IN')} pieces · Proof sent: ${a.sent}</div>
+        </div>
+        <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
+          <button class="btn btn-secondary btn-sm" onclick="showToast('Proof PDF viewer coming in Phase 3','amber')">👁 View Proof</button>
+          <button class="btn btn-primary btn-sm" onclick="approveJob('${a.id}')">✓ Mark Approved</button>
+          <button class="btn btn-danger btn-sm" onclick="showToast('Client notified for revision','amber')">✕ Request Revision</button>
+        </div>
+      </div>
+      <div style="margin-top:0.8rem;padding-top:0.8rem;border-top:1px solid var(--border)">
+        <div class="timeline" style="margin:0">
+          <div class="timeline-item">
+            <div class="timeline-dot done">✓</div>
+            <div class="timeline-content"><div class="timeline-label">Job received & validated</div></div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot done">✓</div>
+            <div class="timeline-content"><div class="timeline-label">Proof generated & sent to client</div></div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot active">◎</div>
+            <div class="timeline-content"><div class="timeline-label">Awaiting client approval</div><div class="timeline-meta">Sent ${a.sent}</div></div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot pending">○</div>
+            <div class="timeline-content"><div class="timeline-label" style="color:var(--muted)">Print production</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderAll() {
+  renderJobsTable(JOBS.slice(0,6), 'dash-jobs-tbody');
+  renderJobsTable(JOBS, 'jobs-tbody');
+  renderDockets();
+  renderBilling();
+  renderApprovals();
+}
+
+// ════════════════════════════════════════
+// INTERACTIONS
+// ════════════════════════════════════════
+function filterJobs(q) {
+  const filtered = JOBS.filter(j=>
+    j.id.toLowerCase().includes(q.toLowerCase())||
+    j.client.toLowerCase().includes(q.toLowerCase())||
+    j.type.toLowerCase().includes(q.toLowerCase())
+  );
+  renderJobsTable(filtered,'jobs-tbody');
+}
+function filterByStatus(s) {
+  const filtered = s ? JOBS.filter(j=>j.status===s) : JOBS;
+  renderJobsTable(filtered,'jobs-tbody');
+}
+
+function approveJob(id) {
+  const j = JOBS.find(x=>x.id===id);
+  if(j) j.status='printing';
+  renderAll();
+  const cnt = JOBS.filter(x=>x.status==='approval').length;
+  document.getElementById('badge-approval').textContent=cnt;
+  showToast(`${id} approved → moved to Printing ✓`,'success');
+  if(document.getElementById('page-approval').classList.contains('active')) renderApprovals();
+}
+
+function createJob() {
+  const client = document.getElementById('nj-client').value;
+  const qty = parseInt(document.getElementById('nj-qty').value)||0;
+  if(!client||!qty) { showToast('Please fill Client and Quantity fields','error'); return; }
+  const pt = document.querySelector('input[name="print-type"]:checked').value;
+  const typeMap={simplex:'Simplex',duplex:'Duplex',multipage:'Multi-Page'};
+  const newId = `PRT-2025-00${859+jobCounter%100}`;
+  jobCounter++;
+  const newJob = {
+    id:newId, client, type:typeMap[pt]||'Simplex',
+    qty, date:new Date().toISOString().slice(0,10),
+    status:'new', dispatch:document.getElementById('nj-dispatch').value||'ordinary', notes:''
+  };
+  JOBS.unshift(newJob);
+  document.getElementById('badge-jobs').textContent=JOBS.filter(j=>j.status!=='complete').length;
+  renderAll();
+  showToast(`Job ${newId} created successfully ✓`,'success');
+  showPage('jobs');
+}
+
+function checkFrankingDone() {
+  const confirmed = document.querySelector('input[name="frank-confirm"]:checked')?.value === 'yes';
+  const hint        = document.getElementById('frank-hint');
+  const lockedMsg   = document.getElementById('docket-locked-msg');
+  const genActions  = document.getElementById('docket-gen-actions');
+  const lockedActions = document.getElementById('docket-locked-actions');
+  const badge       = document.getElementById('docket-step-badge');
+  const stepHint    = document.getElementById('docket-step-hint');
+
+  // Elements only exist when the Dispatch page is visible — bail if not rendered yet
+  if(!hint || !lockedMsg || !genActions || !lockedActions || !badge || !stepHint) return;
+
+  if(confirmed) {
+    hint.style.color      = 'var(--green)';
+    hint.textContent      = '✓ Franking confirmed — docket generation unlocked';
+    lockedMsg.style.display   = 'none';
+    genActions.style.display  = 'flex';
+    lockedActions.style.display = 'none';
+    badge.style.background = 'var(--green)';
+    badge.style.color      = '#fff';
+    stepHint.textContent   = '— Ready to generate docket number';
+    stepHint.style.color   = 'var(--green)';
+  } else {
+    hint.style.color      = 'var(--red)';
+    hint.textContent      = '⚠ Docket cannot be generated until franking is confirmed';
+    lockedMsg.style.display   = 'block';
+    genActions.style.display  = 'none';
+    lockedActions.style.display = 'flex';
+    badge.style.background = 'var(--border)';
+    badge.style.color      = 'var(--muted)';
+    stepHint.textContent   = '— Unlocks after franking is confirmed above';
+    stepHint.style.color   = 'var(--muted)';
+  }
+}
+
+function resetDispatchForm() {
+  const dd = document.getElementById('dispatch-details');
+  if(dd) dd.style.display = 'none';
+  const jobSel = document.getElementById('disp-job');
+  if(jobSel) jobSel.value = '';
+  // Reset the frank radio back to "not yet" without calling checkFrankingDone
+  // (elements may be hidden/removed from layout — safe reset only)
+  const noRadio = document.querySelector('input[name="frank-confirm"][value="no"]');
+  if(noRadio) noRadio.checked = true;
+  // Re-lock the docket section if elements are present
+  checkFrankingDone();
+}
+
+function loadDispatchJob(val) {
+  const dd = document.getElementById('dispatch-details');
+  if(val) {
+    dd.style.display='block';
+    const pcs = val.includes('851')?14820:val.includes('853')?22400:8100;
+    const frank = val.includes('851')?44460:val.includes('853')?67200:24300;
+    document.getElementById('disp-pieces').value=pcs;
+    document.getElementById('disp-frank').value=frank;
+    document.getElementById('disp-operator').value='Rajesh Kumar';
+    document.getElementById('disp-date').value=new Date().toISOString().slice(0,16);
+  } else {
+    dd.style.display='none';
+  }
+}
+
+function generateDocket() {
+  const job = document.getElementById('disp-job').value;
+  if(!job){showToast('Please select a job','error');return;}
+
+  const frankConfirmed = document.querySelector('input[name="frank-confirm"]:checked')?.value === 'yes';
+  if(!frankConfirmed){showToast('Franking must be confirmed before generating a docket','error');return;}
+
+  const pieces = document.getElementById('disp-pieces').value;
+  const frank = document.getElementById('disp-frank').value;
+  if(!pieces||!frank){showToast('Please enter piece count and frank amount','error');return;}
+
+  const mode = document.getElementById('disp-mode');
+  const modeText = mode.options[mode.selectedIndex].text;
+  const frankTime = document.getElementById('disp-frank-time').value;
+  const today = new Date();
+  const dateStr = today.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+  const seq = String(DOCKETS.length+1).padStart(4,'0');
+  const docketNum = `DKT-${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}-${seq}`;
+  const clientMap={'PRT-2025-00851':'HDFC Bank Ltd.','PRT-2025-00853':'LIC of India','PRT-2025-00855':'SBI Cards'};
+  const newDocket = {
+    num:docketNum, job, client:clientMap[job]||'Client',
+    pieces:parseInt(pieces)||0, mode:modeText,
+    frank:parseInt(frank).toLocaleString('en-IN'),
+    frankTime: frankTime||dateStr,
+    date:dateStr
+  };
+  DOCKETS.unshift(newDocket);
+
+  // Update job status
+  const j = JOBS.find(x=>x.id===job);
+  if(j) j.status='dispatch';
+  renderAll();
+
+  showDocketSlip(docketNum);
+  renderDockets();
+  showToast(`Docket ${docketNum} generated ✓ — Franking confirmed at ${frankTime||'now'}`,'success');
+  showPage('dockets');
+  resetDispatchForm();
+}
+
+function showDocketSlip(num) {
+  const d = DOCKETS.find(x=>x.num===num);
+  if(!d) return;
+  const barcode = num.replace('DKT-','').replace(/-/g,'');
+  document.getElementById('docket-preview-content').innerHTML = `
+    <div class="docket-header">
+      <div>
+        <div class="docket-logo-text">PRINTFLOW PRO</div>
+        <div style="font-size:0.7rem;font-family:var(--mono);color:var(--muted);margin-top:2px">Dispatch Docket Slip</div>
+      </div>
+      <span class="docket-num">${d.num}</span>
+    </div>
+    <div class="docket-grid">
+      <div class="docket-field"><label>Job Number</label><div class="val">${d.job}</div></div>
+      <div class="docket-field"><label>Client</label><div class="val" style="font-family:var(--font);font-size:0.9rem">${d.client}</div></div>
+      <div class="docket-field"><label>Total Pieces</label><div class="val">${d.pieces.toLocaleString('en-IN')}</div></div>
+      <div class="docket-field"><label>Dispatch Mode</label><div class="val" style="font-size:0.78rem">${d.mode}</div></div>
+      <div class="docket-field"><label>Frank Amount</label><div class="val">₹ ${d.frank}</div></div>
+      <div class="docket-field"><label>Franked At</label><div class="val" style="font-size:0.72rem">${d.frankTime||d.date}</div></div>
+    </div>
+    <div class="docket-barcode">||| ${barcode} |||</div>
+    <div class="docket-barcode-label">${d.num}</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-top:0.8rem">
+      <div class="docket-qr"><span>QR<br/>${d.num.slice(-8)}</span></div>
+      <div style="flex:1;padding-left:1rem">
+        <div style="font-size:0.7rem;font-family:var(--mono);color:var(--muted);line-height:1.8">
+          <div>Generated: ${new Date().toLocaleString('en-IN')}</div>
+          <div>Authorized by: ${currentUser.name}</div>
+          <div>Status: DISPATCHED ✓</div>
+        </div>
+      </div>
+    </div>
+    <div class="docket-footer" style="margin-top:1rem">
+      PrintFlow Pro · Printing Workflow Management System · Confidential
+    </div>
+  `;
+  document.getElementById('docket-preview-wrap').style.display='block';
+  setTimeout(()=>document.getElementById('docket-preview-wrap').scrollIntoView({behavior:'smooth'}),100);
+}
+
+// ════════════════════════════════════════
+// JOB DETAIL MODAL
+// ════════════════════════════════════════
+function openJobModal(id) {
+  const j = JOBS.find(x=>x.id===id);
+  if(!j) return;
+  document.getElementById('modal-job-title').textContent = j.client;
+  document.getElementById('modal-job-num').textContent = j.id;
+  const steps = ['new','processing','approval','printing','postprint','franking','docket','dispatch','complete'];
+  const labels = ['Job Received','Data Processing','Client Approval','Print Production','Folding / Inserting / Sorting','Franking','Docket Generated','Dispatched','Completed'];
+  const ci = steps.indexOf(j.status==='error'?'processing':j.status);
+  document.getElementById('modal-body').innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin-bottom:1.2rem">
+      <div style="background:var(--bg);border-radius:8px;padding:0.8rem">
+        <div class="form-label" style="margin-bottom:4px">Print Type</div>
+        <div style="font-weight:600">${j.type}</div>
+      </div>
+      <div style="background:var(--bg);border-radius:8px;padding:0.8rem">
+        <div class="form-label" style="margin-bottom:4px">Quantity</div>
+        <div style="font-weight:600;font-family:var(--mono)">${j.qty.toLocaleString('en-IN')} pieces</div>
+      </div>
+      <div style="background:var(--bg);border-radius:8px;padding:0.8rem">
+        <div class="form-label" style="margin-bottom:4px">Received Date</div>
+        <div style="font-family:var(--mono);font-size:0.85rem">${j.date}</div>
+      </div>
+      <div style="background:var(--bg);border-radius:8px;padding:0.8rem">
+        <div class="form-label" style="margin-bottom:4px">Dispatch Mode</div>
+        <div style="font-size:0.85rem">${dispatchLabel(j.dispatch)}</div>
+      </div>
+    </div>
+    <div class="form-label" style="margin-bottom:0.8rem">Workflow Status</div>
+    <div class="timeline">
+      ${labels.map((l,i)=>`
+        <div class="timeline-item">
+          <div class="timeline-dot ${i<ci?'done':i===ci?'active':'pending'}">${i<ci?'✓':i===ci?'▶':'○'}</div>
+          <div class="timeline-content">
+            <div class="timeline-label" style="${i>ci?'color:var(--muted)':''}">${l}</div>
+            ${i===ci&&j.status==='error'?'<div class="timeline-meta" style="color:var(--red)">⚠ Error: '+j.notes+'</div>':''}
+          </div>
+        </div>
+      `).join('')}
+    </div>
+    <div style="display:flex;gap:0.7rem;margin-top:1.2rem;flex-wrap:wrap">
+      ${j.status==='approval'?`<button class="btn btn-primary btn-sm" onclick="approveJob('${j.id}');closeModal()">✓ Approve Job</button>`:''}
+      ${j.status==='printing'?`<button class="btn btn-secondary btn-sm" onclick="advanceJob('${j.id}');closeModal()">→ Mark Print Complete</button>`:''}
+      <button class="btn btn-secondary btn-sm" onclick="closeModal()">Close</button>
+    </div>
+  `;
+  document.getElementById('job-modal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function advanceJob(id) {
+  const map={new:'processing',processing:'approval',approval:'printing',printing:'postprint',postprint:'franking',franking:'docket',docket:'dispatch',dispatch:'complete'};
+  const j=JOBS.find(x=>x.id===id);
+  if(j&&map[j.status]){j.status=map[j.status];renderAll();showToast(`${id} advanced to ${j.status} ✓`,'success');}
+}
+
+function closeModal() {
+  document.getElementById('job-modal').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.getElementById('job-modal').addEventListener('click', function(e){
+  if(e.target===this) closeModal();
+});
+
+// ════════════════════════════════════════
+// TOAST
+// ════════════════════════════════════════
+function showToast(msg, type='') {
+  const t=document.createElement('div');
+  t.className='toast '+(type||'');
+  t.innerHTML=`<span>${type==='success'?'✓':type==='error'?'✕':'ℹ'}</span> ${msg}`;
+  document.getElementById('toast-container').appendChild(t);
+  setTimeout(()=>{t.style.opacity='0';t.style.transition='opacity 0.3s';setTimeout(()=>t.remove(),300)},3500);
+}
+
+// ════════════════════════════════════════
+// UTILS
+// ════════════════════════════════════════
+function updateTopbarDate() {
+  const d=new Date();
+  document.getElementById('topbar-date').textContent=
+    d.toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
+}
+setInterval(updateTopbarDate,60000);
+
+// Set default datetime values
+window.addEventListener('DOMContentLoaded',()=>{
+  const now=new Date().toISOString().slice(0,16);
+  const recv=document.getElementById('nj-received');
+  if(recv) recv.value=now;
+  const dd=document.getElementById('disp-date');
+  if(dd) dd.value=now;
+  // Handle sidebar on resize
+  window.addEventListener('resize',()=>{
+    const ma=document.getElementById('main-area');
+    if(window.innerWidth>=900) {
+      document.getElementById('sidebar').classList.add('open');
+      ma.classList.add('sidebar-open');
+    } else {
+      document.getElementById('sidebar').classList.remove('open');
+      ma.classList.remove('sidebar-open');
     }
-
-    const counterObserver = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          const el = e.target;
-          const count = parseFloat(el.dataset.count);
-          const suffix = el.dataset.suffix || '';
-          animateCounter(el, count, suffix);
-          counterObserver.unobserve(el);
-        }
-      });
-    }, { threshold: 0.5 });
-    document.querySelectorAll('[data-count]').forEach(el => counterObserver.observe(el));
-
-    // ── Smooth anchor links ──
-    document.querySelectorAll('a[href^="#"]').forEach(a => {
-      a.addEventListener('click', e => {
-        const target = document.querySelector(a.getAttribute('href'));
-        if (target) {
-          e.preventDefault();
-          const offset = 70;
-          const top = target.getBoundingClientRect().top + window.scrollY - offset;
-          window.scrollTo({ top, behavior: 'smooth' });
-        }
-      });
-    });
-
-    // ── Form submission feedback ──
-    const form = document.querySelector('.contact-form');
-    if (form) {
-      form.addEventListener('submit', function(e) {
-        const btn = form.querySelector('.form-submit');
-        btn.textContent = 'Sending…';
-        btn.style.opacity = '0.7';
-        btn.disabled = true;
-        // Formspree handles the actual POST; this just gives visual feedback
-        setTimeout(() => {
-          btn.textContent = '✓ Enquiry Sent!';
-          btn.style.background = 'var(--green)';
-          btn.style.color = '#fff';
-        }, 1500);
-      });
-    }
-  </script>
+  });
+});
+</script>
 </body>
 </html>
